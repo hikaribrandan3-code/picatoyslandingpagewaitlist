@@ -67,12 +67,9 @@ export default function App() {
         {/* 2. What's Inside — real engineering proof, not a fake trick simulator */}
         <ProductInteractiveViewer playSound={playSoundEffect} />
 
-        {/* 3. Under the Hood — real specs + color vote */}
-        <TechnicalBlueprint
-          playSound={playSoundEffect}
-          selectedColorId={selectedColorId}
-          setSelectedColorId={setSelectedColorId}
-        />
+        {/* 3. Under the Hood — real specs (color vote now lives in the
+            waitlist form below, right next to the button that submits it) */}
+        <TechnicalBlueprint playSound={playSoundEffect} />
 
         {/* 4. Pica Arcade — Flappy Picas. Mobile only; the component itself
             returns null on desktop widths rather than being hidden by CSS. */}
@@ -81,10 +78,11 @@ export default function App() {
         {/* 5. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
-        {/* 6. Waitlist form */}
+        {/* 6. Waitlist form — color vote lives here now, right above the submit button */}
         <WaitlistForm
           playSound={playSoundEffect}
           selectedColor={selectedColorId}
+          setSelectedColor={setSelectedColorId}
           onSuccessTicket={(ticket) => setVipTicket(ticket)}
         />
       </main>

@@ -1,18 +1,12 @@
 import React from 'react';
-import { BLUEPRINT_IMAGE, COLOR_OPTIONS, SPECS } from '../data';
+import { BLUEPRINT_IMAGE, SPECS } from '../data';
 import { Layers, RefreshCw, Hand, ShieldCheck } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
-  selectedColorId: string;
-  setSelectedColorId: (id: string) => void;
 }
 
-export const TechnicalBlueprint: React.FC<Props> = ({
-  playSound,
-  selectedColorId,
-  setSelectedColorId,
-}) => {
+export const TechnicalBlueprint: React.FC<Props> = () => {
   return (
     <section id="blueprint" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
@@ -53,7 +47,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           </div>
 
           {/* Spec Table */}
-          <div className="clay-well clay-cream p-4 mb-4 text-left">
+          <div className="clay-well clay-cream p-4 text-left">
             <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-3">
               The Numbers
             </label>
@@ -65,36 +59,6 @@ export const TechnicalBlueprint: React.FC<Props> = ({
                 </div>
               ))}
             </dl>
-          </div>
-
-          {/* Color Preference Vote */}
-          <div className="clay-well clay-cream p-4">
-            <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-2 text-left">
-              Vote: which color should we print first?
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              {COLOR_OPTIONS.map((opt, i) => (
-                <button
-                  key={opt.id}
-                  onClick={() => {
-                    playSound();
-                    setSelectedColorId(opt.id);
-                  }}
-                  className={`clay clay-btn clay-sm ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} flex items-center gap-2.5 p-2.5 text-left ${
-                    selectedColorId === opt.id ? 'clay-coral font-black' : 'clay-cream font-bold'
-                  }`}
-                >
-                  <span
-                    className="w-5 h-5 rounded-full border-2 border-black/25 shrink-0 shadow-[inset_2px_2px_4px_rgba(255,255,255,0.5),inset_-2px_-2px_4px_rgba(0,0,0,0.2)]"
-                    style={{ backgroundColor: opt.swatch }}
-                  />
-                  <span className="text-xs truncate">{opt.name}</span>
-                </button>
-              ))}
-            </div>
-            <p className="text-[10px] text-[#6D6D6D] font-bold mt-2.5 text-left">
-              Your pick carries through to the waitlist form below — that's how we decide what to print first.
-            </p>
           </div>
         </div>
 
