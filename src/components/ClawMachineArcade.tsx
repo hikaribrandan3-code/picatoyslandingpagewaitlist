@@ -362,8 +362,12 @@ export const ClawMachineArcade: React.FC<Props> = ({ playSound }) => {
           Test your skill! Use the joystick or arrow keys to line up the claw over a prize and press GRAB!
         </p>
 
-        {/* COMPACT ARCADE CABINET CONTAINER */}
-        <div className="max-w-sm sm:max-w-md mx-auto bg-[#252528] border-4 border-[#0F0F11] rounded-3xl p-3 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative">
+        {/* ARCADE CABINET CONTAINER — widens on desktop so the cabinet
+            reads as a landscape display instead of a phone-booth
+            stretched down the page. Every internal position (claw,
+            prizes) is percentage-based against this container, so it
+            scales without touching the game logic. */}
+        <div className="max-w-sm sm:max-w-md lg:max-w-3xl mx-auto bg-[#252528] border-4 border-[#0F0F11] rounded-3xl p-3 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative">
           
           {/* Top Marquee */}
           <div className="bg-[#121214] border-2 border-[#FFD93D] rounded-xl p-2.5 mb-3 shadow-[0_0_15px_rgba(255,217,61,0.3)] relative overflow-hidden flex items-center justify-between">

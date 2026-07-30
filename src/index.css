@@ -239,6 +239,30 @@
   filter: drop-shadow(3px 3px 0px #2D2D2D);
 }
 
+/* Hero: two-column on desktop, product media beside the copy instead
+   of stacked above it, so the CTA is visible without scrolling past a
+   tall single-column stack. Named grid areas rather than Tailwind's
+   arbitrary-property escaping (spaces inside a bracketed value get
+   fiddly fast) — mobile stays the plain flex-column below this rule
+   untouched, since it only takes effect at the desktop breakpoint. */
+@media (min-width: 1024px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    grid-template-areas:
+      "descr media"
+      "cta   media"
+      "status media";
+    align-items: center;
+    column-gap: 3.5rem;
+    text-align: left;
+  }
+  .hero-grid > .hero-descr { grid-area: descr; }
+  .hero-grid > .hero-media { grid-area: media; align-self: center; }
+  .hero-grid > .hero-cta { grid-area: cta; }
+  .hero-grid > .hero-status { grid-area: status; }
+}
+
 /* PICA TOYS Immersive Rainbow Letter Colors */
 .rainbow-p { color: #4D96FF; } /* Blue */
 .rainbow-i { color: #FF6B6B; } /* Coral Red */

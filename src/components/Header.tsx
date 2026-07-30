@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, Sparkles, Wrench } from 'lucide-react';
+import React from 'react';
+import { Volume2, VolumeX, Sparkles } from 'lucide-react';
 
 interface HeaderProps {
   onOpenWaitlist: () => void;
@@ -8,32 +8,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, setSoundEnabled }) => {
-  const [tickerIndex, setTickerIndex] = useState(0);
-
-  const announcements = [
-    '🔧 DESIGNED FROM SCRATCH — NOT A CLONE OF ANY OTHER PRODUCT',
-    '📐 EVERY SPEC ON THIS PAGE IS CAD-VERIFIED, NOT ESTIMATED',
-    '🎨 VOTE ON YOUR FAVORITE COLOR IN THE BLUEPRINT SECTION',
-  ];
-
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#E3CDB0] shadow-[0_5px_18px_rgba(200,172,138,0.3)]">
-      {/* Top Banner Ticker */}
-      <div className="bg-[#FF6B6B] text-white text-xs font-bold py-1.5 px-4 text-center border-b border-[#E05252] flex items-center justify-between overflow-hidden">
-        <div className="flex items-center justify-center gap-2 w-full mx-auto">
-          <Wrench className="w-4 h-4 text-[#FFD93D] shrink-0" />
-          <span className="tracking-wide uppercase transition-all duration-300">
-            {announcements[tickerIndex]}
-          </span>
-          <button
-            onClick={() => setTickerIndex((prev) => (prev + 1) % announcements.length)}
-            className="clay clay-ink clay-btn clay-sm text-[10px] font-black px-2.5 py-0.5 hidden sm:inline-block ml-2"
-          >
-            Next ›
-          </button>
-        </div>
-      </div>
-
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Logo — wordmark only, no separate icon */}
