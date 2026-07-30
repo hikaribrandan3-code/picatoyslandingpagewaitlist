@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FAQ_ITEMS } from '../data';
+import { useCountdown } from '../hooks/useCountdown';
 import { ChevronDown, ChevronUp, Clock, Wrench } from 'lucide-react';
 
 interface Props {
@@ -7,29 +8,11 @@ interface Props {
   onJoinWaitlist: () => void;
 }
 
-// Real target, not a fake decrementing scarcity timer: computed once from
-// "now" so a page refresh doesn't reset it back to a fabricated 2 days.
-const LAUNCH_TARGET = Date.now() + 30 * 24 * 60 * 60 * 1000;
-
-function getCountdown() {
-  const diff = Math.max(0, LAUNCH_TARGET - Date.now());
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  return { days, hours, minutes, seconds };
-}
-
 export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitlist }) => {
-  const [timeLeft, setTimeLeft] = useState(getCountdown);
+  const timeLeft = useCountdown();
   // Starts fully collapsed — a pre-opened first answer adds height to a
   // section whose whole point is to not be a full scroll.
   const [openFaq, setOpenFaq] = useState<string>('');
-
-  useEffect(() => {
-    const timer = setInterval(() => setTimeLeft(getCountdown()), 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   return (
     <div className="bg-[#FFF9F2]">

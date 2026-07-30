@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles } from 'lucide-react';
+import { useCountdown } from '../hooks/useCountdown';
 
 const MOBILE_SLIDES = [
   { src: '/yoyo-hero-box.jpg',  alt: 'PicaYoyo product box — a yoyo grinder' },
@@ -106,6 +107,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedColorId = 'clear' }) => {
   const desktop = useDesktop();
+  const timeLeft = useCountdown();
 
   return (
     <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 lg:py-10 flex flex-col items-center text-center overflow-hidden relative border-b-[3px] border-[#248383]">
@@ -121,16 +123,37 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           order stays mobile-first (descr, media, cta, status); the grid
           areas reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
-        {/* Product Descriptor & Tagline */}
+        {/* Product Descriptor & Tagline. Mobile keeps the original single-line
+            title untouched. Desktop (lg:) gets a bigger standalone "PicaYoyo"
+            wordmark, a diagonal drop-sticker badge, and a real countdown pill
+            (useCountdown — same LAUNCH_TARGET as the countdown section further
+            down the page, so the two never disagree). */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="hero-descr text-center mb-6 lg:mb-0"
+          className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left"
         >
-          <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
+          <span className="hidden lg:inline-block clay clay-coral clay-sm absolute -top-7 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
+            Limited<br />First Drop
+          </span>
+
+          <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
             PicaYoyo | 3D-Printed Yoyo Grinder
           </h2>
+
+          <h2 className="hidden lg:block text-6xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none mb-2">
+            PicaYoyo
+          </h2>
+          <p className="hidden lg:block text-xl font-bold text-[#2D2D2D] normal-case mb-4">
+            3D-Printed Yoyo Grinder
+          </p>
+
+          <div className="hidden lg:inline-flex clay clay-ink clay-sm items-center px-5 py-2.5 mb-2">
+            <span className="text-sm font-black uppercase tracking-wider text-white">
+              <span className="text-[#FFD93D]">{timeLeft.days}</span> Days to First Drop
+            </span>
+          </div>
         </motion.div>
 
         {/* Visual Product Hero */}
@@ -168,7 +191,8 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             className="clay clay-btn clay-coral px-10 py-5 font-black text-lg w-full uppercase tracking-tight cursor-pointer flex items-center justify-center gap-2 group"
           >
             <Sparkles className="w-6 h-6 text-[#FFD93D] group-hover:rotate-12 transition-transform" />
-            <span>JOIN THE WAITLIST</span>
+            <span className="lg:hidden">JOIN THE WAITLIST</span>
+            <span className="hidden lg:inline">CLAIM YOUR SPOT</span>
           </button>
         </div>
 
