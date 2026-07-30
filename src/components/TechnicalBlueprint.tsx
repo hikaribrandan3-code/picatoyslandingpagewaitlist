@@ -45,12 +45,9 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
     <section id="features" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge & Title */}
-        <h2 className="text-3xl sm:text-5xl font-black text-[#FF6B6B] mb-2 uppercase tracking-tight">
-          Built From the Bearing Outward
+        <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">
+          Pica Yoyo Specs Designed: In Fusion 360
         </h2>
-        <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
-          Built like a real product because it basically is one. We just also made it grind.
-        </p>
 
         <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
           7 parts. 4 printed, 3 hardware, 1 string. Comes assembled.

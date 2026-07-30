@@ -87,8 +87,13 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
           <div className="clay clay-coral w-10 h-10 flex items-center justify-center shrink-0 [--clay-r:9999px]">
             <Wrench className="w-5 h-5" />
           </div>
-          <p className="text-sm sm:text-base text-[#6D6D6D] font-medium leading-relaxed text-left">
-            "Engineered by an avid yoyoer. Designed in Fusion 360. Every spec on this page comes directly from CAD. The first physical print is next."
+          {/* Mobile version */}
+          <p className="sm:hidden text-sm text-[#6D6D6D] font-medium leading-relaxed text-left">
+            "One grinder-yoyo exists. It's $120 metal. This is PEGT. 3D-printed. ~75% cheaper. Designed in Fusion 360 by someone who actually throws. First print pending."
+          </p>
+          {/* Desktop version */}
+          <p className="hidden sm:block text-base text-[#6D6D6D] font-medium leading-relaxed text-left">
+            "There's exactly one yoyo on the market that does what this does. It's machined metal, it's $120+, and it's not mine. I designed PicaYoYo in Fusion 360 — printed in PEGT, not machined in metal — which cuts the cost by 3–4× for the same trick. Specs are CAD-verified. First real print is next."
           </p>
         </div>
       </section>
