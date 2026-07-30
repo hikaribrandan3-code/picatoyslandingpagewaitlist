@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, ShieldCheck, RotateCw } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 import { HERO_PRODUCT_IMAGE } from '../data';
 
 interface HeroProps {
@@ -9,13 +9,6 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
-  const [isSpinning, setIsSpinning] = useState(false);
-
-  const handleSpinToggle = () => {
-    playSound();
-    setIsSpinning((prev) => !prev);
-  };
-
   return (
     <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center text-center overflow-hidden relative border-b border-[#F0E6D9]">
       {/* Rolled-clay offcuts in the background. Uneven radii + blur so they
@@ -60,31 +53,20 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
 
         {/* Product Box Container */}
         <div className="clay clay-cream clay-lg relative p-4 sm:p-5">
-          {/* Badge + spin control. In flow on mobile — overlaid at 375px the
-              two collide, so they only become an overlay once there's room. */}
-          <div className="flex items-center justify-between gap-2 mb-3 sm:mb-0 sm:absolute sm:top-5 sm:left-5 sm:right-5 sm:z-10">
-            <div className="clay clay-yellow clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 uppercase tracking-wider flex items-center gap-1.5">
+          {/* Badge. In flow on mobile, overlaid on the frame from sm: up. */}
+          <div className="mb-3 sm:mb-0 sm:absolute sm:top-5 sm:left-5 sm:z-10">
+            <div className="clay clay-yellow clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 uppercase tracking-wider inline-flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-[#D94F4F] shrink-0" />
               <span>Dual-Chamber Yoyo</span>
             </div>
-
-            <button
-              onClick={handleSpinToggle}
-              className="clay clay-btn clay-coral clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 flex items-center gap-1.5 shrink-0"
-            >
-              <RotateCw className={`w-4 h-4 ${isSpinning ? 'animate-spin' : ''}`} />
-              <span>{isSpinning ? 'Stop Spin' : 'Test Spin'}</span>
-            </button>
           </div>
 
           {/* Main Showcase Image */}
           <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
-            <motion.img
+            <img
               src={HERO_PRODUCT_IMAGE}
               alt="A translucent teal PicaYoyo standing on a desk"
               className="w-full h-auto object-cover rounded-xl"
-              animate={isSpinning ? { rotate: 360 } : { rotate: 0 }}
-              transition={isSpinning ? { repeat: Infinity, duration: 0.8, ease: 'linear' } : { duration: 0.3 }}
             />
           </div>
 

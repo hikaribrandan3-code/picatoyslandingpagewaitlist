@@ -44,8 +44,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
             P
           </div>
           <div className="flex flex-col">
-            <span className="text-xl sm:text-2xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none">
-              PICA TOYS
+            {/* Toys-R-Us style rainbow wordmark. Letters colored individually
+                via the .rainbow-* classes rather than one gradient on the
+                whole string, so each letter reads as its own solid hue. */}
+            <span className="text-xl sm:text-2xl font-black uppercase tracking-tight leading-none toys-r-us-text">
+              <span className="rainbow-p">P</span>
+              <span className="rainbow-i">I</span>
+              <span className="rainbow-c">C</span>
+              <span className="rainbow-a">A</span>
+              <span> </span>
+              <span className="rainbow-t">T</span>
+              <span className="rainbow-o">O</span>
+              <span className="rainbow-y">Y</span>
+              <span className="rainbow-s">S</span>
             </span>
             <span className="text-[9px] font-bold text-[#FF6B6B] tracking-widest uppercase mt-0.5">
               The Yoyo With A Twist

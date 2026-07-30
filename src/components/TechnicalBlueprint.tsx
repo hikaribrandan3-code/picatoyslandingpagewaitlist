@@ -1,6 +1,6 @@
 import React from 'react';
 import { BLUEPRINT_IMAGE, COLOR_OPTIONS, SPECS } from '../data';
-import { Layers, RefreshCw, CircleDot, ShieldCheck } from 'lucide-react';
+import { Layers, RefreshCw, Hand, ShieldCheck } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
@@ -99,7 +99,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
         </div>
 
         {/* Feature Component Breakdown Grid — accurate to the real build */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left">
           {[
             {
               chip: 'clay-coral',
@@ -120,18 +120,10 @@ export const TechnicalBlueprint: React.FC<Props> = ({
             {
               chip: 'clay-green',
               tilt: 'clay-tilt-r',
-              icon: <CircleDot className="w-6 h-6" />,
-              heading: '608 Steel Bearing',
+              icon: <Hand className="w-6 h-6" />,
+              heading: 'Responsive Yoyo',
               headingColor: '#3E9648',
-              body: 'Standard 608 (8/22/7mm). Responsive build for this first run — an unresponsive version is on the roadmap.',
-            },
-            {
-              chip: 'clay-blue',
-              tilt: 'clay-tilt-l',
-              icon: <ShieldCheck className="w-6 h-6" />,
-              heading: 'Sealed Two Ways',
-              headingColor: '#2B62D9',
-              body: 'Grinder chamber and storage cavity are each fully sealed from the open string gap between them.',
+              body: 'String snaps back to hand on a tug — the classic beginner feel. Bearing spec is in the numbers above.',
             },
           ].map((f) => (
             <div
