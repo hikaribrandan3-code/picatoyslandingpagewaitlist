@@ -27,27 +27,8 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
         <span>Waitlist open · not yet for sale</span>
       </motion.div>
 
-      {/* Main Heading Header */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-        className="mb-4 max-w-4xl"
-      >
-        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black leading-[0.92] mb-4 tracking-tight uppercase text-[#2D2D2D]">
-          Spin. <span className="text-[#FF6B6B]">Twist.</span> Discover.
-        </h1>
-        <p className="text-2xl sm:text-3xl font-black text-[#4D96FF] mt-3 tracking-tight">
-          PICA TOYS — The Yoyo With A Twist.
-        </p>
-      </motion.div>
-
-      <p className="max-w-xl text-base sm:text-lg text-[#6D6D6D] font-medium leading-relaxed mb-10">
-        A full-size, 3D-printed PETG yoyo. Both ends unscrew in three quarters of a turn to reveal two sealed chambers inside — then it goes right back to being a yoyo.
-      </p>
-
-      {/* Visual Abstract Product Frame */}
-      <div className="relative w-full max-w-sm sm:max-w-md mb-10 group">
+      {/* Visual Product Hero — Image First */}
+      <div className="relative w-full max-w-sm sm:max-w-md mb-8 group">
         {/* Yellow slab behind the frame — the second layer of clay. */}
         <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
@@ -79,6 +60,21 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
           </div>
         </div>
       </div>
+
+      {/* Product Descriptor & Tagline */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-center mb-10"
+      >
+        <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
+          3D Printed Yo-Yo Grinder
+        </h2>
+        <p className="text-lg sm:text-2xl font-black text-[#FF6B6B] tracking-tight">
+          Twist. Grind. Play.
+        </p>
+      </motion.div>
 
       {/* Main CTA */}
       <div className="flex items-center justify-center w-full max-w-md mb-10">
