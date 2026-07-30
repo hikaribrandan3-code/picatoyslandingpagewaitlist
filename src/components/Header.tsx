@@ -55,6 +55,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
         <div className="hidden md:flex items-center gap-8 font-semibold text-xs uppercase tracking-widest text-[#2D2D2D]">
           <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">Features</a>
           <a href="#blueprint" className="hover:text-[#FF6B6B] transition-colors py-1">Blueprint</a>
+          <a href="#arcade" className="hover:text-[#FF6B6B] transition-colors py-1 flex items-center gap-1 font-bold text-[#FF6B6B]">
+            <span>Arcade</span>
+            <span className="bg-[#FFD93D] text-[#2D2D2D] text-[9px] px-1.5 py-0.2 rounded font-black">NEW</span>
+          </a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
         </div>
 

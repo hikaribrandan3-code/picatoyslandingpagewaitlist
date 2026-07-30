@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductInteractiveViewer } from './components/ProductInteractiveViewer';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
+import { ClawMachineArcade } from './components/ClawMachineArcade';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { WaitlistForm } from './components/WaitlistForm';
 import { StickyMobileBar } from './components/StickyMobileBar';
@@ -70,10 +71,13 @@ export default function App() {
           setSelectedColorId={setSelectedColorId}
         />
 
-        {/* 4. First-batch countdown + builder note + FAQ */}
+        {/* 4. For-fun retro claw machine arcade — virtual coins/prizes, no real inventory */}
+        <ClawMachineArcade playSound={playSoundEffect} />
+
+        {/* 5. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
-        {/* 5. Waitlist form */}
+        {/* 6. Waitlist form */}
         <WaitlistForm
           playSound={playSoundEffect}
           selectedColor={selectedColorId}
