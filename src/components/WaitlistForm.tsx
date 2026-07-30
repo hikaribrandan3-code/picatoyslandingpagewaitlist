@@ -4,8 +4,8 @@ import { Ticket, ShieldCheck, Mail, ArrowRight } from 'lucide-react';
 import { VipTicket } from '../types';
 import { COLOR_OPTIONS } from '../data';
 
-// Wire to your Supabase Edge Function
-const SUBMIT_ENDPOINT = 'https://ebctuzdmutxjjlbovxtm.supabase.co/functions/v1/waitlist-submit';
+// Wire to Vercel serverless function
+const SUBMIT_ENDPOINT = '/api/waitlist';
 
 interface Props {
   playSound: () => void;
