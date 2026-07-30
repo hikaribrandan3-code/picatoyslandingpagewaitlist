@@ -1,9 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://ebctuzdmutxjjlbovxtm.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViY3R1emRtdXR4ampsYm92eHRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzNjc3NTksImV4cCI6MjEwMDk0Mzc1OX0.r6clnFBLwnu9MQZquLGpM7xqCBh6nO6VBX_KqLTEGzU';
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'hikaristudioai@gmail.com';
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -26,16 +22,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { error } = await supabase
-      .from('waitlist')
-      .insert([{ email, color_preference: colorPreference }]);
+    const emailRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Pica Yoyo <onboarding@resend.dev>',
+        to: NOTIFY_EMAIL,
+        subject: `New Pica Yoyo Waitlist Signup: ${email}`,
+        html: `
+          <h2>New Waitlist Signup</h2>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Color Preference:</strong> ${colorPreference || 'Not selected'}</p>
+          <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+        `,
+      }),
+    });
 
-    if (error) {
-      console.error('Supabase insert error:', error);
-      return res.status(400).json({ error: error.message });
+    if (!emailRes.ok) {
+      const error = await emailRes.json();
+      console.error('Resend error:', error);
+      throw new Error('Failed to send email');
     }
 
-    console.log(`Waitlist signup saved: ${email} (${colorPreference})`);
+    console.log(`Waitlist signup: ${email} (${colorPreference})`);
     return res.status(201).json({ success: true });
   } catch (err) {
     console.error('Error:', err.message);
