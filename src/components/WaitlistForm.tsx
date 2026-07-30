@@ -4,11 +4,8 @@ import { Ticket, ShieldCheck, Mail, ArrowRight } from 'lucide-react';
 import { VipTicket } from '../types';
 import { COLOR_OPTIONS } from '../data';
 
-// Not wired to a real mailing list yet. Set this to a Formspree endpoint
-// (or any POST target that accepts { email, colorPreference }) before
-// driving real traffic here — until then, submissions are NOT saved
-// anywhere and this only shows a local confirmation.
-const SUBMIT_ENDPOINT: string | null = null;
+// Wire to your Supabase Edge Function
+const SUBMIT_ENDPOINT = 'https://ebctuzdmutxjjlbovxtm.supabase.co/functions/v1/waitlist-submit';
 
 interface Props {
   playSound: () => void;
