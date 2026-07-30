@@ -88,9 +88,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
             <Wrench className="w-5 h-5" />
           </div>
           <p className="text-sm sm:text-base text-[#6D6D6D] font-medium leading-relaxed text-left">
-            "I designed PicaYoyo myself — started with the idea, planned it out, then modeled the whole thing in
-            Fusion 360. Every spec on this page comes straight from that model; nothing here is copied from another
-            product. The first physical print is next."
+            "Engineered by an avid yoyoer. Designed in Fusion 360. Every spec on this page comes directly from CAD. The first physical print is next."
           </p>
         </div>
       </section>

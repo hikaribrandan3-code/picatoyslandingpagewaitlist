@@ -52,11 +52,8 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           className="hero-descr text-center mb-6 lg:mb-0"
         >
           <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
-            3D Printed Yo-Yo Grinder
+            PicaYoyo | 3D-Printed Yoyo Grinder
           </h2>
-          <p className="text-lg sm:text-2xl font-black text-[#FF6B6B] tracking-tight">
-            Twist. Grind. Play.
-          </p>
         </motion.div>
 
         {/* Visual Product Hero */}
@@ -123,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             is the hook, not a third repeat of the same trust line. */}
         <div className="hero-status clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
-            Not a metaphor: this yoyo grinds. <span className="font-black text-[#FF6B6B]">First physical print coming next.</span>
+            CAD-verified in Fusion 360. <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
           </div>
         </div>
       </div>

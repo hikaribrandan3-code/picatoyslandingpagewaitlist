@@ -88,13 +88,13 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                 Get Your Pica Yoyo
               </h2>
               <p className="text-sm text-[#6D6D6D] font-medium leading-relaxed">
-                Nothing's for sale yet — but the list gets first pick on color and first access when we open orders. One email, that's it.
+                Join to get first access when orders open. One email.
               </p>
             </div>
 
             <div className="text-left">
               <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
-                Which color should we print first?
+                Your Color Choice
               </label>
               <div className="grid grid-cols-3 gap-2.5">
                 {COLOR_OPTIONS.map((opt, i) => (

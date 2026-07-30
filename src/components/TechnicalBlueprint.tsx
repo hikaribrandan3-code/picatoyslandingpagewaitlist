@@ -45,12 +45,16 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
     <section id="features" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge & Title */}
-        <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 mb-3 inline-block">
+        <h2 className="text-3xl sm:text-5xl font-black text-[#FF6B6B] mb-2 uppercase tracking-tight">
+          Built From the Bearing Outward
+        </h2>
+        <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
+          No product to copy, no reference to trace — just an idea, planned out, then modeled part by part in Fusion 360 until the whole mechanism computed clean. If it's on this page, it's because the math said so, not a guess.
+        </p>
+
+        <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 mb-6 inline-block">
           Seven Parts
         </span>
-        <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">
-          What's Inside
-        </h2>
         <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
           Four printed pieces, three pieces of hardware, one string. It comes assembled.
         </p>
@@ -116,11 +120,8 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
 
           {/* Description */}
           <div className="px-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#FF6B6B] mb-3">
-              Built From the Bearing Outward
-            </h3>
             <p className="text-[#6D6D6D] text-base sm:text-lg font-medium leading-relaxed">
-              No product to copy, no reference to trace — just an idea, planned out, then modeled part by part in Fusion 360 until the whole mechanism computed clean. If it's on this page, it's because the math said so, not a guess.
+              Engineered by an avid yoyoer. Designed in Fusion 360. Every spec on this page comes directly from CAD.
             </p>
           </div>
 
