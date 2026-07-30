@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
 
           <button
             onClick={onOpenWaitlist}
-            className="plastic-button bg-[#FF6B6B] text-white font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-2xl border-2 border-[#E05252] uppercase flex items-center gap-1.5 cursor-pointer"
+            className="clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase flex items-center gap-1.5 cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-[#FFD93D]" />
             <span>Join Waitlist</span>

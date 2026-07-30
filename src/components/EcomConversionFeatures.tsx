@@ -102,7 +102,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
       {/* 3. FAQ Accordion */}
       <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6 max-w-3xl mx-auto">
         <div className="text-center mb-10">
-          <span className="bg-[#FFEEAD] text-[#D4A017] font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#F0E6D9] inline-block mb-3">
+          <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 inline-block mb-3">
             Got Questions?
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] uppercase tracking-tight">

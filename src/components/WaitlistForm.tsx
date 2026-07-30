@@ -64,8 +64,8 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
 
   return (
     <section id="waitlist" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
-      <div className="max-w-md mx-auto bg-white border border-[#F0E6D9] rounded-3xl p-6 sm:p-8 shadow-2xl text-center">
-        <div className="w-12 h-12 bg-[#FFD93D] text-[#2D2D2D] rounded-2xl border border-[#F0E6D9] shadow-sm mx-auto flex items-center justify-center mb-4">
+      <div className="clay clay-cream max-w-md mx-auto p-6 sm:p-8 text-center">
+        <div className="clay clay-yellow w-12 h-12 mx-auto flex items-center justify-center mb-4">
           <Ticket className="w-6 h-6 text-[#FF6B6B]" />
         </div>
 
@@ -130,7 +130,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#FFD93D] text-[#2D2D2D] font-black text-lg py-4 px-6 rounded-2xl shadow-[0_6px_0_#D4A017] hover:translate-y-1 hover:shadow-[0_3px_0_#D4A017] transition-all uppercase tracking-tight cursor-pointer mt-2 flex items-center justify-center gap-2 w-full disabled:opacity-60"
+            className="clay clay-btn clay-yellow font-black text-lg py-4 px-6 uppercase tracking-tight cursor-pointer mt-2 flex items-center justify-center gap-2 w-full disabled:opacity-60"
           >
             <span>{isSubmitting ? 'Joining...' : 'JOIN THE WAITLIST'}</span>
             <ArrowRight className="w-5 h-5" />

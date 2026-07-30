@@ -12,7 +12,7 @@ export const ProductInteractiveViewer: React.FC<Props> = ({ playSound }) => {
       <div className="max-w-4xl mx-auto">
         {/* Section Title */}
         <div className="text-center mb-10">
-          <span className="bg-[#FFEEAD] text-[#D4A017] font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#F0E6D9] inline-block mb-3">
+          <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 inline-block mb-3">
             Seven Parts
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] uppercase tracking-tight">

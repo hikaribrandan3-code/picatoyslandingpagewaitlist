@@ -17,7 +17,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
     <section id="blueprint" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge & Title */}
-        <span className="text-[#D4A017] font-bold text-xs uppercase tracking-widest bg-[#FFEEAD] px-4 py-1.5 rounded-full border border-[#F0E6D9] mb-3 inline-block">
+        <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 mb-3 inline-block">
           Technical Blueprint
         </span>
         <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-8 uppercase tracking-tight">
@@ -103,7 +103,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
         {/* Feature Component Breakdown Grid — accurate to the real build */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FF6B6B] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="shrink-0 w-12 h-12 bg-[#FF6B6B] text-white flex items-center justify-center rounded-2xl shadow-sm">
+            <div className="clay clay-coral shrink-0 w-12 h-12 flex items-center justify-center">
               <Layers className="w-6 h-6" />
             </div>
             <div>
@@ -115,7 +115,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           </div>
 
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FFD93D] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="shrink-0 w-12 h-12 bg-[#FFD93D] text-[#2D2D2D] flex items-center justify-center rounded-2xl shadow-sm">
+            <div className="clay clay-yellow shrink-0 w-12 h-12 flex items-center justify-center">
               <RefreshCw className="w-6 h-6" />
             </div>
             <div>
@@ -127,7 +127,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           </div>
 
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#6BCB77] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="shrink-0 w-12 h-12 bg-[#6BCB77] text-white flex items-center justify-center rounded-2xl shadow-sm">
+            <div className="clay clay-green shrink-0 w-12 h-12 flex items-center justify-center">
               <CircleDot className="w-6 h-6" />
             </div>
             <div>
@@ -139,7 +139,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           </div>
 
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#4D96FF] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="shrink-0 w-12 h-12 bg-[#4D96FF] text-white flex items-center justify-center rounded-2xl shadow-sm">
+            <div className="clay clay-blue shrink-0 w-12 h-12 flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>

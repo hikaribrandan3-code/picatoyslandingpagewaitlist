@@ -26,7 +26,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#FFEEAD] rounded-full text-xs font-bold text-[#D4A017] uppercase tracking-widest mb-6 w-fit border border-[#F0E6D9]"
+        className="clay clay-yellow inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest mb-6 w-fit"
       >
         <span className="w-2.5 h-2.5 rounded-full bg-[#D4A017] animate-pulse" />
         <span>Waitlist open · not yet for sale</span>
@@ -59,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
         {/* Product Box Container */}
         <div className="relative bg-white border border-[#F0E6D9] rounded-3xl p-4 sm:p-5 shadow-2xl overflow-hidden">
           {/* Top Badge Overlay */}
-          <div className="absolute top-5 left-5 z-10 bg-[#FFD93D] text-[#2D2D2D] text-xs font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+          <div className="clay clay-yellow absolute top-5 left-5 z-10 text-xs font-black px-4 py-2 uppercase tracking-wider flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-[#FF6B6B]" />
             <span>Dual-Chamber Yoyo</span>
           </div>
@@ -67,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
           {/* Spin Interactive Control Button */}
           <button
             onClick={handleSpinToggle}
-            className="absolute top-5 right-5 z-10 bg-[#FF6B6B] hover:bg-[#E05252] text-white text-xs font-black px-3.5 py-1.5 rounded-2xl shadow-md flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+            className="clay clay-btn clay-coral absolute top-5 right-5 z-10 text-xs font-black px-4 py-2 flex items-center gap-1.5 cursor-pointer"
           >
             <RotateCw className={`w-4 h-4 ${isSpinning ? 'animate-spin' : ''}`} />
             <span>{isSpinning ? 'Stop Spin' : 'Test Spin'}</span>
@@ -101,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
             playSound();
             onJoinWaitlist();
           }}
-          className="bg-[#FF6B6B] text-white px-10 py-5 rounded-2xl font-black text-lg shadow-[0_8px_0_#E05252] hover:translate-y-1 hover:shadow-[0_4px_0_#E05252] transition-all w-full uppercase tracking-tight cursor-pointer flex items-center justify-center gap-2 group"
+          className="clay clay-btn clay-coral px-10 py-5 font-black text-lg w-full uppercase tracking-tight cursor-pointer flex items-center justify-center gap-2 group"
         >
           <Sparkles className="w-6 h-6 text-[#FFD93D] group-hover:rotate-12 transition-transform" />
           <span>JOIN THE WAITLIST</span>
@@ -109,7 +109,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
       </div>
 
       {/* Honest status bar (was a fake rating) */}
-      <div className="flex flex-col sm:flex-row items-center gap-2 bg-white border border-[#F0E6D9] rounded-2xl px-6 py-3.5 shadow-sm">
+      <div className="clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
         <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
           Designed from scratch, fully CAD-verified. <span className="font-black text-[#FF6B6B]">First physical print coming next.</span>
         </div>

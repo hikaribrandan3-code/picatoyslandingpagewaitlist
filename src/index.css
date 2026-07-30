@@ -4,8 +4,110 @@
   body {
     font-family: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: #FFF9F2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     color: #2D2D2D;
   }
+}
+
+/* ============================================
+   CLAYMORPHISM — puffy, inflated 3D style
+   Technique: soft rounded corners + layered
+   inset/outset box-shadow. Tuned to PICA TOYS
+   brand palette (not generic Tailwind colors).
+   ============================================ */
+
+.clay {
+  border-radius: 2rem;
+  border: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.clay-coral {
+  background: linear-gradient(145deg, #FF8080, #FF6B6B);
+  box-shadow:
+    8px 8px 16px rgba(224, 82, 82, 0.45),
+    -6px -6px 14px rgba(255, 255, 255, 0.55),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 6px rgba(224, 82, 82, 0.25);
+  color: #fff;
+}
+
+.clay-blue {
+  background: linear-gradient(145deg, #6FAAFF, #4D96FF);
+  box-shadow:
+    8px 8px 16px rgba(43, 98, 217, 0.45),
+    -6px -6px 14px rgba(255, 255, 255, 0.55),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 6px rgba(43, 98, 217, 0.25);
+  color: #fff;
+}
+
+.clay-yellow {
+  background: linear-gradient(145deg, #FFE270, #FFD93D);
+  box-shadow:
+    8px 8px 16px rgba(212, 160, 23, 0.4),
+    -6px -6px 14px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 6px rgba(212, 160, 23, 0.2);
+  color: #2D2D2D;
+}
+
+.clay-green {
+  background: linear-gradient(145deg, #85DA8F, #6BCB77);
+  box-shadow:
+    8px 8px 16px rgba(62, 150, 72, 0.4),
+    -6px -6px 14px rgba(255, 255, 255, 0.55),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.35),
+    inset -2px -2px 6px rgba(62, 150, 72, 0.2);
+  color: #fff;
+}
+
+.clay-teal {
+  background: linear-gradient(145deg, #5FE8E2, #3ba8a8);
+  box-shadow:
+    8px 8px 16px rgba(28, 110, 110, 0.4),
+    -6px -6px 14px rgba(255, 255, 255, 0.55),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.35),
+    inset -2px -2px 6px rgba(28, 110, 110, 0.2);
+  color: #fff;
+}
+
+.clay-cream {
+  background: linear-gradient(145deg, #FFFDFA, #FFF3E4);
+  box-shadow:
+    8px 8px 18px rgba(224, 200, 170, 0.4),
+    -6px -6px 14px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 6px rgba(224, 200, 170, 0.2);
+  color: #2D2D2D;
+}
+
+.clay:hover {
+  transform: translateY(-3px) scale(1.015);
+}
+
+.clay:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.clay-btn {
+  border-radius: 1.75rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+}
+
+.clay-btn:active {
+  transform: translateY(2px) scale(0.97);
+}
+
+/* Hand-drawn wobble divider, clay-doodle style */
+.clay-divider {
+  height: 12px;
+  background-repeat: repeat-x;
+  background-size: 40px 12px;
+  background-image: radial-gradient(circle at 50% 100%, currentColor 3px, transparent 3.5px);
+  opacity: 0.35;
 }
 
 .toys-r-us-text {
