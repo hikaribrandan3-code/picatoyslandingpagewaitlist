@@ -15,7 +15,7 @@ export const SPECS = [
   { label: 'Axle', value: '8mm ground shoulder, M6' },
   { label: 'Cap thread', value: '2-start, 4.0mm pitch' },
   { label: 'Turns to open', value: '0.75' },
-  { label: 'Storage volume', value: '13.6 cm³' },
+  { label: 'Storage volume', value: '13.6 cm3' },
   { label: 'Material', value: 'PETG, 3D printed' },
   { label: 'Response', value: 'Responsive' },
 ];
@@ -31,12 +31,12 @@ export const ENGINEERING_PROOF = [
     detail: 'Floor under the grinder measures as a solid ring — nothing leaks into the string gap.',
   },
   {
-    title: 'Caps can’t vibrate loose',
-    detail: 'Thread is self-locking at every friction case we checked, so play can’t shake a cap open.',
+    title: 'Caps cant vibrate loose',
+    detail: 'Thread is self-locking at every friction case we checked, so play cant shake a cap open.',
   },
   {
     title: 'Balanced within 6.6%',
-    detail: 'The grinder and storage halves hold different mass by design — tuned close enough that it doesn’t wobble on the string.',
+    detail: 'The grinder and storage halves hold different mass by design — tuned close enough that it doesnt wobble on the string.',
   },
 ];
 
@@ -54,36 +54,37 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     id: 'faq-1',
     question: 'What makes PicaYoyo "the yoyo with a twist"?',
-    answer:
-      'Both ends of the body unscrew. One half is a sealed chamber built around interleaved grinding teeth; the other is separate sealed storage. A 608 bearing rides an open string gap between them, so the yoyo itself works exactly like a normal throw.',
+    answer: 'Both ends of the body unscrew. One half is a sealed chamber built around interleaved grinding teeth; the other is separate sealed storage. A 608 bearing rides an open string gap between them, so the yoyo itself works exactly like a normal throw.',
     category: 'Grinder Mechanism',
   },
   {
     id: 'faq-2',
     question: 'Is PicaYoyo responsive or unresponsive?',
-    answer:
-      'The first run is a responsive build — easier to learn on, and it keeps the design simple while we validate the mechanism in the real world. An unresponsive version (larger bearing, reworked response system) is on the roadmap once the first run ships.',
+    answer: 'The first run is a responsive build — easier to learn on, and it keeps the design simple while we validate the mechanism in the real world. An unresponsive version (larger bearing, reworked response system) is on the roadmap once the first run ships.',
     category: 'Specs',
   },
   {
     id: 'faq-3',
     question: 'What is it made of?',
-    answer:
-      'PETG, 3D printed in-house. We chose PETG over PLA because it holds up better to impact on a thrown toy. Nothing here is CNC-machined or metal except the bearing, axle screw, and nut.',
+    answer: 'PETG, 3D printed in-house. We chose PETG over PLA because it holds up better to impact on a thrown toy. Nothing here is CNC-machined or metal except the bearing, axle screw, and nut.',
     category: 'Specs',
   },
   {
     id: 'faq-4',
     question: 'Has this actually been printed yet?',
-    answer:
-      'Not yet — every spec on this page comes from the parametric CAD model, which has been fully verified in software (thread engagement, tooth mesh, seal, balance). A small test coupon prints first to confirm the thread survives real FDM tolerances, then the first full run follows.',
+    answer: 'Not yet — every spec on this page comes from the parametric CAD model, which has been fully verified in software (thread engagement, tooth mesh, seal, balance). A small test coupon prints first to confirm the thread survives real FDM tolerances, then the first full run follows.',
     category: 'General',
   },
   {
     id: 'faq-5',
     question: 'When does the first batch ship?',
-    answer:
-      'We’re targeting the first run within 30 days of the waitlist opening. Waitlist members hear about pricing and availability first — nothing is being sold on this page yet.',
+    answer: 'We are targeting the first run within 30 days of the waitlist opening. Waitlist members hear about pricing and availability first - nothing is being sold on this page yet.',
     category: 'Shipping',
+  },
+  {
+    id: 'faq-6',
+    question: 'What does the Pica Yo-Yo actually grind?',
+    answer: 'Herbs and spices. You know, like dried oregano, thyme, or crushed red pepper. Why, what else would you put in a 3D-printed pocket yo-yo?',
+    category: 'General',
   },
 ];
