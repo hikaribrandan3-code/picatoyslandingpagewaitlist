@@ -1,7 +1,15 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, ShieldCheck } from 'lucide-react';
 import { HERO_PRODUCT_IMAGE } from '../data';
+
+const MOBILE_SLIDES = [
+  { src: '/yoyo-hero-box.jpg',  alt: 'PicaYoyo product box — a yoyo grinder' },
+  { src: '/yoyo-clear.jpg',     alt: 'Clear PicaYoyo with Pica Toys logo' },
+  { src: '/yoyo-yellow.jpg',    alt: 'Yellow PicaYoyo' },
+  { src: '/yoyo-stacked.jpg',   alt: 'All PicaYoyo colors stacked' },
+  { src: '/yoyo-green.jpg',     alt: 'Green PicaYoyo' },
+];
 
 /* The 3D viewer pulls in three.js, so it is code-split AND gated on a
    real desktop viewport check. A CSS-only `hidden lg:block` would still
@@ -19,6 +27,48 @@ function useDesktop() {
     return () => mq.removeEventListener('change', sync);
   }, []);
   return desktop;
+}
+
+/** Auto-cycling image carousel shown on mobile in place of the single hero shot. */
+function MobileCarousel() {
+  const [idx, setIdx] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const goTo = (i: number) => {
+    setIdx(i);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIdx((prev) => (prev + 1) % MOBILE_SLIDES.length), 3000);
+  };
+
+  useEffect(() => {
+    timerRef.current = setTimeout(() => setIdx((prev) => (prev + 1) % MOBILE_SLIDES.length), 3000);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [idx]);
+
+  const slide = MOBILE_SLIDES[idx];
+
+  return (
+    <div className="clay-well clay-cream p-3 flex flex-col items-center min-h-[320px] overflow-hidden gap-3">
+      <img
+        key={slide.src}
+        src={slide.src}
+        alt={slide.alt}
+        className="w-full max-h-[300px] object-contain rounded-xl transition-opacity duration-500"
+        loading="eager"
+      />
+      {/* Dot navigation */}
+      <div className="flex items-center gap-1.5">
+        {MOBILE_SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Slide ${i + 1}`}
+            className={`h-2 rounded-full transition-all ${i === idx ? 'w-5 bg-[#FF6B6B]' : 'w-2 bg-[#E3CDB0]'}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 interface HeroProps {
@@ -76,13 +126,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
                 <YoyoViewer3D colorId={selectedColorId} />
               </Suspense>
             ) : (
-              <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
-                <img
-                  src={HERO_PRODUCT_IMAGE}
-                  alt="A translucent teal PicaYoyo standing on a desk"
-                  className="w-full h-auto object-cover rounded-xl"
-                />
-              </div>
+              <MobileCarousel />
             )}
 
             {/* Image Interactive Bar */}
