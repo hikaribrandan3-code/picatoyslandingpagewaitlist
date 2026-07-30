@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FFF9F2;
+    color: #2D2D2D;
+  }
+}
+
+.toys-r-us-text {
+  filter: drop-shadow(3px 3px 0px #2D2D2D);
+}
+
+/* PICA TOYS Immersive Rainbow Letter Colors */
+.rainbow-p { color: #4D96FF; } /* Blue */
+.rainbow-i { color: #FF6B6B; } /* Coral Red */
+.rainbow-c { color: #FFD93D; } /* Vibrant Yellow */
+.rainbow-a { color: #6BCB77; } /* Fresh Green */
+.rainbow-t { color: #FF6B6B; } /* Coral Red */
+.rainbow-o { color: #4D96FF; } /* Blue */
+.rainbow-y { color: #FFD93D; } /* Vibrant Yellow */
+.rainbow-s { color: #6BCB77; } /* Fresh Green */
+
+.plastic-button {
+  box-shadow: 0 6px 0 #E05252;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plastic-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #E05252;
+}
+
+.plastic-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #E05252;
+}
+
+.plastic-button-dark {
+  box-shadow: 0 6px 0 #1A1A1A;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plastic-button-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #1A1A1A;
+}
+
+.plastic-button-dark:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #1A1A1A;
+}
+
+.hard-shadow-sm {
+  box-shadow: 3px 3px 0px 0px rgba(45, 45, 45, 1);
+}
+
+.hard-shadow-md {
+  box-shadow: 4px 4px 0px 0px rgba(45, 45, 45, 1);
+}
+
+.hard-shadow-lg {
+  box-shadow: 6px 6px 0px 0px rgba(45, 45, 45, 1);
+}
+
+.hard-shadow-xl {
+  box-shadow: 8px 8px 0px 0px rgba(45, 45, 45, 1);
+}
+
+.hard-shadow-coral {
+  box-shadow: 8px 8px 0px 0px rgba(255, 107, 107, 1);
+}
+
+.hard-shadow-yellow {
+  box-shadow: 8px 8px 0px 0px rgba(255, 217, 61, 1);
+}
+
+.hard-shadow-2xl {
+  box-shadow: 10px 10px 0px 0px rgba(45, 45, 45, 1);
+}
+
+/* Yoyo Spinning Animation keyframes */
+@keyframes spin-yoyo {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-fast {
+  animation: spin-yoyo 0.8s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-yoyo 4s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF9F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #FF6B6B;
+  border-radius: 5px;
+  border: 2px solid #F0E6D9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E05252;
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "Pica Toys",
+  "description": "Official landing page for PicaYoyo, the yoyo with a twist. Precision CNC machined, 20% longer spin time, and mystery grinding core.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
