@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Share2, Check } from 'lucide-react';
+import { Share2, Check, Mail } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
 }
+
+const CONTACT_EMAIL = 'Hikaristudioai@gmail.com';
 
 export const Footer: React.FC<Props> = ({ playSound }) => {
   const [copied, setCopied] = useState(false);
@@ -42,6 +44,13 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
         <div className="grid grid-cols-2 gap-4 text-xs font-bold uppercase tracking-wider text-[#2D2D2D]">
           <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">The Lab</a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="col-span-2 flex items-center gap-1.5 hover:text-[#FF6B6B] transition-colors py-1 normal-case tracking-normal font-medium text-[#6D6D6D]"
+          >
+            <Mail className="w-3.5 h-3.5 shrink-0" />
+            <span>{CONTACT_EMAIL}</span>
+          </a>
         </div>
 
         {/* Share */}

@@ -49,11 +49,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FFF9F2] text-[#2D2D2D] flex flex-col font-sans selection:bg-[#FF6B6B] selection:text-white">
-      <Header
-        onOpenWaitlist={handleOpenWaitlist}
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
-      />
+      <Header onOpenWaitlist={handleOpenWaitlist} />
 
       <main className="flex-1">
         {/* 1. Hero — the 3D model picks up whichever colour they voted for */}

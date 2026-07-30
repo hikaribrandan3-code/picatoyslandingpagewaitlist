@@ -1,13 +1,16 @@
 import React from 'react';
-import { Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { Sparkles, Gamepad2, Mail } from 'lucide-react';
 
 interface HeaderProps {
   onOpenWaitlist: () => void;
-  soundEnabled: boolean;
-  setSoundEnabled: (val: boolean) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, setSoundEnabled }) => {
+const CONTACT_EMAIL = 'Hikaristudioai@gmail.com';
+
+export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
+  const scrollToArcade = () => {
+    document.getElementById('arcade')?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#E3CDB0] shadow-[0_5px_18px_rgba(200,172,138,0.3)]">
       {/* Main Nav */}
@@ -48,21 +51,32 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={() => setSoundEnabled(!soundEnabled)}
-            title={soundEnabled ? 'Mute Yoyo SFX' : 'Enable Yoyo SFX'}
-            className="clay clay-cream clay-btn clay-sm p-2"
+          {/* Desktop: contact button, sits beside the waitlist CTA. Breakpoint
+              matches FlappyPicas' own mobile gate (max-width: 1023px) so this
+              swaps in exactly where the game stops existing. */}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            title="Contact Us"
+            className="hidden lg:flex clay clay-cream clay-btn clay-sm px-4 py-2.5 items-center gap-1.5 font-black text-xs uppercase cursor-pointer"
           >
-            {soundEnabled ? (
-              <Volume2 className="w-5 h-5 text-[#FF6B6B]" />
-            ) : (
-              <VolumeX className="w-5 h-5 text-[#6D6D6D]" />
-            )}
+            <Mail className="w-4 h-4 text-[#6D6D6D]" />
+            <span>Contact</span>
+          </a>
+
+          {/* Mobile/tablet (<1024px): routes straight to the Pica Arcade game.
+              Desktop (>=1024px): routes to the waitlist form — the game
+              doesn't mount there. */}
+          <button
+            onClick={scrollToArcade}
+            className="lg:hidden clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase flex items-center gap-1.5 cursor-pointer"
+          >
+            <Gamepad2 className="w-4 h-4 text-[#FFD93D]" />
+            <span>Arcade</span>
           </button>
 
           <button
             onClick={onOpenWaitlist}
-            className="clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase flex items-center gap-1.5 cursor-pointer"
+            className="hidden lg:flex clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase items-center gap-1.5 cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-[#FFD93D]" />
             <span>Join Waitlist</span>
