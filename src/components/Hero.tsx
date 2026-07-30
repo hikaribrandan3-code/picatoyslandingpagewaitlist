@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, ShieldCheck } from 'lucide-react';
 import { HERO_PRODUCT_IMAGE } from '../data';
 
+/* The 3D viewer pulls in three.js, so it is code-split AND gated on a
+   real desktop viewport check. A CSS-only `hidden lg:block` would still
+   mount the component on a phone and download the chunk with it. */
+const YoyoViewer3D = lazy(() => import('./YoyoViewer3D'));
+
+/** True only on pointer-precise desktop widths. */
+function useDesktop() {
+  const [desktop, setDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+    const sync = () => setDesktop(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  return desktop;
+}
+
 interface HeroProps {
   onJoinWaitlist: () => void;
   playSound: () => void;
+  selectedColorId?: string;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
+export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedColorId = 'clear' }) => {
+  const desktop = useDesktop();
+
   return (
     <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center text-center overflow-hidden relative border-b border-[#F0E6D9]">
       {/* Rolled-clay offcuts in the background. Uneven radii + blur so they
@@ -33,20 +54,33 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
       </motion.div>
 
       {/* Visual Product Hero — Image Below Descriptor */}
-      <div className="relative w-full max-w-sm sm:max-w-md mb-8 group">
+      <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-xl mb-8 group">
         {/* Yellow slab behind the frame — the second layer of clay. */}
         <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
         {/* Product Box Container */}
         <div className="clay clay-cream clay-lg relative p-4 sm:p-5">
-          {/* Main Showcase Image */}
-          <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
-            <img
-              src={HERO_PRODUCT_IMAGE}
-              alt="A translucent teal PicaYoyo standing on a desk"
-              className="w-full h-auto object-cover rounded-xl"
-            />
-          </div>
+          {/* Desktop gets the live CAD model; mobile keeps the product
+              shot so a phone never pays for three.js. */}
+          {desktop ? (
+            <Suspense
+              fallback={
+                <div className="clay-well clay-cream flex min-h-[420px] items-center justify-center bg-white">
+                  <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#E3CDB0] border-t-[#FF6B6B]" />
+                </div>
+              }
+            >
+              <YoyoViewer3D colorId={selectedColorId} />
+            </Suspense>
+          ) : (
+            <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
+              <img
+                src={HERO_PRODUCT_IMAGE}
+                alt="A translucent teal PicaYoyo standing on a desk"
+                className="w-full h-auto object-cover rounded-xl"
+              />
+            </div>
+          )}
 
           {/* Image Interactive Bar */}
           <div className="mt-3.5 pt-3 border-t-[3px] border-[#E3CDB0] flex items-center justify-between text-xs font-bold text-[#6D6D6D]">
@@ -54,6 +88,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
               <ShieldCheck className="w-4 h-4" />
               <span>3D-Printed PETG</span>
             </div>
+            {desktop && (
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#6D6D6D]">
+                Real CAD geometry
+              </span>
+            )}
           </div>
         </div>
       </div>

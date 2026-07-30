@@ -58,8 +58,12 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* 1. Hero */}
-        <Hero onJoinWaitlist={handleOpenWaitlist} playSound={playSoundEffect} />
+        {/* 1. Hero — the 3D model picks up whichever colour they voted for */}
+        <Hero
+          onJoinWaitlist={handleOpenWaitlist}
+          playSound={playSoundEffect}
+          selectedColorId={selectedColorId}
+        />
 
         {/* 2. What's Inside — real engineering proof, not a fake trick simulator */}
         <ProductInteractiveViewer playSound={playSoundEffect} />
