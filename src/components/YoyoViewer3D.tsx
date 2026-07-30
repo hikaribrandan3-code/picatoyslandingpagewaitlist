@@ -366,7 +366,7 @@ export default function YoyoViewer3D({ colorId = 'clear' }: { colorId?: string }
   return (
     <div className="relative w-full">
       <div className="clay-well clay-cream relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="h-[320px] w-full">
+        <div className="h-[290px] w-full">
           <Canvas
             dpr={[1, 1.75]}
             shadows
@@ -394,8 +394,8 @@ export default function YoyoViewer3D({ colorId = 'clear' }: { colorId?: string }
         {/* Drag hint — the model turns on its own, so people don't
             always realise they can grab it. */}
         {ready && (
-          <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2">
-            <span className="rounded-full bg-[#2D2D2D]/70 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+          <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+            <span className="rounded-full bg-[#2D2D2D]/70 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white whitespace-nowrap">
               Drag to rotate · scroll to zoom
             </span>
           </div>
