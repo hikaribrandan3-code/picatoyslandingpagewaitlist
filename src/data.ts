@@ -72,7 +72,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: 'faq-6',
-    question: 'What does the Pica Yo-Yo actually grind?',
+    question: 'What does the PicaYoyo actually grind?',
     answer: 'Herbs and spices. You know, like dried oregano, thyme, or crushed red pepper. Why, what else would you put in a 3D-printed pocket yo-yo?',
     category: 'General',
   },

@@ -49,14 +49,11 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
           Built From the Bearing Outward
         </h2>
         <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
-          No product to copy, no reference to trace — just an idea, planned out, then modeled part by part in Fusion 360 until the whole mechanism computed clean. If it's on this page, it's because the math said so, not a guess.
+          Built like a real product because it basically is one. We just also made it grind.
         </p>
 
-        <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 mb-6 inline-block">
-          Seven Parts
-        </span>
         <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
-          Four printed pieces, three pieces of hardware, one string. It comes assembled.
+          7 parts. 4 printed, 3 hardware, 1 string. Comes assembled.
         </p>
 
         <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative text-left">

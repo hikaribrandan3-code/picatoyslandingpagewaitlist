@@ -120,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             is the hook, not a third repeat of the same trust line. */}
         <div className="hero-status clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
-            CAD-verified in Fusion 360. <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
+            <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
           </div>
         </div>
       </div>

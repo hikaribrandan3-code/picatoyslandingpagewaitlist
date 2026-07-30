@@ -45,7 +45,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
             We're Printing the First Real Run
           </h3>
           <p className="text-gray-300 text-sm sm:text-base mb-8 max-w-md mx-auto">
-            A test coupon prints first to confirm the thread holds up in PETG, then the first full batch follows. This is our target window — waitlist members hear first if it shifts.
+            A test print comes first to confirm the thread holds up in PETG, then the first full batch follows. This is our target window — waitlist members hear first if it shifts.
           </p>
 
           {/* Countdown Clock Grid — fired dark clay against the ink section */}
