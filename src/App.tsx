@@ -43,7 +43,10 @@ export default function App() {
   const handleOpenWaitlist = () => {
     const el = document.getElementById('waitlist');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const y = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 

@@ -34,7 +34,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
   return (
     <div className="bg-[#FFF9F2]">
       {/* 1. First-batch target window (real countdown, not fake scarcity) */}
-      <section className="bg-[#2D2D2D] text-white py-14 px-4 sm:px-6 border-b border-[#1A1A1A]">
+      <section className="bg-[#2D2D2D] text-white py-14 px-4 sm:px-6 border-b-[3px] border-[#FFD93D]">
         <div className="max-w-4xl mx-auto text-center">
           <div className="clay clay-coral clay-sm clay-tilt-l inline-flex items-center gap-2 font-black text-xs uppercase px-4 py-2 mb-4">
             <Clock className="w-3.5 h-3.5" />
@@ -73,7 +73,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
       </section>
 
       {/* 2. From the builder */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 max-w-2xl mx-auto border-b border-[#F0E6D9]">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 max-w-2xl mx-auto border-b-[3px] border-[#FF6B6B]">
         <div className="text-center mb-8">
           <span className="clay clay-yellow clay-sm clay-tilt-r font-extrabold text-xs uppercase tracking-widest px-4 py-2 inline-block mb-3">
             From the Builder
@@ -112,10 +112,12 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
         <div className="space-y-5">
           {FAQ_ITEMS.map((faq, i) => {
             const isOpen = openFaq === faq.id;
+            const edges = ['edge-blue', 'edge-green', 'edge-yellow', 'edge-coral', 'edge-teal'];
+            const edgeClass = edges[i % edges.length];
             return (
               <div
                 key={faq.id}
-                className={`clay clay-cream ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} overflow-hidden`}
+                className={`clay clay-cream ${edgeClass} ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} overflow-hidden`}
               >
                 <button
                   onClick={() => {

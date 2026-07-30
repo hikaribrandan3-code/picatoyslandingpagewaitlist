@@ -65,12 +65,12 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
   };
 
   return (
-    <section id="waitlist" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
+    <section id="waitlist" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b-[3px] border-[#6BCB77]">
       {/* Portrait single column on mobile (unchanged). On desktop the whole
           card widens and the form itself becomes the two-column grid: pitch
           + color vote on the left, the actual email/submit action on the
           right — a landscape signup layout instead of a tall narrow card. */}
-      <div className="clay clay-cream clay-lg max-w-md lg:max-w-3xl mx-auto p-6 sm:p-8 text-center lg:text-left">
+      <div className="clay clay-cream edge-green clay-lg max-w-md lg:max-w-3xl mx-auto p-6 sm:p-8 text-center lg:text-left">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-4 text-left lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start"

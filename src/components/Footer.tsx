@@ -18,7 +18,7 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
   };
 
   return (
-    <footer className="bg-[#FFF9F2] border-t-[3px] border-[#E3CDB0] text-[#2D2D2D] pb-8">
+    <footer className="bg-[#FFF9F2] border-t-[3px] border-[#FF6B6B] text-[#2D2D2D] pb-8">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Brand Info — same rainbow letter-by-letter wordmark as the header,
             no separate logo mark. */}

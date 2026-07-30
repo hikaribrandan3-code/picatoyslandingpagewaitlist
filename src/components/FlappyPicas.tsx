@@ -223,7 +223,7 @@ function FlappyGame() {
   return (
     <div ref={wrapRef} className="relative mx-auto w-full max-w-[360px]">
       {/* Cabinet bezel, in the same clay language as the rest of the page. */}
-      <div className="clay clay-cream clay-lg p-3">
+      <div className="clay clay-cream edge-blue clay-lg p-3">
         <div className="relative overflow-hidden rounded-2xl border-[3px] border-[#131C33] bg-[#4EC0E8]">
           <canvas
             ref={canvasRef}
@@ -382,7 +382,7 @@ export const FlappyPicas: React.FC = () => {
   return (
     <section
       id="arcade"
-      className="relative overflow-hidden border-y-[3px] border-[#E3CDB0] bg-[#FFF4E4] px-4 py-8"
+      className="relative overflow-hidden border-y-[3px] border-[#4D96FF] bg-[#FFF4E4] px-4 py-8"
     >
       <div className="mx-auto max-w-md text-center">
         {/* Rainbow title, same letter-by-letter treatment as the header

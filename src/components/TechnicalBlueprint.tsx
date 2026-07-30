@@ -42,7 +42,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
   };
 
   return (
-    <section id="features" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
+    <section id="features" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b-[3px] border-[#FFD93D]">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge & Title */}
         <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">

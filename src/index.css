@@ -161,6 +161,13 @@
   --clay-ink: #fff;
 }
 
+/* ---- Edge-only modifiers (border and shadow overrides for cream cards) ---- */
+.edge-coral { --clay-edge: #D94F4F; --clay-ledge: rgba(190, 62, 62, 0.55); --clay-amb: rgba(190, 62, 62, 0.28); }
+.edge-yellow { --clay-edge: #D4A017; --clay-ledge: rgba(198, 150, 20, 0.55); --clay-amb: rgba(198, 150, 20, 0.28); }
+.edge-blue { --clay-edge: #2B62D9; --clay-ledge: rgba(43, 98, 217, 0.55); --clay-amb: rgba(43, 98, 217, 0.28); }
+.edge-green { --clay-edge: #3E9648; --clay-ledge: rgba(62, 150, 72, 0.55); --clay-amb: rgba(62, 150, 72, 0.28); }
+.edge-teal { --clay-edge: #248383; --clay-ledge: rgba(28, 110, 110, 0.55); --clay-amb: rgba(28, 110, 110, 0.28); }
+
 /* ---- Size + posture modifiers ---- */
 
 .clay-sm { border-radius: var(--clay-r-sm); }

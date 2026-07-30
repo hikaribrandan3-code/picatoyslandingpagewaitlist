@@ -9,10 +9,16 @@ const CONTACT_EMAIL = 'Hikaristudioai@gmail.com';
 
 export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
   const scrollToArcade = () => {
-    document.getElementById('arcade')?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById('arcade');
+    if (el) {
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const y = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   };
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#E3CDB0] shadow-[0_5px_18px_rgba(200,172,138,0.3)]">
+    <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#4D96FF] shadow-[0_5px_18px_rgba(77,150,255,0.2)]">
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Logo — wordmark only, no separate icon */}
