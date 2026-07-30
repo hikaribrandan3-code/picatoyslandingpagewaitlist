@@ -1,15 +1,7 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, Instagram } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
-
-/** Lucide has no TikTok mark, so this is a hand-drawn equivalent kept in
- * the same stroke/style family as the imported lucide icons around it. */
-const TikTokIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-    <path d="M16.6 5.82c-.9-.8-1.46-1.94-1.56-3.2h-3.09v13.44a2.6 2.6 0 1 1-1.84-2.49v-3.14a5.87 5.87 0 0 0-.76-.05 5.83 5.83 0 1 0 5.83 5.83V9.4a7.35 7.35 0 0 0 4.3 1.38V7.68a4.28 4.28 0 0 1-2.88-1.86z" />
-  </svg>
-);
 
 const MOBILE_SLIDES = [
   { src: '/yoyo-hero-box.jpg',  alt: 'Pica Yoyo product box — a yoyo grinder' },
@@ -159,15 +151,20 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
 
           {/* Digital/LED-style readout: monospace tabular digits with a glow,
               on the dark clay-ink fill, instead of a plain text pill. */}
-          <div className="hidden lg:inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5 mb-2">
-            <span
-              className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
-              style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
-            >
-              {String(timeLeft.days).padStart(2, '0')}
-            </span>
-            <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
-              Days to<br />First Drop
+          <div className="hidden lg:inline-flex flex-col gap-1.5">
+            <div className="inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5">
+              <span
+                className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
+                style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
+              >
+                {String(timeLeft.days).padStart(2, '0')}
+              </span>
+              <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
+                Days to<br />First Drop
+              </span>
+            </div>
+            <span className="text-[10px] font-bold text-[#6D6D6D] uppercase tracking-wider">
+              As Seen On TikTok & Instagram
             </span>
           </div>
         </motion.div>
@@ -212,29 +209,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           </button>
         </div>
 
-        {/* Honest status bar (was a fake rating). The "CAD-verified, built
-            from scratch" claim already gets proven twice further down the
-            page (Engineering Proof panel, builder quote) — this slot's job
-            is the hook, not a third repeat of the same trust line.
-            Mobile keeps the plain "First run" line. Desktop swaps it for a
-            "seen on TikTok/IG" badge — the countdown pill above already
-            carries the date, so repeating it here read as dead space next
-            to the sticker/countdown/CTA stack. */}
+        {/* Mobile-only status bar showing the launch date */}
         <div className="hero-status lg:hidden clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
             <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
           </div>
-        </div>
-
-        <div className="hero-status hidden lg:inline-flex clay clay-cream items-center gap-2.5 px-5 py-3">
-          <span className="text-xs font-black uppercase tracking-wider text-[#2D2D2D]">
-            Viral Product!
-          </span>
-          <span className="text-[11px] font-bold text-[#6D6D6D]">as seen on</span>
-          <span className="flex items-center gap-1.5">
-            <TikTokIcon className="w-4 h-4 text-[#2D2D2D]" />
-            <Instagram className="w-4 h-4 text-[#D94F4F]" />
-          </span>
         </div>
       </div>
     </section>
