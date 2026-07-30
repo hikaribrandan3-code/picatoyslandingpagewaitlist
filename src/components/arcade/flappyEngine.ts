@@ -64,6 +64,15 @@ export const PIPE = {
    * is reachable but reads as unfair.
    */
   maxStep: 110,
+  /**
+   * The first `easePipes` pipes of a run get a wider gap than PIPE.gap,
+   * tapering linearly down to it. A brand-new player is still learning what
+   * a flap does on pipe one — full difficulty from the first obstacle reads
+   * as unfair rather than hard. By easePipes it's indistinguishable from the
+   * steady-state game.
+   */
+  easePipes: 4,
+  easeExtra: 26,
 } as const;
 
 export type Phase = 'cover' | 'playing' | 'dying' | 'over';
@@ -73,6 +82,8 @@ export interface Pipe {
   x: number;
   /** Top of the gap. */
   gapY: number;
+  /** This pipe's own gap height — see PIPE.easePipes for why it varies. */
+  gap: number;
   scored: boolean;
 }
 
@@ -99,6 +110,8 @@ export interface GameState {
   shake: number;
   /** Seeded RNG state, so a run is reproducible from its seed. */
   seed: number;
+  /** Pipes spawned since the last start() — drives the opening-gap ease. */
+  spawnCount: number;
 }
 
 /** The penguin rests here on the cover screen, and starts here on a run. */
@@ -127,12 +140,20 @@ export function createState(best = 0, seed = (Math.random() * 2 ** 32) >>> 0): G
     sinceFlap: 999,
     shake: 0,
     seed: seed >>> 0,
+    spawnCount: 0,
   };
 }
 
-/** Legal range for a gap top, given the margins. */
-function gapBounds() {
-  return { lo: PIPE.margin, hi: PLAY_H - PIPE.gap - PIPE.margin };
+/** This spawn's gap height — PIPE.gap for a seasoned run, wider near pipe 1. */
+function easedGap(spawnIndex: number): number {
+  if (spawnIndex >= PIPE.easePipes) return PIPE.gap;
+  const t = spawnIndex / PIPE.easePipes;
+  return Math.round(PIPE.gap + PIPE.easeExtra * (1 - t));
+}
+
+/** Legal range for a gap top, given the margins and this pipe's own gap. */
+function gapBounds(gap: number) {
+  return { lo: PIPE.margin, hi: PLAY_H - gap - PIPE.margin };
 }
 
 /**
@@ -140,12 +161,13 @@ function gapBounds() {
  * the run always has a reachable line through it.
  */
 function spawnPipe(s: GameState, x: number): Pipe {
-  const { lo, hi } = gapBounds();
-  const prev = s.pipes.length ? s.pipes[s.pipes.length - 1].gapY : START_Y - PIPE.gap / 2;
+  const gap = easedGap(s.spawnCount++);
+  const { lo, hi } = gapBounds(gap);
+  const prev = s.pipes.length ? s.pipes[s.pipes.length - 1].gapY : START_Y - gap / 2;
   const lo2 = Math.max(lo, prev - PIPE.maxStep);
   const hi2 = Math.min(hi, prev + PIPE.maxStep);
   const gapY = Math.round(lo2 + nextRandom(s) * (hi2 - lo2));
-  return { x, gapY, scored: false };
+  return { x, gapY, gap, scored: false };
 }
 
 /** Begin a run from the cover screen (or after a game over). */
@@ -159,6 +181,7 @@ export function start(s: GameState): void {
   s.pipes = [];
   s.sinceFlap = 0;
   s.shake = 0;
+  s.spawnCount = 0;
   // Seed the field far enough right that the player gets a beat to react.
   for (let i = 0; i < 3; i++) {
     s.pipes.push(spawnPipe(s, VIEW.w + 60 + i * PIPE.spacing));
@@ -188,8 +211,8 @@ export function hitTest(s: GameState): boolean {
 
   for (const p of s.pipes) {
     if (b.right <= p.x || b.left >= p.x + PIPE.w) continue;
-    // Inside the column horizontally — clear only through the gap.
-    if (b.top < p.gapY || b.bottom > p.gapY + PIPE.gap) return true;
+    // Inside the column horizontally — clear only through this pipe's own gap.
+    if (b.top < p.gapY || b.bottom > p.gapY + p.gap) return true;
   }
   return false;
 }

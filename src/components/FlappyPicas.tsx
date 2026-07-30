@@ -253,9 +253,6 @@ function FlappyGame() {
               <h3 className="mt-2 text-3xl font-black uppercase leading-none tracking-tight text-white drop-shadow-[0_3px_0_#131C33]">
                 Flappy<br />Picas
               </h3>
-              <p className="mt-2 text-[11px] font-bold uppercase tracking-widest text-white/80">
-                Tap to flap · mind the pipes
-              </p>
               {hud.best > 0 && (
                 <p className="mt-1 text-[11px] font-black uppercase tracking-wider text-[#FFD93D]">
                   Best {hud.best}
@@ -385,18 +382,30 @@ export const FlappyPicas: React.FC = () => {
   return (
     <section
       id="arcade"
-      className="relative overflow-hidden border-y-[3px] border-[#E3CDB0] bg-[#FFF4E4] px-4 py-12"
+      className="relative overflow-hidden border-y-[3px] border-[#E3CDB0] bg-[#FFF4E4] px-4 py-8"
     >
       <div className="mx-auto max-w-md text-center">
-        <div className="clay clay-yellow clay-sm clay-tilt-l mb-3 inline-flex items-center gap-2 px-3.5 py-1 text-[10px] font-black uppercase tracking-widest">
-          <Gamepad2 className="h-3.5 w-3.5" />
-          Pica Arcade
+        {/* Big rainbow pill, same letter-by-letter treatment as the header
+            wordmark, standing in for the section title — it carries the
+            branding on its own so the copy underneath can stay to one line. */}
+        <div className="clay clay-cream clay-lg clay-tilt-l mb-3 inline-flex items-center gap-2 px-5 py-2.5">
+          <Gamepad2 className="h-5 w-5 text-[#FF6B6B]" />
+          <span className="text-lg font-black uppercase tracking-tight toys-r-us-text">
+            <span className="rainbow-p">P</span>
+            <span className="rainbow-i">I</span>
+            <span className="rainbow-c">C</span>
+            <span className="rainbow-a">A</span>
+            <span> </span>
+            <span className="rainbow-t">A</span>
+            <span className="rainbow-o">R</span>
+            <span className="rainbow-y">C</span>
+            <span className="rainbow-s">A</span>
+            <span className="rainbow-p">D</span>
+            <span className="rainbow-i">E</span>
+          </span>
         </div>
-        <h2 className="mb-2 text-3xl font-black uppercase tracking-tight text-[#2D2D2D]">
-          Flappy Picas
-        </h2>
-        <p className="mx-auto mb-6 max-w-xs text-sm font-medium text-[#6D6D6D]">
-          One tap, one penguin, no mercy. Beat your best while you wait for the first batch.
+        <p className="mx-auto mb-4 max-w-xs text-sm font-medium text-[#6D6D6D]">
+          While you wait for the first batch.
         </p>
 
         <FlappyGame />

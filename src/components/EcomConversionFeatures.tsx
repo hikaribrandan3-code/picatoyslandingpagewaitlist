@@ -22,7 +22,9 @@ function getCountdown() {
 
 export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitlist }) => {
   const [timeLeft, setTimeLeft] = useState(getCountdown);
-  const [openFaq, setOpenFaq] = useState<string>('faq-1');
+  // Starts fully collapsed — a pre-opened first answer adds height to a
+  // section whose whole point is to not be a full scroll.
+  const [openFaq, setOpenFaq] = useState<string>('');
 
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(getCountdown()), 1000);

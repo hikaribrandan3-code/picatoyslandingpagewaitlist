@@ -34,10 +34,6 @@ export const ENGINEERING_PROOF = [
     title: 'Caps cant vibrate loose',
     detail: 'Thread is self-locking at every friction case we checked, so play cant shake a cap open.',
   },
-  {
-    title: 'Balanced within 6.6%',
-    detail: 'The grinder and storage halves hold different mass by design — tuned close enough that it doesnt wobble on the string.',
-  },
 ];
 
 // Color preference — nothing is in production yet. This just captures what

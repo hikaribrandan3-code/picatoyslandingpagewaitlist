@@ -6,7 +6,6 @@ import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { WaitlistForm } from './components/WaitlistForm';
-import { StickyMobileBar } from './components/StickyMobileBar';
 import { VipTicketModal } from './components/VipTicketModal';
 import { Footer } from './components/Footer';
 import { COLOR_OPTIONS } from './data';
@@ -93,8 +92,6 @@ export default function App() {
       <Footer playSound={playSoundEffect} />
 
       <VipTicketModal ticket={vipTicket} onClose={() => setVipTicket(null)} playSound={playSoundEffect} />
-
-      <StickyMobileBar onOpenWaitlist={handleOpenWaitlist} playSound={playSoundEffect} />
     </div>
   );
 }

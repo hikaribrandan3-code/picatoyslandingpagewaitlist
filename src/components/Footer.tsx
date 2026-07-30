@@ -16,16 +16,22 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
   };
 
   return (
-    <footer className="bg-[#FFF9F2] border-t-[3px] border-[#E3CDB0] text-[#2D2D2D] pb-20 md:pb-8">
+    <footer className="bg-[#FFF9F2] border-t-[3px] border-[#E3CDB0] text-[#2D2D2D] pb-8">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Brand Info */}
+        {/* Brand Info — same rainbow letter-by-letter wordmark as the header,
+            no separate logo mark. */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="clay clay-coral clay-sm clay-tilt-l w-9 h-9 flex items-center justify-center font-black text-xl">
-              P
-            </div>
-            <span className="text-2xl font-black text-[#2D2D2D] uppercase tracking-tight">PICA TOYS</span>
-          </div>
+          <span className="text-2xl font-black uppercase tracking-tight leading-none toys-r-us-text">
+            <span className="rainbow-p">P</span>
+            <span className="rainbow-i">I</span>
+            <span className="rainbow-c">C</span>
+            <span className="rainbow-a">A</span>
+            <span> </span>
+            <span className="rainbow-t">T</span>
+            <span className="rainbow-o">O</span>
+            <span className="rainbow-y">Y</span>
+            <span className="rainbow-s">S</span>
+          </span>
           <p className="text-xs font-black uppercase text-[#2D2D2D] tracking-wide">© 2026 Pica Toys</p>
           <p className="text-xs font-medium text-[#6D6D6D] max-w-xs">
             Designed for trickers, creators, and collectors worldwide. Ages 18+.

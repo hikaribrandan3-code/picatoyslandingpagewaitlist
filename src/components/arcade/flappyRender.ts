@@ -141,7 +141,7 @@ function drawPipes(ctx: CanvasRenderingContext2D, s: GameState) {
     drawPipeColumn(ctx, p.x, 0, p.gapY - PIPE.capH);
     drawPipeCap(ctx, p.x, p.gapY - PIPE.capH);
     // Lower column starts with its cap and runs to the ground.
-    const lowTop = p.gapY + PIPE.gap;
+    const lowTop = p.gapY + p.gap;
     drawPipeCap(ctx, p.x, lowTop);
     drawPipeColumn(ctx, p.x, lowTop + PIPE.capH, PLAY_H - lowTop - PIPE.capH);
   }
