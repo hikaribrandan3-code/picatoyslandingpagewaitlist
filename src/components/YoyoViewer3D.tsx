@@ -366,7 +366,7 @@ export default function YoyoViewer3D({ colorId = 'clear' }: { colorId?: string }
   return (
     <div className="relative w-full">
       <div className="clay-well clay-cream relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="h-[420px] w-full">
+        <div className="h-[320px] w-full">
           <Canvas
             dpr={[1, 1.75]}
             shadows

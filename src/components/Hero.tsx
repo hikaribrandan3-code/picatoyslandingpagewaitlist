@@ -1,7 +1,6 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, ShieldCheck } from 'lucide-react';
-import { HERO_PRODUCT_IMAGE } from '../data';
+import { Sparkles } from 'lucide-react';
 
 const MOBILE_SLIDES = [
   { src: '/yoyo-hero-box.jpg',  alt: 'PicaYoyo product box — a yoyo grinder' },
@@ -109,7 +108,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
   const desktop = useDesktop();
 
   return (
-    <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center text-center overflow-hidden relative border-b-[3px] border-[#248383]">
+    <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 lg:py-10 flex flex-col items-center text-center overflow-hidden relative border-b-[3px] border-[#248383]">
       {/* Rolled-clay offcuts in the background. Uneven radii + blur so they
           read as scraps left on the bench, not as geometric blobs. */}
       <div className="absolute top-10 left-[-60px] w-64 h-64 bg-[#FFD93D] rounded-[70%_30%_58%_42%/45%_62%_38%_55%] rotate-12 opacity-30 -z-10 blur-xl pointer-events-none" />
@@ -156,19 +155,6 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             ) : (
               <MobileCarousel />
             )}
-
-            {/* Image Interactive Bar */}
-            <div className="mt-3.5 pt-3 border-t-[3px] border-[#E3CDB0] flex items-center justify-between text-xs font-bold text-[#6D6D6D]">
-              <div className="flex items-center gap-1.5 text-[#2B62D9]">
-                <ShieldCheck className="w-4 h-4" />
-                <span>3D-Printed PETG</span>
-              </div>
-              {desktop && (
-                <span className="text-[11px] font-black uppercase tracking-wider text-[#6D6D6D]">
-                  Real CAD geometry
-                </span>
-              )}
-            </div>
           </div>
         </div>
 
