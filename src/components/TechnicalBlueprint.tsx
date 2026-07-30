@@ -9,12 +9,12 @@ interface Props {
 const IMAGES = [
   {
     src: EXPLODED_IMAGE,
-    alt: 'The four printed PicaYoyo parts laid out with the steel bearing and shoulder screw between them',
+    alt: 'The four printed Pica Yoyo parts laid out with the steel bearing and shoulder screw between them',
     label: 'The Real Parts',
   },
   {
     src: BLUEPRINT_IMAGE,
-    alt: 'Technical drawing of the PicaYoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism',
+    alt: 'Technical drawing of the Pica Yoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism',
     label: 'How It Works',
   },
 ];

@@ -1,14 +1,22 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Instagram } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
 
+/** Lucide has no TikTok mark, so this is a hand-drawn equivalent kept in
+ * the same stroke/style family as the imported lucide icons around it. */
+const TikTokIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M16.6 5.82c-.9-.8-1.46-1.94-1.56-3.2h-3.09v13.44a2.6 2.6 0 1 1-1.84-2.49v-3.14a5.87 5.87 0 0 0-.76-.05 5.83 5.83 0 1 0 5.83 5.83V9.4a7.35 7.35 0 0 0 4.3 1.38V7.68a4.28 4.28 0 0 1-2.88-1.86z" />
+  </svg>
+);
+
 const MOBILE_SLIDES = [
-  { src: '/yoyo-hero-box.jpg',  alt: 'PicaYoyo product box — a yoyo grinder' },
-  { src: '/yoyo-clear.jpg',     alt: 'Clear PicaYoyo with Pica Toys logo' },
-  { src: '/yoyo-yellow.jpg',    alt: 'Yellow PicaYoyo' },
-  { src: '/yoyo-stacked.jpg',   alt: 'All PicaYoyo colors stacked' },
-  { src: '/yoyo-green.jpg',     alt: 'Green PicaYoyo' },
+  { src: '/yoyo-hero-box.jpg',  alt: 'Pica Yoyo product box — a yoyo grinder' },
+  { src: '/yoyo-clear.jpg',     alt: 'Clear Pica Yoyo with Pica Toys logo' },
+  { src: '/yoyo-yellow.jpg',    alt: 'Yellow Pica Yoyo' },
+  { src: '/yoyo-stacked.jpg',   alt: 'All Pica Yoyo colors stacked' },
+  { src: '/yoyo-green.jpg',     alt: 'Green Pica Yoyo' },
 ];
 
 /* The 3D viewer pulls in three.js, so it is code-split AND gated on a
@@ -124,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           areas reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
         {/* Product Descriptor & Tagline. Mobile keeps the original single-line
-            title untouched. Desktop (lg:) gets a bigger standalone "PicaYoyo"
+            title untouched. Desktop (lg:) gets a bigger standalone "Pica Yoyo"
             wordmark, a diagonal drop-sticker badge, and a real countdown pill
             (useCountdown — same LAUNCH_TARGET as the countdown section further
             down the page, so the two never disagree). */}
@@ -139,19 +147,27 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           </span>
 
           <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
-            PicaYoyo | 3D-Printed Yoyo Grinder
+            Pica Yoyo | 3D-Printed Yoyo Grinder
           </h2>
 
           <h2 className="hidden lg:block text-6xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none mb-2">
-            PicaYoyo
+            Pica Yoyo
           </h2>
           <p className="hidden lg:block text-xl font-bold text-[#2D2D2D] normal-case mb-4">
             3D-Printed Yoyo Grinder
           </p>
 
-          <div className="hidden lg:inline-flex clay clay-ink clay-sm items-center px-5 py-2.5 mb-2">
-            <span className="text-sm font-black uppercase tracking-wider text-white">
-              <span className="text-[#FFD93D]">{timeLeft.days}</span> Days to First Drop
+          {/* Digital/LED-style readout: monospace tabular digits with a glow,
+              on the dark clay-ink fill, instead of a plain text pill. */}
+          <div className="hidden lg:inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5 mb-2">
+            <span
+              className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
+              style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
+            >
+              {String(timeLeft.days).padStart(2, '0')}
+            </span>
+            <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
+              Days to<br />First Drop
             </span>
           </div>
         </motion.div>
@@ -199,11 +215,26 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         {/* Honest status bar (was a fake rating). The "CAD-verified, built
             from scratch" claim already gets proven twice further down the
             page (Engineering Proof panel, builder quote) — this slot's job
-            is the hook, not a third repeat of the same trust line. */}
-        <div className="hero-status clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
+            is the hook, not a third repeat of the same trust line.
+            Mobile keeps the plain "First run" line. Desktop swaps it for a
+            "seen on TikTok/IG" badge — the countdown pill above already
+            carries the date, so repeating it here read as dead space next
+            to the sticker/countdown/CTA stack. */}
+        <div className="hero-status lg:hidden clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
             <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
           </div>
+        </div>
+
+        <div className="hero-status hidden lg:inline-flex clay clay-cream items-center gap-2.5 px-5 py-3">
+          <span className="text-xs font-black uppercase tracking-wider text-[#2D2D2D]">
+            Viral Product!
+          </span>
+          <span className="text-[11px] font-bold text-[#6D6D6D]">as seen on</span>
+          <span className="flex items-center gap-1.5">
+            <TikTokIcon className="w-4 h-4 text-[#2D2D2D]" />
+            <Instagram className="w-4 h-4 text-[#D94F4F]" />
+          </span>
         </div>
       </div>
     </section>

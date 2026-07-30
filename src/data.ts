@@ -48,7 +48,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
 export const FAQ_ITEMS: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'What makes PicaYoyo "the yoyo with a twist"?',
+    question: 'What makes Pica Yoyo "the yoyo with a twist"?',
     answer: 'Both ends of the body unscrew. One half is a sealed chamber built around interleaved grinding teeth; the other is separate sealed storage. A 608 bearing rides an open string gap between them, so the yoyo itself works exactly like a normal throw.',
     category: 'Grinder Mechanism',
   },
@@ -72,7 +72,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: 'faq-6',
-    question: 'What does the PicaYoyo actually grind?',
+    question: 'What does the Pica Yoyo actually grind?',
     answer: 'Herbs and spices. You know, like dried oregano, thyme, or crushed red pepper. Why, what else would you put in a 3D-printed pocket yo-yo?',
     category: 'General',
   },

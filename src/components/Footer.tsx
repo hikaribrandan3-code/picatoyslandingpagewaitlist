@@ -65,7 +65,7 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
           </button>
 
           <p className="text-[10px] font-bold text-[#6D6D6D]">
-            PicaYoyo is an independent, self-funded project. Not yet for sale.
+            Pica Yoyo is an independent, self-funded project. Not yet for sale.
           </p>
         </div>
       </div>
