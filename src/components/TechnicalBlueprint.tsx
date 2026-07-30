@@ -56,47 +56,61 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
         </p>
 
         <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative text-left">
-          {/* Image Carousel — real photo first, arrow reveals the blueprint */}
-          <div className="clay-well clay-cream relative overflow-hidden mb-3 p-2">
+          {/* Mobile: real photo only, static, no toggle — the blueprint
+              schematic appears further down (after the spec table, right
+              before the feature grid) instead of behind a carousel here.
+              Desktop keeps the full carousel below, unchanged. */}
+          <div className="lg:hidden clay-well clay-cream relative overflow-hidden mb-6 p-2">
             <img
-              key={image.src}
-              src={image.src}
-              alt={image.alt}
+              src={IMAGES[0].src}
+              alt={IMAGES[0].alt}
               className="w-full h-auto max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
             />
-
-            <button
-              onClick={prevImage}
-              aria-label="Previous image"
-              className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={nextImage}
-              aria-label="Next image"
-              className="clay clay-cream clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
           </div>
 
-          {/* Caption + dots, centered under the frame */}
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <span className="text-[11px] font-black uppercase tracking-widest text-[#6D6D6D]">
-              {image.label}
-            </span>
-            <div className="flex items-center gap-1.5">
-              {IMAGES.map((img, i) => (
-                <button
-                  key={img.src}
-                  onClick={() => { playSound(); setImgIndex(i); }}
-                  aria-label={`Show ${img.label}`}
-                  className={`h-2 rounded-full transition-all ${
-                    i === imgIndex ? 'w-5 bg-[#FF6B6B]' : 'w-2 bg-[#E3CDB0]'
-                  }`}
-                />
-              ))}
+          {/* Desktop: Image Carousel — real photo first, arrow reveals the blueprint */}
+          <div className="hidden lg:block">
+            <div className="clay-well clay-cream relative overflow-hidden mb-3 p-2">
+              <img
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-auto max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
+              />
+
+              <button
+                onClick={prevImage}
+                aria-label="Previous image"
+                className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={nextImage}
+                aria-label="Next image"
+                className="clay clay-cream clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Caption + dots, centered under the frame */}
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="text-[11px] font-black uppercase tracking-widest text-[#6D6D6D]">
+                {image.label}
+              </span>
+              <div className="flex items-center gap-1.5">
+                {IMAGES.map((img, i) => (
+                  <button
+                    key={img.src}
+                    onClick={() => { playSound(); setImgIndex(i); }}
+                    aria-label={`Show ${img.label}`}
+                    className={`h-2 rounded-full transition-all ${
+                      i === imgIndex ? 'w-5 bg-[#FF6B6B]' : 'w-2 bg-[#E3CDB0]'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -123,6 +137,21 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
                 </div>
               ))}
             </dl>
+          </div>
+
+          {/* Mobile: blueprint schematic lands here — after the numbers,
+              right before the feature grid starts with 3D-Printed PETG. */}
+          <div className="lg:hidden mt-6">
+            <div className="clay-well clay-cream relative overflow-hidden p-2">
+              <img
+                src={IMAGES[1].src}
+                alt={IMAGES[1].alt}
+                className="w-full h-auto object-contain rounded-[20px_15px_22px_17px]"
+              />
+            </div>
+            <p className="text-center text-[11px] font-black uppercase tracking-widest text-[#6D6D6D] mt-2">
+              {IMAGES[1].label}
+            </p>
           </div>
 
           {/* Engineering Proof — desktop only. On a phone this is the third

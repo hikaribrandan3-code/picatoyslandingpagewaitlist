@@ -385,16 +385,16 @@ export const FlappyPicas: React.FC = () => {
       className="relative overflow-hidden border-y-[3px] border-[#E3CDB0] bg-[#FFF4E4] px-4 py-8"
     >
       <div className="mx-auto max-w-md text-center">
-        {/* Rainbow title bar, same letter-by-letter treatment as the header
-            wordmark, standing in for the section title — it carries the
-            branding on its own so the copy underneath can stay to one line.
-            Wide and flat rather than a tilted pill: this is meant to read as
-            a title, not a badge. Letter-spacing is pushed hard (tracking-wide
-            is only 0.025em — barely visible on 11 characters); the bar's own
-            height stays the same, only the horizontal spread changes. */}
-        <div className="clay clay-cream clay-lg mb-3 flex w-full items-center justify-center gap-2 px-3 py-3.5">
-          <Gamepad2 className="h-5 w-5 shrink-0 text-[#FF6B6B]" />
-          <span className="text-xl sm:text-2xl font-black uppercase tracking-[0.14em] toys-r-us-text whitespace-nowrap">
+        {/* Rainbow title, same letter-by-letter treatment as the header
+            wordmark, standing in for the section title. No clay pill/card
+            around it — sits directly on the section background, bigger and
+            bolder than the pill version was. Sized to still fit a 360px-wide
+            phone at the mobile size (text-3xl) without clipping against the
+            section's overflow-hidden edge; the sm: bump only matters on
+            wider portrait tablets, where the container has more room. */}
+        <div className="mb-3 flex w-full items-center justify-center gap-2">
+          <Gamepad2 className="h-7 w-7 sm:h-9 sm:w-9 shrink-0 text-[#FF6B6B]" />
+          <span className="text-3xl sm:text-4xl font-black uppercase tracking-[0.14em] toys-r-us-text whitespace-nowrap">
             <span className="rainbow-p">P</span>
             <span className="rainbow-i">I</span>
             <span className="rainbow-c">C</span>

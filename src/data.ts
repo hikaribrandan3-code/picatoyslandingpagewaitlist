@@ -53,12 +53,6 @@ export const FAQ_ITEMS: FAQItem[] = [
     category: 'Grinder Mechanism',
   },
   {
-    id: 'faq-2',
-    question: 'Is PicaYoyo responsive or unresponsive?',
-    answer: 'The first run is a responsive build — easier to learn on, and it keeps the design simple while we validate the mechanism in the real world. An unresponsive version (larger bearing, reworked response system) is on the roadmap once the first run ships.',
-    category: 'Specs',
-  },
-  {
     id: 'faq-3',
     question: 'What is it made of?',
     answer: 'PETG, 3D printed in-house. We chose PETG over PLA because it holds up better to impact on a thrown toy. Nothing here is CNC-machined or metal except the bearing, axle screw, and nut.',
