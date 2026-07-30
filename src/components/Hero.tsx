@@ -17,24 +17,28 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
       <div className="absolute bottom-10 right-[-60px] w-72 h-72 bg-[#4D96FF] rounded-[38%_62%_45%_55%/60%_42%_58%_40%] -rotate-6 opacity-20 -z-10 blur-2xl pointer-events-none" />
       <div className="absolute top-1/3 right-[8%] w-24 h-24 bg-[#6BCB77] rounded-[62%_38%_50%_50%/48%_58%_42%_52%] rotate-[18deg] opacity-20 -z-10 blur-lg pointer-events-none hidden lg:block" />
 
-      {/* Visual Product Hero — Image First. Straight from header into the
-          product; waitlist messaging already lives in the sticky footer
-          bar, so a redundant badge up here was just noise before the hero
-          even loaded. */}
-      <div className="relative w-full max-w-sm sm:max-w-md mt-2 mb-8 group">
+      {/* Product Descriptor & Tagline — above the image */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-center mb-6"
+      >
+        <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
+          3D Printed Yo-Yo Grinder
+        </h2>
+        <p className="text-lg sm:text-2xl font-black text-[#FF6B6B] tracking-tight">
+          Twist. Grind. Play.
+        </p>
+      </motion.div>
+
+      {/* Visual Product Hero — Image Below Descriptor */}
+      <div className="relative w-full max-w-sm sm:max-w-md mb-8 group">
         {/* Yellow slab behind the frame — the second layer of clay. */}
         <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
         {/* Product Box Container */}
         <div className="clay clay-cream clay-lg relative p-4 sm:p-5">
-          {/* Badge. In flow on mobile, overlaid on the frame from sm: up. */}
-          <div className="mb-3 sm:mb-0 sm:absolute sm:top-5 sm:left-5 sm:z-10">
-            <div className="clay clay-yellow clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 uppercase tracking-wider inline-flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#D94F4F] shrink-0" />
-              <span>Dual-Chamber Yoyo</span>
-            </div>
-          </div>
-
           {/* Main Showcase Image */}
           <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
             <img
@@ -53,21 +57,6 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
           </div>
         </div>
       </div>
-
-      {/* Product Descriptor & Tagline */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-center mb-10"
-      >
-        <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
-          3D Printed Yo-Yo Grinder
-        </h2>
-        <p className="text-lg sm:text-2xl font-black text-[#FF6B6B] tracking-tight">
-          Twist. Grind. Play.
-        </p>
-      </motion.div>
 
       {/* Main CTA */}
       <div className="flex items-center justify-center w-full max-w-md mb-10">
