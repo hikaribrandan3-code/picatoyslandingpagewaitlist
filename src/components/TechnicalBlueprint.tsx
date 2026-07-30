@@ -1,27 +1,18 @@
-import React, { useState } from 'react';
-import { BLUEPRINT_IMAGE } from '../data';
-import { Cpu, ShieldCheck, Wrench, RefreshCw, CheckCircle, Sparkles } from 'lucide-react';
+import React from 'react';
+import { BLUEPRINT_IMAGE, COLOR_OPTIONS, SPECS } from '../data';
+import { Layers, RefreshCw, CircleDot, ShieldCheck } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
-  selectedColorCore: string;
-  setSelectedColorCore: (color: string) => void;
+  selectedColorId: string;
+  setSelectedColorId: (id: string) => void;
 }
 
 export const TechnicalBlueprint: React.FC<Props> = ({
   playSound,
-  selectedColorCore,
-  setSelectedColorCore,
+  selectedColorId,
+  setSelectedColorId,
 }) => {
-  const [activeTab, setActiveTab] = useState<'blueprint' | 'specs' | 'materials'>('blueprint');
-
-  const coreOptions = [
-    { name: 'Sky Blue Core', color: '#4577b9', code: 'sky-blue' },
-    { name: 'Green Accents', color: '#7bb85c', code: 'green' },
-    { name: 'Solar Gold', color: '#f9d74a', code: 'solar' },
-    { name: 'Hot Coral', color: '#e54d30', code: 'coral' },
-  ];
-
   return (
     <section id="blueprint" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
@@ -35,20 +26,20 @@ export const TechnicalBlueprint: React.FC<Props> = ({
 
         {/* Blueprint Viewer Card */}
         <div className="border border-[#F0E6D9] rounded-3xl p-5 sm:p-8 bg-white shadow-xl mb-8 relative overflow-hidden">
-          {/* CAD Schematic Header */}
+          {/* Header */}
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#F0E6D9] flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#FF6B6B]" />
               <span className="w-3 h-3 rounded-full bg-[#FFD93D]" />
               <span className="w-3 h-3 rounded-full bg-[#6BCB77]" />
               <span className="text-xs font-black uppercase text-[#2D2D2D] ml-2">
-                CAD SCHEMATIC REV 3.4 — REVERSE ENGINEERED DESIGN
+                Reverse-engineered from scratch
               </span>
             </div>
 
             <div className="flex items-center gap-1 bg-[#FFF9F2] px-3 py-1 rounded-full border border-[#F0E6D9] text-[11px] font-bold text-[#FF6B6B]">
-              <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
-              <span>Micron Tolerances</span>
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Computed, not estimated</span>
             </div>
           </div>
 
@@ -56,100 +47,105 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           <div className="relative rounded-2xl border border-[#F0E6D9] bg-[#FFF9F2] p-3 overflow-hidden mb-6">
             <img
               src={BLUEPRINT_IMAGE}
-              alt="PicaYoyo Blueprint"
+              alt="Technical drawing of the PicaYoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism"
               className="w-full h-auto object-contain rounded-xl"
             />
-
-            {/* Custom Overlay Core Indicator Badge */}
-            <div className="absolute bottom-5 right-5 bg-[#2D2D2D] text-white text-xs font-black px-3.5 py-2 rounded-xl border border-white/20 flex items-center gap-2 shadow-lg">
-              <span
-                className="w-3.5 h-3.5 rounded-full border border-white animate-pulse"
-                style={{ backgroundColor: selectedColorCore }}
-              />
-              <span className="uppercase tracking-wider">Active Core Preview</span>
-            </div>
           </div>
 
-          {/* Core Color Selectors */}
+          {/* Spec Table */}
+          <div className="bg-[#FFF9F2] border border-[#F0E6D9] rounded-2xl p-4 mb-4 text-left">
+            <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-3">
+              The Numbers
+            </label>
+            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2.5">
+              {SPECS.map((s) => (
+                <div key={s.label} className="flex flex-col">
+                  <dt className="text-[10px] font-bold uppercase tracking-wider text-[#6D6D6D]">{s.label}</dt>
+                  <dd className="text-xs font-black text-[#2D2D2D]">{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* Color Preference Vote */}
           <div className="bg-[#FFF9F2] border border-[#F0E6D9] rounded-2xl p-4">
             <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-2 text-left">
-              Select Chassis & Grinder Core Option:
+              Vote: which color should we print first?
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              {coreOptions.map((opt) => (
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+              {COLOR_OPTIONS.map((opt) => (
                 <button
-                  key={opt.code}
+                  key={opt.id}
                   onClick={() => {
                     playSound();
-                    setSelectedColorCore(opt.color);
+                    setSelectedColorId(opt.id);
                   }}
                   className={`flex items-center gap-2.5 p-2.5 rounded-xl border transition-all cursor-pointer text-left ${
-                    selectedColorCore === opt.color
+                    selectedColorId === opt.id
                       ? 'bg-[#FF6B6B] text-white border-[#E05252] shadow-[0_4px_0_#E05252] font-black'
                       : 'bg-white text-[#2D2D2D] border-[#F0E6D9] hover:bg-[#FFEEAD] font-bold'
                   }`}
                 >
                   <span
                     className="w-5 h-5 rounded-full border border-black/20 shrink-0"
-                    style={{ backgroundColor: opt.color }}
+                    style={{ backgroundColor: opt.swatch }}
                   />
                   <span className="text-xs truncate">{opt.name}</span>
                 </button>
               ))}
             </div>
+            <p className="text-[10px] text-[#6D6D6D] font-bold mt-2.5 text-left">
+              Your pick carries through to the waitlist form below — that's how we decide what to print first.
+            </p>
           </div>
         </div>
 
-        {/* Feature Component Breakdown Grid */}
+        {/* Feature Component Breakdown Grid — accurate to the real build */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-          {/* Card 1 */}
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FF6B6B] shadow-md hover:translate-y-[-2px] transition-transform">
             <div className="shrink-0 w-12 h-12 bg-[#FF6B6B] text-white flex items-center justify-center rounded-2xl shadow-sm">
-              <Wrench className="w-6 h-6" />
+              <Layers className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-extrabold text-lg text-[#FF6B6B] mb-1">Precision CNC</h4>
+              <h4 className="font-extrabold text-lg text-[#FF6B6B] mb-1">3D-Printed PETG</h4>
               <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Machined to micron tolerances for zero wobble during high-speed rotation up to 10,000 RPM.
+                FDM printed, 0.2mm layers, 30–40% infill. PETG over PLA for impact resistance on a thrown toy.
               </p>
             </div>
           </div>
 
-          {/* Card 2 */}
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FFD93D] shadow-md hover:translate-y-[-2px] transition-transform">
             <div className="shrink-0 w-12 h-12 bg-[#FFD93D] text-[#2D2D2D] flex items-center justify-center rounded-2xl shadow-sm">
               <RefreshCw className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-extrabold text-lg text-[#2D2D2D] mb-1">Dual-Part Twist Mechanism</h4>
+              <h4 className="font-extrabold text-lg text-[#2D2D2D] mb-1">Twist-to-Grind Core</h4>
               <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Manual twist-to-grind core seamlessly integrated into the center hub without affecting spin dynamics.
+                Both caps unscrew in 0.75 turns. The thread is self-locking, so play can't shake a cap open mid-throw.
               </p>
             </div>
           </div>
 
-          {/* Card 3 */}
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#6BCB77] shadow-md hover:translate-y-[-2px] transition-transform">
             <div className="shrink-0 w-12 h-12 bg-[#6BCB77] text-white flex items-center justify-center rounded-2xl shadow-sm">
-              <Cpu className="w-6 h-6" />
+              <CircleDot className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-extrabold text-lg text-[#6BCB77] mb-1">10-Ball Ceramic Bearing</h4>
+              <h4 className="font-extrabold text-lg text-[#6BCB77] mb-1">608 Steel Bearing</h4>
               <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Unresponsive C-size concave ceramic bearing designed for friction-free string maneuvers.
+                Standard 608 (8/22/7mm). Responsive build for this first run — an unresponsive version is on the roadmap.
               </p>
             </div>
           </div>
 
-          {/* Card 4 */}
           <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#4D96FF] shadow-md hover:translate-y-[-2px] transition-transform">
             <div className="shrink-0 w-12 h-12 bg-[#4D96FF] text-white flex items-center justify-center rounded-2xl shadow-sm">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-extrabold text-lg text-[#4D96FF] mb-1">Aviation 6061 Hybrid</h4>
+              <h4 className="font-extrabold text-lg text-[#4D96FF] mb-1">Sealed Two Ways</h4>
               <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Aircraft-grade aluminum outer weight rim with impact-resistant polycarbonate center shell.
+                Grinder chamber and storage cavity are each fully sealed from the open string gap between them.
               </p>
             </div>
           </div>

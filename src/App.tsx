@@ -3,20 +3,17 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductInteractiveViewer } from './components/ProductInteractiveViewer';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
-import { SecondActMysteryBox } from './components/SecondActMysteryBox';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { WaitlistForm } from './components/WaitlistForm';
-import { PreOrderDrawer } from './components/PreOrderDrawer';
 import { StickyMobileBar } from './components/StickyMobileBar';
 import { VipTicketModal } from './components/VipTicketModal';
 import { Footer } from './components/Footer';
+import { COLOR_OPTIONS } from './data';
 import { VipTicket } from './types';
 
 export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(1);
-  const [selectedColorCore, setSelectedColorCore] = useState('#4577b9');
+  const [selectedColorId, setSelectedColorId] = useState(COLOR_OPTIONS[0].id);
   const [vipTicket, setVipTicket] = useState<VipTicket | null>(null);
 
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API
@@ -51,82 +48,44 @@ export default function App() {
     }
   };
 
-  const handleOpenCart = () => {
-    setIsCartOpen(true);
-  };
-
   return (
     <div className="min-h-screen bg-[#FFF9F2] text-[#2D2D2D] flex flex-col font-sans selection:bg-[#FF6B6B] selection:text-white">
-      {/* Header */}
       <Header
         onOpenWaitlist={handleOpenWaitlist}
-        onOpenCart={handleOpenCart}
-        cartCount={cartCount}
         soundEnabled={soundEnabled}
         setSoundEnabled={setSoundEnabled}
       />
 
-      {/* Main Content Sections */}
       <main className="flex-1">
-        {/* 1. Hero Section */}
-        <Hero
-          onJoinWaitlist={handleOpenWaitlist}
-          onQuickPreorder={handleOpenCart}
-          playSound={playSoundEffect}
-        />
+        {/* 1. Hero */}
+        <Hero onJoinWaitlist={handleOpenWaitlist} playSound={playSoundEffect} />
 
-        {/* 2. More Than Just A Throw - Interactive Trick & Specs Section */}
-        <ProductInteractiveViewer
-          playSound={playSoundEffect}
-          onSelectEdition={handleOpenCart}
-        />
+        {/* 2. What's Inside — real engineering proof, not a fake trick simulator */}
+        <ProductInteractiveViewer playSound={playSoundEffect} />
 
-        {/* 3. Under the Hood - Technical CAD Blueprint Section */}
+        {/* 3. Under the Hood — real specs + color vote */}
         <TechnicalBlueprint
           playSound={playSoundEffect}
-          selectedColorCore={selectedColorCore}
-          setSelectedColorCore={setSelectedColorCore}
+          selectedColorId={selectedColorId}
+          setSelectedColorId={setSelectedColorId}
         />
 
-        {/* 4. The Second Act - Mystery Box Unboxing Simulator */}
-        <SecondActMysteryBox playSound={playSoundEffect} />
+        {/* 4. First-batch countdown + builder note + FAQ */}
+        <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
-        {/* 5. Ecom Conversion Boosters (Countdown, Comparison, Reviews, FAQ) */}
-        <EcomConversionFeatures
-          playSound={playSoundEffect}
-          onJoinWaitlist={handleOpenWaitlist}
-        />
-
-        {/* 6. Waitlist & VIP Ticket Generation Form */}
+        {/* 5. Waitlist form */}
         <WaitlistForm
           playSound={playSoundEffect}
+          selectedColor={selectedColorId}
           onSuccessTicket={(ticket) => setVipTicket(ticket)}
         />
       </main>
 
-      {/* Footer */}
-      <Footer onOpenCart={handleOpenCart} playSound={playSoundEffect} />
+      <Footer playSound={playSoundEffect} />
 
-      {/* Shopping Bag / Pre-Order Drawer */}
-      <PreOrderDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        playSound={playSoundEffect}
-      />
+      <VipTicketModal ticket={vipTicket} onClose={() => setVipTicket(null)} playSound={playSoundEffect} />
 
-      {/* VIP Ticket Success Modal */}
-      <VipTicketModal
-        ticket={vipTicket}
-        onClose={() => setVipTicket(null)}
-        playSound={playSoundEffect}
-      />
-
-      {/* Sticky Mobile Conversion Bar */}
-      <StickyMobileBar
-        onOpenWaitlist={handleOpenWaitlist}
-        onOpenCart={handleOpenCart}
-        playSound={playSoundEffect}
-      />
+      <StickyMobileBar onOpenWaitlist={handleOpenWaitlist} playSound={playSoundEffect} />
     </div>
   );
 }
