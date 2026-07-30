@@ -36,18 +36,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
 
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-        {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-2.5 group">
-          {/* Tilt lives in --clay-tilt, not a Tailwind rotate- utility: .clay
-              composes its own transform, so a utility would be overwritten. */}
-          <div className="clay clay-coral clay-sm clay-tilt-l w-10 h-10 flex items-center justify-center font-black text-2xl group-hover:[--clay-tilt:6deg] transition-transform">
-            P
-          </div>
+        {/* Brand Logo — wordmark only, no separate icon */}
+        <a href="#" className="flex items-center">
           <div className="flex flex-col">
             {/* Toys-R-Us style rainbow wordmark. Letters colored individually
                 via the .rainbow-* classes rather than one gradient on the
                 whole string, so each letter reads as its own solid hue. */}
-            <span className="text-xl sm:text-2xl font-black uppercase tracking-tight leading-none toys-r-us-text">
+            <span className="text-2xl sm:text-3xl font-black uppercase tracking-tight leading-none toys-r-us-text">
               <span className="rainbow-p">P</span>
               <span className="rainbow-i">I</span>
               <span className="rainbow-c">C</span>
@@ -58,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
               <span className="rainbow-y">Y</span>
               <span className="rainbow-s">S</span>
             </span>
-            <span className="text-[9px] font-bold text-[#FF6B6B] tracking-widest uppercase mt-0.5">
+            <span className="text-[8px] sm:text-[9px] font-bold text-[#FF6B6B] tracking-widest uppercase mt-0.5">
               The Yoyo With A Twist
             </span>
           </div>
