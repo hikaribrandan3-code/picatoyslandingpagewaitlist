@@ -88,7 +88,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                 Get Your Pica Yoyo
               </h2>
               <p className="text-sm text-[#6D6D6D] font-medium leading-relaxed">
-                Be the first to know when the first batch is ready. Nothing is for sale yet — this just gets you on the list.
+                Nothing's for sale yet — but the list gets first pick on color and first access when we open orders. One email, that's it.
               </p>
             </div>
 

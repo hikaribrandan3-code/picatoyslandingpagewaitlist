@@ -117,10 +117,13 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           </button>
         </div>
 
-        {/* Honest status bar (was a fake rating) */}
+        {/* Honest status bar (was a fake rating). The "CAD-verified, built
+            from scratch" claim already gets proven twice further down the
+            page (Engineering Proof panel, builder quote) — this slot's job
+            is the hook, not a third repeat of the same trust line. */}
         <div className="hero-status clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
-            Designed from scratch, fully CAD-verified. <span className="font-black text-[#FF6B6B]">First physical print coming next.</span>
+            Not a metaphor: this yoyo grinds. <span className="font-black text-[#FF6B6B]">First physical print coming next.</span>
           </div>
         </div>
       </div>

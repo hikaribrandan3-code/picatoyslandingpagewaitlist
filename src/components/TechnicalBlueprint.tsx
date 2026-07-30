@@ -106,7 +106,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
               Built From the Bearing Outward
             </h3>
             <p className="text-[#6D6D6D] text-base sm:text-lg font-medium leading-relaxed">
-              We started from a reference drawing that turned out to be impossible — its exploded view and section view described two different machines. So we threw it out and derived the whole thing from scratch, parametrically.
+              No product to copy, no reference to trace — just an idea, planned out, then modeled part by part in Fusion 360 until the whole mechanism computed clean. If it's on this page, it's because the math said so, not a guess.
             </p>
           </div>
 
