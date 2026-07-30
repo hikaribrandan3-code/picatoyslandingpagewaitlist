@@ -144,7 +144,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
             <button
               type="submit"
               disabled={isSubmitting}
-              className="clay clay-btn clay-yellow font-black text-lg py-4 px-6 uppercase tracking-tight cursor-pointer mt-2 flex items-center justify-center gap-2 w-full disabled:opacity-60"
+              className="clay clay-btn clay-green font-black text-lg py-4 px-6 uppercase tracking-tight cursor-pointer mt-2 flex items-center justify-center gap-2 w-full disabled:opacity-60 text-white"
             >
               <span>{isSubmitting ? 'Joining...' : 'JOIN THE WAITLIST'}</span>
               <ArrowRight className="w-5 h-5" />

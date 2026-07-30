@@ -250,7 +250,7 @@ function FlappyGame() {
           {phase === 'cover' && (
             <Overlay lower>
               <Badge>Pica Arcade</Badge>
-              <h3 className="mt-4 text-5xl sm:text-6xl font-black uppercase leading-none tracking-tight text-white drop-shadow-[0_3px_0_#131C33] text-center">
+              <h3 className="-mt-2 text-5xl sm:text-6xl font-black uppercase leading-none tracking-tight text-white drop-shadow-[0_3px_0_#131C33] text-center">
                 Flappy<br />Picas
               </h3>
               {hud.best > 0 && (
