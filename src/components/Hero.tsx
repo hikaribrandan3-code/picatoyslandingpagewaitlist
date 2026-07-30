@@ -17,18 +17,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
       <div className="absolute bottom-10 right-[-60px] w-72 h-72 bg-[#4D96FF] rounded-[38%_62%_45%_55%/60%_42%_58%_40%] -rotate-6 opacity-20 -z-10 blur-2xl pointer-events-none" />
       <div className="absolute top-1/3 right-[8%] w-24 h-24 bg-[#6BCB77] rounded-[62%_38%_50%_50%/48%_58%_42%_52%] rotate-[18deg] opacity-20 -z-10 blur-lg pointer-events-none hidden lg:block" />
 
-      {/* Top Badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="clay clay-yellow inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest mb-6 w-fit"
-      >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#D4A017] animate-pulse" />
-        <span>Waitlist open · not yet for sale</span>
-      </motion.div>
-
-      {/* Visual Product Hero — Image First */}
-      <div className="relative w-full max-w-sm sm:max-w-md mb-8 group">
+      {/* Visual Product Hero — Image First. Straight from header into the
+          product; waitlist messaging already lives in the sticky footer
+          bar, so a redundant badge up here was just noise before the hero
+          even loaded. */}
+      <div className="relative w-full max-w-sm sm:max-w-md mt-2 mb-8 group">
         {/* Yellow slab behind the frame — the second layer of clay. */}
         <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
