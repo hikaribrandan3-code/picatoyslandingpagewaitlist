@@ -22,6 +22,12 @@ export default async function handler(req, res) {
   }
 
   try {
+    if (!RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY not configured');
+    }
+
+    console.log(`Sending email to ${NOTIFY_EMAIL} for ${email}`);
+
     const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -42,9 +48,9 @@ export default async function handler(req, res) {
     });
 
     if (!emailRes.ok) {
-      const error = await emailRes.json();
-      console.error('Resend error:', error);
-      throw new Error('Failed to send email');
+      const errorData = await emailRes.json();
+      console.error('Resend error:', errorData);
+      throw new Error(`Resend error: ${JSON.stringify(errorData)}`);
     }
 
     console.log(`Waitlist signup: ${email} (${colorPreference})`);
