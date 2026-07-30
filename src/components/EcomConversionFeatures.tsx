@@ -31,22 +31,21 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
             A test print comes first to confirm the thread holds up in PETG, then the first full batch follows. This is our target window — waitlist members hear first if it shifts.
           </p>
 
-          {/* Countdown Clock Grid — fired dark clay against the ink section */}
+          {/* Countdown Clock Grid — each pill a different color with white text */}
           <div className="grid grid-cols-4 gap-3 sm:gap-4 max-w-md mx-auto mb-2">
             {[
-              { value: timeLeft.days, label: 'Days', color: '#FFD93D', tilt: 'clay-tilt-l' },
-              { value: timeLeft.hours, label: 'Hours', color: '#FFD93D', tilt: 'clay-tilt-r' },
-              { value: timeLeft.minutes, label: 'Mins', color: '#FFD93D', tilt: 'clay-tilt-l' },
-              { value: timeLeft.seconds, label: 'Secs', color: '#FF8A8A', tilt: 'clay-tilt-r' },
+              { value: timeLeft.days, label: 'Days', clay: 'clay-yellow', tilt: 'clay-tilt-l', labelDark: true },
+              { value: timeLeft.hours, label: 'Hours', clay: 'clay-blue', tilt: 'clay-tilt-r', labelDark: false },
+              { value: timeLeft.minutes, label: 'Mins', clay: 'clay-green', tilt: 'clay-tilt-l', labelDark: false },
+              { value: timeLeft.seconds, label: 'Secs', clay: 'clay-coral', tilt: 'clay-tilt-r', labelDark: false },
             ].map((unit) => (
-              <div key={unit.label} className={`clay clay-ink ${unit.tilt} p-3 sm:p-4 text-center`}>
+              <div key={unit.label} className={`clay ${unit.clay} ${unit.tilt} p-3 sm:p-4 text-center`}>
                 <span
-                  className="text-2xl sm:text-4xl font-black block leading-none tabular-nums"
-                  style={{ color: unit.color }}
+                  className="text-2xl sm:text-4xl font-black block leading-none tabular-nums text-white"
                 >
                   {String(unit.value).padStart(2, '0')}
                 </span>
-                <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">
+                <span className={`text-[10px] sm:text-xs font-bold uppercase mt-1 block ${unit.labelDark ? 'text-[#2D2D2D]' : 'text-white'}`}>
                   {unit.label}
                 </span>
               </div>
