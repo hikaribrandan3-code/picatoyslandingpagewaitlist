@@ -29,39 +29,67 @@ function useDesktop() {
   return desktop;
 }
 
-/** Auto-cycling image carousel shown on mobile in place of the single hero shot. */
+/** Manual swipe/arrow carousel shown on mobile in place of the single hero shot. */
 function MobileCarousel() {
   const [idx, setIdx] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
-  const goTo = (i: number) => {
-    setIdx(i);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setIdx((prev) => (prev + 1) % MOBILE_SLIDES.length), 3000);
+  const prev = () => setIdx((i) => (i - 1 + MOBILE_SLIDES.length) % MOBILE_SLIDES.length);
+  const next = () => setIdx((i) => (i + 1) % MOBILE_SLIDES.length);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
   };
-
-  useEffect(() => {
-    timerRef.current = setTimeout(() => setIdx((prev) => (prev + 1) % MOBILE_SLIDES.length), 3000);
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
-  }, [idx]);
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
+    touchStartX.current = null;
+  };
 
   const slide = MOBILE_SLIDES[idx];
 
   return (
-    <div className="clay-well clay-cream p-3 flex flex-col items-center min-h-[320px] overflow-hidden gap-3">
-      <img
-        key={slide.src}
-        src={slide.src}
-        alt={slide.alt}
-        className="w-full max-h-[300px] object-contain rounded-xl transition-opacity duration-500"
-        loading="eager"
-      />
-      {/* Dot navigation */}
+    <div
+      className="flex flex-col items-center gap-3 overflow-hidden rounded-xl"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Image area — pure white so product photos blend in */}
+      <div className="relative w-full bg-white rounded-xl overflow-hidden" style={{ minHeight: 300 }}>
+        <img
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          className="w-full max-h-[300px] object-contain"
+          loading="eager"
+        />
+
+        {/* Left arrow */}
+        <button
+          onClick={prev}
+          aria-label="Previous photo"
+          className="absolute left-2 top-1/2 -translate-y-1/2 clay clay-cream clay-btn clay-sm p-1.5 opacity-90"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2D2D2D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+
+        {/* Right arrow */}
+        <button
+          onClick={next}
+          aria-label="Next photo"
+          className="absolute right-2 top-1/2 -translate-y-1/2 clay clay-cream clay-btn clay-sm p-1.5 opacity-90"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="#2D2D2D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      </div>
+
+      {/* Dot indicators */}
       <div className="flex items-center gap-1.5">
         {MOBILE_SLIDES.map((_, i) => (
           <button
             key={i}
-            onClick={() => goTo(i)}
+            onClick={() => setIdx(i)}
             aria-label={`Slide ${i + 1}`}
             className={`h-2 rounded-full transition-all ${i === idx ? 'w-5 bg-[#FF6B6B]' : 'w-2 bg-[#E3CDB0]'}`}
           />
