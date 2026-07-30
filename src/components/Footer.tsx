@@ -16,12 +16,12 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
   };
 
   return (
-    <footer className="bg-[#FFF9F2] border-t border-[#F0E6D9] text-[#2D2D2D] pb-20 md:pb-8">
+    <footer className="bg-[#FFF9F2] border-t-[3px] border-[#E3CDB0] text-[#2D2D2D] pb-20 md:pb-8">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Brand Info */}
         <div className="space-y-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-[#FF6B6B] text-white rounded-xl flex items-center justify-center font-black text-xl shadow-sm">
+            <div className="clay clay-coral clay-sm clay-tilt-l w-9 h-9 flex items-center justify-center font-black text-xl">
               P
             </div>
             <span className="text-2xl font-black text-[#2D2D2D] uppercase tracking-tight">PICA TOYS</span>
@@ -43,9 +43,9 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
           <button
             onClick={handleShare}
             title="Share Link"
-            className="px-4 py-2.5 bg-white text-[#2D2D2D] border border-[#F0E6D9] rounded-xl shadow-sm hover:bg-[#FFEEAD] transition-all cursor-pointer flex items-center gap-2 font-bold text-xs uppercase"
+            className="clay clay-cream clay-btn clay-sm px-4 py-2.5 flex items-center gap-2 font-bold text-xs uppercase"
           >
-            {copied ? <Check className="w-4 h-4 text-[#6BCB77]" /> : <Share2 className="w-4 h-4 text-[#FF6B6B]" />}
+            {copied ? <Check className="w-4 h-4 text-[#3E9648]" /> : <Share2 className="w-4 h-4 text-[#D94F4F]" />}
             <span>{copied ? 'Link Copied!' : 'Share'}</span>
           </button>
 

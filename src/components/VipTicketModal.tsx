@@ -24,15 +24,15 @@ export const VipTicketModal: React.FC<Props> = ({ ticket, onClose, playSound }) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white border border-[#F0E6D9] rounded-3xl p-6 max-w-md w-full shadow-2xl relative text-center">
+      <div className="clay clay-cream clay-lg clay-pop p-6 max-w-md w-full relative text-center">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 bg-[#FFF9F2] hover:bg-[#FFEEAD] rounded-xl border border-[#F0E6D9] cursor-pointer"
+          className="clay clay-cream clay-btn clay-sm absolute top-4 right-4 p-1.5"
         >
           <X className="w-5 h-5 text-[#2D2D2D]" />
         </button>
 
-        <div className="w-14 h-14 bg-[#FF6B6B] text-white rounded-2xl shadow-md mx-auto flex items-center justify-center mb-3">
+        <div className="clay clay-coral clay-tilt-l w-14 h-14 mx-auto flex items-center justify-center mb-3">
           <Sparkles className="w-8 h-8 text-[#FFD93D]" />
         </div>
 
@@ -44,13 +44,13 @@ export const VipTicketModal: React.FC<Props> = ({ ticket, onClose, playSound }) 
         </p>
 
         {/* Ticket Graphic Card */}
-        <div className="bg-gradient-to-br from-[#FF6B6B] to-[#E05252] border border-[#E05252] rounded-2xl p-5 text-white shadow-lg text-left relative overflow-hidden mb-6">
-          <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-3">
+        <div className="clay clay-coral clay-tilt-r p-5 text-left relative overflow-hidden mb-6">
+          <div className="flex items-center justify-between border-b-2 border-white/25 pb-3 mb-3">
             <div className="flex items-center gap-1.5">
               <Ticket className="w-5 h-5 text-[#FFD93D]" />
               <span className="font-black text-sm uppercase tracking-wider">PICA TOYS WAITLIST</span>
             </div>
-            <span className="bg-[#FFD93D] text-[#2D2D2D] text-[10px] font-black px-2 py-0.5 rounded-md capitalize">
+            <span className="clay clay-yellow clay-sm text-[10px] font-black px-2 py-1 capitalize">
               {ticket.colorPreference}
             </span>
           </div>
@@ -79,15 +79,15 @@ export const VipTicketModal: React.FC<Props> = ({ ticket, onClose, playSound }) 
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopyPass}
-            className="bg-[#FFD93D] text-[#2D2D2D] font-black text-xs py-3 px-4 rounded-xl shadow-[0_4px_0_#D4A017] flex-1 uppercase flex items-center justify-center gap-1.5 cursor-pointer"
+            className="clay clay-yellow clay-btn clay-sm font-black text-xs py-3 px-4 flex-1 uppercase flex items-center justify-center gap-1.5"
           >
-            {copied ? <Check className="w-4 h-4 text-[#6BCB77]" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-[#3E9648]" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? 'Copied!' : 'Copy Details'}</span>
           </button>
 
           <button
             onClick={onClose}
-            className="bg-[#FF6B6B] text-white font-black text-xs py-3 px-4 rounded-xl shadow-[0_4px_0_#E05252] flex-1 uppercase cursor-pointer"
+            className="clay clay-coral clay-btn clay-sm font-black text-xs py-3 px-4 flex-1 uppercase"
           >
             Done
           </button>

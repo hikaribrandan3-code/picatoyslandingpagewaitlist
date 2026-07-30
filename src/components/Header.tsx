@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b border-[#F0E6D9] hard-shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#E3CDB0] shadow-[0_5px_18px_rgba(200,172,138,0.3)]">
       {/* Top Banner Ticker */}
       <div className="bg-[#FF6B6B] text-white text-xs font-bold py-1.5 px-4 text-center border-b border-[#E05252] flex items-center justify-between overflow-hidden">
         <div className="flex items-center justify-center gap-2 w-full mx-auto">
@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
           </span>
           <button
             onClick={() => setTickerIndex((prev) => (prev + 1) % announcements.length)}
-            className="text-[10px] bg-[#2D2D2D] text-[#FFD93D] px-2.5 py-0.5 rounded-full border border-white/40 hover:bg-black cursor-pointer hidden sm:inline-block ml-2"
+            className="clay clay-ink clay-btn clay-sm text-[10px] font-black px-2.5 py-0.5 hidden sm:inline-block ml-2"
           >
             Next ›
           </button>
@@ -37,8 +37,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-2.5 group transition-transform active:scale-95">
-          <div className="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_0_#E05252] group-hover:rotate-6 transition-transform">
+        <a href="#" className="flex items-center gap-2.5 group">
+          {/* Tilt lives in --clay-tilt, not a Tailwind rotate- utility: .clay
+              composes its own transform, so a utility would be overwritten. */}
+          <div className="clay clay-coral clay-sm clay-tilt-l w-10 h-10 flex items-center justify-center font-black text-2xl group-hover:[--clay-tilt:6deg] transition-transform">
             P
           </div>
           <div className="flex flex-col">
@@ -57,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
           <a href="#blueprint" className="hover:text-[#FF6B6B] transition-colors py-1">Blueprint</a>
           <a href="#arcade" className="hover:text-[#FF6B6B] transition-colors py-1 flex items-center gap-1 font-bold text-[#FF6B6B]">
             <span>Arcade</span>
-            <span className="bg-[#FFD93D] text-[#2D2D2D] text-[9px] px-1.5 py-0.2 rounded font-black">NEW</span>
+            <span className="clay clay-yellow clay-sm clay-tilt-r text-[9px] px-1.5 py-0.5 font-black">NEW</span>
           </a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
         </div>
@@ -67,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             title={soundEnabled ? 'Mute Yoyo SFX' : 'Enable Yoyo SFX'}
-            className="p-2 bg-white text-[#2D2D2D] rounded-xl border border-[#F0E6D9] hard-shadow-sm hover:bg-[#FFEEAD] transition-colors cursor-pointer"
+            className="clay clay-cream clay-btn clay-sm p-2"
           >
             {soundEnabled ? (
               <Volume2 className="w-5 h-5 text-[#FF6B6B]" />

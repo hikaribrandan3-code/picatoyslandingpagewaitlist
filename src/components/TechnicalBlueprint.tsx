@@ -25,35 +25,35 @@ export const TechnicalBlueprint: React.FC<Props> = ({
         </h2>
 
         {/* Blueprint Viewer Card */}
-        <div className="border border-[#F0E6D9] rounded-3xl p-5 sm:p-8 bg-white shadow-xl mb-8 relative overflow-hidden">
+        <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative">
           {/* Header */}
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#F0E6D9] flex-wrap gap-2">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b-[3px] border-[#E3CDB0] flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#FF6B6B]" />
-              <span className="w-3 h-3 rounded-full bg-[#FFD93D]" />
-              <span className="w-3 h-3 rounded-full bg-[#6BCB77]" />
+              <span className="clay clay-coral w-3.5 h-3.5 [--clay-r:9999px]" />
+              <span className="clay clay-yellow w-3.5 h-3.5 [--clay-r:9999px]" />
+              <span className="clay clay-green w-3.5 h-3.5 [--clay-r:9999px]" />
               <span className="text-xs font-black uppercase text-[#2D2D2D] ml-2">
                 Reverse-engineered from scratch
               </span>
             </div>
 
-            <div className="flex items-center gap-1 bg-[#FFF9F2] px-3 py-1 rounded-full border border-[#F0E6D9] text-[11px] font-bold text-[#FF6B6B]">
+            <div className="clay clay-cream clay-sm flex items-center gap-1 px-3 py-1 text-[11px] font-bold text-[#D94F4F]">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Computed, not estimated</span>
             </div>
           </div>
 
           {/* Image Frame */}
-          <div className="relative rounded-2xl border border-[#F0E6D9] bg-[#FFF9F2] p-3 overflow-hidden mb-6">
+          <div className="clay-well clay-cream relative p-3 overflow-hidden mb-6">
             <img
               src={BLUEPRINT_IMAGE}
               alt="Technical drawing of the PicaYoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism"
-              className="w-full h-auto object-contain rounded-xl"
+              className="w-full h-auto object-contain rounded-[20px_15px_22px_17px]"
             />
           </div>
 
           {/* Spec Table */}
-          <div className="bg-[#FFF9F2] border border-[#F0E6D9] rounded-2xl p-4 mb-4 text-left">
+          <div className="clay-well clay-cream p-4 mb-4 text-left">
             <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-3">
               The Numbers
             </label>
@@ -68,26 +68,24 @@ export const TechnicalBlueprint: React.FC<Props> = ({
           </div>
 
           {/* Color Preference Vote */}
-          <div className="bg-[#FFF9F2] border border-[#F0E6D9] rounded-2xl p-4">
+          <div className="clay-well clay-cream p-4">
             <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-2 text-left">
               Vote: which color should we print first?
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-              {COLOR_OPTIONS.map((opt) => (
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {COLOR_OPTIONS.map((opt, i) => (
                 <button
                   key={opt.id}
                   onClick={() => {
                     playSound();
                     setSelectedColorId(opt.id);
                   }}
-                  className={`flex items-center gap-2.5 p-2.5 rounded-xl border transition-all cursor-pointer text-left ${
-                    selectedColorId === opt.id
-                      ? 'bg-[#FF6B6B] text-white border-[#E05252] shadow-[0_4px_0_#E05252] font-black'
-                      : 'bg-white text-[#2D2D2D] border-[#F0E6D9] hover:bg-[#FFEEAD] font-bold'
+                  className={`clay clay-btn clay-sm ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} flex items-center gap-2.5 p-2.5 text-left ${
+                    selectedColorId === opt.id ? 'clay-coral font-black' : 'clay-cream font-bold'
                   }`}
                 >
                   <span
-                    className="w-5 h-5 rounded-full border border-black/20 shrink-0"
+                    className="w-5 h-5 rounded-full border-2 border-black/25 shrink-0 shadow-[inset_2px_2px_4px_rgba(255,255,255,0.5),inset_-2px_-2px_4px_rgba(0,0,0,0.2)]"
                     style={{ backgroundColor: opt.swatch }}
                   />
                   <span className="text-xs truncate">{opt.name}</span>
@@ -101,54 +99,56 @@ export const TechnicalBlueprint: React.FC<Props> = ({
         </div>
 
         {/* Feature Component Breakdown Grid — accurate to the real build */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-          <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FF6B6B] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="clay clay-coral shrink-0 w-12 h-12 flex items-center justify-center">
-              <Layers className="w-6 h-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
+          {[
+            {
+              chip: 'clay-coral',
+              tilt: 'clay-tilt-l',
+              icon: <Layers className="w-6 h-6" />,
+              heading: '3D-Printed PETG',
+              headingColor: '#D94F4F',
+              body: 'FDM printed, 0.2mm layers, 30–40% infill. PETG over PLA for impact resistance on a thrown toy.',
+            },
+            {
+              chip: 'clay-yellow',
+              tilt: 'clay-tilt-r',
+              icon: <RefreshCw className="w-6 h-6" />,
+              heading: 'Twist-to-Grind Core',
+              headingColor: '#2D2D2D',
+              body: "Both caps unscrew in 0.75 turns. The thread is self-locking, so play can't shake a cap open mid-throw.",
+            },
+            {
+              chip: 'clay-green',
+              tilt: 'clay-tilt-r',
+              icon: <CircleDot className="w-6 h-6" />,
+              heading: '608 Steel Bearing',
+              headingColor: '#3E9648',
+              body: 'Standard 608 (8/22/7mm). Responsive build for this first run — an unresponsive version is on the roadmap.',
+            },
+            {
+              chip: 'clay-blue',
+              tilt: 'clay-tilt-l',
+              icon: <ShieldCheck className="w-6 h-6" />,
+              heading: 'Sealed Two Ways',
+              headingColor: '#2B62D9',
+              body: 'Grinder chamber and storage cavity are each fully sealed from the open string gap between them.',
+            },
+          ].map((f) => (
+            <div
+              key={f.heading}
+              className={`clay clay-cream clay-lift ${f.tilt} flex gap-4 p-5`}
+            >
+              <div className={`clay ${f.chip} clay-sm shrink-0 w-12 h-12 flex items-center justify-center`}>
+                {f.icon}
+              </div>
+              <div>
+                <h4 className="font-extrabold text-lg mb-1" style={{ color: f.headingColor }}>
+                  {f.heading}
+                </h4>
+                <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">{f.body}</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-extrabold text-lg text-[#FF6B6B] mb-1">3D-Printed PETG</h4>
-              <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                FDM printed, 0.2mm layers, 30–40% infill. PETG over PLA for impact resistance on a thrown toy.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#FFD93D] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="clay clay-yellow shrink-0 w-12 h-12 flex items-center justify-center">
-              <RefreshCw className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-extrabold text-lg text-[#2D2D2D] mb-1">Twist-to-Grind Core</h4>
-              <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Both caps unscrew in 0.75 turns. The thread is self-locking, so play can't shake a cap open mid-throw.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#6BCB77] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="clay clay-green shrink-0 w-12 h-12 flex items-center justify-center">
-              <CircleDot className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-extrabold text-lg text-[#6BCB77] mb-1">608 Steel Bearing</h4>
-              <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Standard 608 (8/22/7mm). Responsive build for this first run — an unresponsive version is on the roadmap.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4 p-5 bg-white border border-[#F0E6D9] rounded-2xl border-t-4 border-t-[#4D96FF] shadow-md hover:translate-y-[-2px] transition-transform">
-            <div className="clay clay-blue shrink-0 w-12 h-12 flex items-center justify-center">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-extrabold text-lg text-[#4D96FF] mb-1">Sealed Two Ways</h4>
-              <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">
-                Grinder chamber and storage cavity are each fully sealed from the open string gap between them.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

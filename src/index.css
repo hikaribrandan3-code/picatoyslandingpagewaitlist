@@ -9,105 +9,230 @@
   }
 }
 
-/* ============================================
-   CLAYMORPHISM — puffy, inflated 3D style
-   Technique: soft rounded corners + layered
-   inset/outset box-shadow. Tuned to PICA TOYS
-   brand palette (not generic Tailwind colors).
-   ============================================ */
+/* ============================================================
+   CLAYMATION SYSTEM
+   Aardman-style plasticine, not glossy plastic. Four things
+   sell "handmade" over "CSS-generated":
+     1. asymmetric radii  — no corner matches its neighbour
+     2. pinched edges     — border 2 shades down from the fill
+     3. thumb dents       — OFF-CENTRE radial gradients, so the
+                            lighting can't read as a symmetric
+                            bevel the way a plain gradient does
+     4. grain             — fine noise over every surface
+   Variants only declare custom properties; the shared .clay
+   rule composes the layers. Keeps the shadow recipe in one
+   place instead of copy-pasted per colour.
+
+   IMPORTANT: this block sits OUTSIDE @layer, so it beats
+   Tailwind utilities on specificity ties. Deliberately sets
+   *only* paint properties (border, background, shadow, colour,
+   radius) + a var-composed transform. It must never set
+   position / display / size / padding / margin — those stay
+   Tailwind's job, or utilities silently lose the cascade.
+   ============================================================ */
+
+:root {
+  /* Asymmetric radii — the numbers are intentionally unequal. */
+  --clay-r: 26px 20px 28px 22px;
+  --clay-r-sm: 15px 12px 16px 13px;
+  --clay-r-lg: 42px 34px 46px 36px;
+  --clay-bw: 3px;
+  --clay-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --clay-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='90' height='90' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E");
+
+  /* Transform channels, composed once below so tilt/lift/press
+     can stack without any one state clobbering the others. */
+  --clay-tilt: 0deg;
+  --clay-lift: 0px;
+  --clay-scale: 1;
+}
 
 .clay {
-  border-radius: 2rem;
-  border: none;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  /* Re-declare the transform channels so they do NOT inherit: a clay chip
+     nested in a tilted clay card would otherwise pick up the parent's tilt
+     and rotate again on top of it (−0.9deg parent + −0.9deg own = −1.8deg).
+     .clay-tilt-* is declared after this rule, so on the SAME element it
+     still wins the source-order tie and the opt-in tilt works. */
+  --clay-tilt: 0deg;
+  --clay-lift: 0px;
+  --clay-scale: 1;
+  border-radius: var(--clay-r);
+  border: var(--clay-bw) solid var(--clay-edge);
+  color: var(--clay-ink);
+  background-color: var(--clay-fill);
+  background-image:
+    var(--clay-grain),
+    radial-gradient(ellipse 45% 34% at 24% 20%, var(--clay-hi), transparent 70%),
+    radial-gradient(ellipse 34% 26% at 78% 84%, var(--clay-lo), transparent 72%),
+    linear-gradient(152deg, var(--clay-top), var(--clay-fill) 55%, var(--clay-bot));
+  box-shadow:
+    inset 4px 5px 10px var(--clay-hi),
+    inset -4px -5px 11px var(--clay-lo),
+    3px 5px 0 var(--clay-ledge),
+    7px 11px 22px var(--clay-amb);
+  transform: rotate(var(--clay-tilt)) translateY(var(--clay-lift)) scale(var(--clay-scale));
+  transition: transform 0.2s var(--clay-bounce), box-shadow 0.2s ease;
 }
+
+/* ---- Palette: brand hues, each with its pinched edge ---- */
 
 .clay-coral {
-  background: linear-gradient(145deg, #FF8080, #FF6B6B);
-  box-shadow:
-    8px 8px 16px rgba(224, 82, 82, 0.45),
-    -6px -6px 14px rgba(255, 255, 255, 0.55),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
-    inset -2px -2px 6px rgba(224, 82, 82, 0.25);
-  color: #fff;
-}
-
-.clay-blue {
-  background: linear-gradient(145deg, #6FAAFF, #4D96FF);
-  box-shadow:
-    8px 8px 16px rgba(43, 98, 217, 0.45),
-    -6px -6px 14px rgba(255, 255, 255, 0.55),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
-    inset -2px -2px 6px rgba(43, 98, 217, 0.25);
-  color: #fff;
+  --clay-top: #FF9090;
+  --clay-fill: #FF6B6B;
+  --clay-bot: #F25C5C;
+  --clay-hi: rgba(255, 255, 255, 0.30);
+  --clay-lo: rgba(170, 48, 48, 0.26);
+  --clay-edge: #D94F4F;
+  --clay-ledge: rgba(190, 62, 62, 0.5);
+  --clay-amb: rgba(190, 62, 62, 0.26);
+  --clay-ink: #fff;
 }
 
 .clay-yellow {
-  background: linear-gradient(145deg, #FFE270, #FFD93D);
-  box-shadow:
-    8px 8px 16px rgba(212, 160, 23, 0.4),
-    -6px -6px 14px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
-    inset -2px -2px 6px rgba(212, 160, 23, 0.2);
-  color: #2D2D2D;
+  --clay-top: #FFE682;
+  --clay-fill: #FFD93D;
+  --clay-bot: #F5C92B;
+  --clay-hi: rgba(255, 255, 255, 0.42);
+  --clay-lo: rgba(168, 124, 12, 0.24);
+  --clay-edge: #D4A017;
+  --clay-ledge: rgba(198, 150, 20, 0.5);
+  --clay-amb: rgba(198, 150, 20, 0.24);
+  --clay-ink: #2D2D2D;
+}
+
+.clay-blue {
+  --clay-top: #7FB4FF;
+  --clay-fill: #4D96FF;
+  --clay-bot: #3D86F0;
+  --clay-hi: rgba(255, 255, 255, 0.32);
+  --clay-lo: rgba(24, 66, 158, 0.28);
+  --clay-edge: #2B62D9;
+  --clay-ledge: rgba(43, 98, 217, 0.5);
+  --clay-amb: rgba(43, 98, 217, 0.26);
+  --clay-ink: #fff;
 }
 
 .clay-green {
-  background: linear-gradient(145deg, #85DA8F, #6BCB77);
-  box-shadow:
-    8px 8px 16px rgba(62, 150, 72, 0.4),
-    -6px -6px 14px rgba(255, 255, 255, 0.55),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.35),
-    inset -2px -2px 6px rgba(62, 150, 72, 0.2);
-  color: #fff;
+  --clay-top: #97E2A1;
+  --clay-fill: #6BCB77;
+  --clay-bot: #5CBC68;
+  --clay-hi: rgba(255, 255, 255, 0.36);
+  --clay-lo: rgba(34, 104, 44, 0.26);
+  --clay-edge: #3E9648;
+  --clay-ledge: rgba(62, 150, 72, 0.5);
+  --clay-amb: rgba(62, 150, 72, 0.24);
+  --clay-ink: #fff;
 }
 
 .clay-teal {
-  background: linear-gradient(145deg, #5FE8E2, #3ba8a8);
-  box-shadow:
-    8px 8px 16px rgba(28, 110, 110, 0.4),
-    -6px -6px 14px rgba(255, 255, 255, 0.55),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.35),
-    inset -2px -2px 6px rgba(28, 110, 110, 0.2);
-  color: #fff;
+  --clay-top: #6FE5E0;
+  --clay-fill: #3BA8A8;
+  --clay-bot: #329696;
+  --clay-hi: rgba(255, 255, 255, 0.34);
+  --clay-lo: rgba(12, 74, 74, 0.28);
+  --clay-edge: #248383;
+  --clay-ledge: rgba(28, 110, 110, 0.5);
+  --clay-amb: rgba(28, 110, 110, 0.24);
+  --clay-ink: #fff;
 }
 
 .clay-cream {
-  background: linear-gradient(145deg, #FFFDFA, #FFF3E4);
+  --clay-top: #FFFEFC;
+  --clay-fill: #FFF6EA;
+  --clay-bot: #FBEEDC;
+  --clay-hi: rgba(255, 255, 255, 0.75);
+  --clay-lo: rgba(196, 166, 128, 0.20);
+  --clay-edge: #E3CDB0;
+  --clay-ledge: rgba(214, 190, 158, 0.55);
+  --clay-amb: rgba(200, 172, 138, 0.28);
+  --clay-ink: #2D2D2D;
+}
+
+/* Fired dark clay, for the countdown section on #2D2D2D. */
+.clay-ink {
+  --clay-top: #4A4A4A;
+  --clay-fill: #333333;
+  --clay-bot: #262626;
+  --clay-hi: rgba(255, 255, 255, 0.13);
+  --clay-lo: rgba(0, 0, 0, 0.42);
+  --clay-edge: #1A1A1A;
+  --clay-ledge: rgba(0, 0, 0, 0.45);
+  --clay-amb: rgba(0, 0, 0, 0.4);
+  --clay-ink: #fff;
+}
+
+/* ---- Size + posture modifiers ---- */
+
+.clay-sm { border-radius: var(--clay-r-sm); }
+.clay-lg { border-radius: var(--clay-r-lg); }
+
+/* Set-down-by-hand tilts. Sub-degree on purpose: past ~1.5deg
+   it reads as a mistake rather than as handmade. */
+.clay-tilt-l { --clay-tilt: -0.9deg; }
+.clay-tilt-r { --clay-tilt: 1deg; }
+
+/* Pressed-IN clay: concave well for image frames and inputs.
+   Highlight and shadow swap corners vs. the convex recipe, and
+   the outer drop is dropped entirely — nothing sits above the
+   surface, so casting a shadow would fight the illusion. */
+.clay-well {
+  border-radius: var(--clay-r);
+  border: var(--clay-bw) solid var(--clay-edge);
+  background-color: var(--clay-fill);
+  background-image:
+    var(--clay-grain),
+    linear-gradient(152deg, var(--clay-bot), var(--clay-fill) 60%);
   box-shadow:
-    8px 8px 18px rgba(224, 200, 170, 0.4),
-    -6px -6px 14px rgba(255, 255, 255, 0.8),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
-    inset -2px -2px 6px rgba(224, 200, 170, 0.2);
-  color: #2D2D2D;
+    inset 5px 6px 12px var(--clay-lo),
+    inset -4px -5px 10px var(--clay-hi);
 }
 
-.clay:hover {
-  transform: translateY(-3px) scale(1.015);
-}
+/* ---- Interaction ---- */
 
-.clay:active {
-  transform: translateY(1px) scale(0.98);
-}
+.clay-lift:hover { --clay-lift: -4px; --clay-scale: 1.015; }
 
-.clay-btn {
-  border-radius: 1.75rem;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
-}
+.clay-btn { cursor: pointer; }
+.clay-btn:hover { --clay-lift: -3px; --clay-scale: 1.02; }
 
+/* Squash into the ledge on press — the ledge shrinks in step so
+   the button reads as physically bottoming out. */
 .clay-btn:active {
-  transform: translateY(2px) scale(0.97);
+  --clay-lift: 3px;
+  --clay-scale: 0.975;
+  box-shadow:
+    inset 5px 6px 12px var(--clay-lo),
+    inset -3px -4px 8px var(--clay-hi),
+    1px 2px 0 var(--clay-ledge);
 }
 
-/* Hand-drawn wobble divider, clay-doodle style */
+.clay-btn:focus-visible {
+  outline: 3px solid #2D2D2D;
+  outline-offset: 3px;
+}
+
+/* Thumbed-in wobble divider, clay-doodle style */
 .clay-divider {
   height: 12px;
   background-repeat: repeat-x;
   background-size: 40px 12px;
   background-image: radial-gradient(circle at 50% 100%, currentColor 3px, transparent 3.5px);
   opacity: 0.35;
+}
+
+@keyframes clay-pop {
+  0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.clay-pop { animation: clay-pop 0.45s var(--clay-bounce) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .clay, .clay-btn { transition: none; }
+  .clay-pop { animation: none; }
+  .clay-lift:hover, .clay-btn:hover, .clay-btn:active {
+    --clay-lift: 0px;
+    --clay-scale: 1;
+  }
 }
 
 .toys-r-us-text {

@@ -64,9 +64,9 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
 
   return (
     <section id="waitlist" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
-      <div className="clay clay-cream max-w-md mx-auto p-6 sm:p-8 text-center">
-        <div className="clay clay-yellow w-12 h-12 mx-auto flex items-center justify-center mb-4">
-          <Ticket className="w-6 h-6 text-[#FF6B6B]" />
+      <div className="clay clay-cream clay-lg max-w-md mx-auto p-6 sm:p-8 text-center">
+        <div className="clay clay-yellow clay-sm clay-tilt-r w-12 h-12 mx-auto flex items-center justify-center mb-4">
+          <Ticket className="w-6 h-6 text-[#D94F4F]" />
         </div>
 
         <h2 className="text-3xl sm:text-4xl font-black text-[#FF6B6B] uppercase tracking-tight mb-2">
@@ -82,8 +82,8 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
             <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
               Which color should we print first?
             </label>
-            <div className="grid grid-cols-3 gap-2">
-              {COLOR_OPTIONS.map((opt) => (
+            <div className="grid grid-cols-3 gap-2.5">
+              {COLOR_OPTIONS.map((opt, i) => (
                 <button
                   type="button"
                   key={opt.id}
@@ -91,14 +91,12 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
                     playSound();
                     setColorPreference(opt.id);
                   }}
-                  className={`py-2 px-1 text-[11px] font-extrabold rounded-xl border transition-all cursor-pointer text-center uppercase flex items-center justify-center gap-1.5 ${
-                    colorPreference === opt.id
-                      ? 'bg-[#FF6B6B] text-white border-[#E05252] shadow-sm'
-                      : 'bg-[#FFF9F2] text-[#2D2D2D] border-[#F0E6D9] hover:bg-[#FFEEAD]'
+                  className={`clay clay-btn clay-sm ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} py-2 px-1 text-[11px] font-extrabold text-center uppercase flex items-center justify-center gap-1.5 ${
+                    colorPreference === opt.id ? 'clay-coral' : 'clay-cream'
                   }`}
                 >
                   <span
-                    className="w-3 h-3 rounded-full border border-black/20 shrink-0"
+                    className="w-3 h-3 rounded-full border border-black/25 shrink-0"
                     style={{ backgroundColor: opt.swatch }}
                   />
                   {opt.name}
@@ -120,7 +118,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, onSucc
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full pl-11 pr-4 py-3.5 border border-[#F0E6D9] rounded-2xl bg-[#FFF9F2] text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]/30"
+                className="clay-well clay-cream w-full pl-11 pr-4 py-3.5 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
               />
             </div>
           </div>

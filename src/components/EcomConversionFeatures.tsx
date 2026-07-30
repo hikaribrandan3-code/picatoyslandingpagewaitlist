@@ -34,7 +34,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
       {/* 1. First-batch target window (real countdown, not fake scarcity) */}
       <section className="bg-[#2D2D2D] text-white py-14 px-4 sm:px-6 border-b border-[#1A1A1A]">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-[#FF6B6B] text-white font-black text-xs uppercase px-4 py-1.5 rounded-full mb-4">
+          <div className="clay clay-coral clay-sm clay-tilt-l inline-flex items-center gap-2 font-black text-xs uppercase px-4 py-2 mb-4">
             <Clock className="w-3.5 h-3.5" />
             <span>Target: First Batch</span>
           </div>
@@ -46,32 +46,26 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
             A test coupon prints first to confirm the thread holds up in PETG, then the first full batch follows. This is our target window — waitlist members hear first if it shifts.
           </p>
 
-          {/* Countdown Clock Grid */}
-          <div className="grid grid-cols-4 gap-2.5 sm:gap-4 max-w-md mx-auto mb-2">
-            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
-              <span className="text-2xl sm:text-4xl font-black text-[#FFD93D] block leading-none tabular-nums">
-                {String(timeLeft.days).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">Days</span>
-            </div>
-            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
-              <span className="text-2xl sm:text-4xl font-black text-[#FFD93D] block leading-none tabular-nums">
-                {String(timeLeft.hours).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">Hours</span>
-            </div>
-            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
-              <span className="text-2xl sm:text-4xl font-black text-[#FFD93D] block leading-none tabular-nums">
-                {String(timeLeft.minutes).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">Mins</span>
-            </div>
-            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
-              <span className="text-2xl sm:text-4xl font-black text-[#FF6B6B] block leading-none tabular-nums">
-                {String(timeLeft.seconds).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">Secs</span>
-            </div>
+          {/* Countdown Clock Grid — fired dark clay against the ink section */}
+          <div className="grid grid-cols-4 gap-3 sm:gap-4 max-w-md mx-auto mb-2">
+            {[
+              { value: timeLeft.days, label: 'Days', color: '#FFD93D', tilt: 'clay-tilt-l' },
+              { value: timeLeft.hours, label: 'Hours', color: '#FFD93D', tilt: 'clay-tilt-r' },
+              { value: timeLeft.minutes, label: 'Mins', color: '#FFD93D', tilt: 'clay-tilt-l' },
+              { value: timeLeft.seconds, label: 'Secs', color: '#FF8A8A', tilt: 'clay-tilt-r' },
+            ].map((unit) => (
+              <div key={unit.label} className={`clay clay-ink ${unit.tilt} p-3 sm:p-4 text-center`}>
+                <span
+                  className="text-2xl sm:text-4xl font-black block leading-none tabular-nums"
+                  style={{ color: unit.color }}
+                >
+                  {String(unit.value).padStart(2, '0')}
+                </span>
+                <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-1 block">
+                  {unit.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -79,7 +73,7 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
       {/* 2. From the builder */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 max-w-2xl mx-auto border-b border-[#F0E6D9]">
         <div className="text-center mb-8">
-          <span className="bg-[#FFD93D] text-[#2D2D2D] font-extrabold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block mb-3">
+          <span className="clay clay-yellow clay-sm clay-tilt-r font-extrabold text-xs uppercase tracking-widest px-4 py-2 inline-block mb-3">
             From the Builder
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] uppercase tracking-tight">
@@ -87,8 +81,8 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
           </h2>
         </div>
 
-        <div className="bg-white border border-[#F0E6D9] rounded-3xl p-6 sm:p-8 shadow-md flex gap-4 items-start">
-          <div className="w-10 h-10 rounded-full bg-[#FF6B6B] text-white flex items-center justify-center shrink-0">
+        <div className="clay clay-cream clay-lg clay-tilt-l p-6 sm:p-8 flex gap-4 items-start">
+          <div className="clay clay-coral w-10 h-10 flex items-center justify-center shrink-0 [--clay-r:9999px]">
             <Wrench className="w-5 h-5" />
           </div>
           <p className="text-sm sm:text-base text-[#6D6D6D] font-medium leading-relaxed text-left">
@@ -110,29 +104,35 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
           </h2>
         </div>
 
-        <div className="space-y-4">
-          {FAQ_ITEMS.map((faq) => {
+        <div className="space-y-5">
+          {FAQ_ITEMS.map((faq, i) => {
             const isOpen = openFaq === faq.id;
             return (
               <div
                 key={faq.id}
-                className="bg-white border border-[#F0E6D9] rounded-2xl shadow-sm overflow-hidden transition-all"
+                className={`clay clay-cream ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} overflow-hidden`}
               >
                 <button
                   onClick={() => {
                     playSound();
                     setOpenFaq(isOpen ? '' : faq.id);
                   }}
-                  className="w-full text-left p-5 flex items-center justify-between gap-4 font-black text-base sm:text-lg text-[#2D2D2D] hover:bg-[#FFF9F2] cursor-pointer"
+                  className="w-full text-left p-5 flex items-center justify-between gap-4 font-black text-base sm:text-lg text-[#2D2D2D] cursor-pointer"
                 >
                   <span>{faq.question}</span>
-                  <div className="w-8 h-8 rounded-xl bg-[#FFF9F2] border border-[#F0E6D9] flex items-center justify-center shrink-0">
-                    {isOpen ? <ChevronUp className="w-5 h-5 text-[#FF6B6B]" /> : <ChevronDown className="w-5 h-5 text-[#2D2D2D]" />}
+                  {/* Chevron chip turns coral clay when open — state reads as a
+                      material change, not just a rotated glyph. */}
+                  <div
+                    className={`clay clay-sm w-8 h-8 flex items-center justify-center shrink-0 ${
+                      isOpen ? 'clay-coral' : 'clay-yellow'
+                    }`}
+                  >
+                    {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="p-5 pt-0 border-t border-[#F0E6D9] text-xs sm:text-sm text-[#6D6D6D] font-medium leading-relaxed bg-[#FFF9F2]">
+                  <div className="mx-5 mb-5 clay-well clay-cream p-4 text-xs sm:text-sm text-[#6D6D6D] font-medium leading-relaxed">
                     {faq.answer}
                   </div>
                 )}

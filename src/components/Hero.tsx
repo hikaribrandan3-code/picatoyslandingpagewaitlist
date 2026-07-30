@@ -18,9 +18,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
 
   return (
     <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center text-center overflow-hidden relative border-b border-[#F0E6D9]">
-      {/* Abstract Background Accents */}
-      <div className="absolute top-10 left-[-50px] w-64 h-64 bg-[#FFD93D] rounded-[40px] rotate-12 opacity-30 -z-10 blur-xl pointer-events-none" />
-      <div className="absolute bottom-10 right-[-50px] w-72 h-72 bg-[#4D96FF] rounded-full opacity-20 -z-10 blur-2xl pointer-events-none" />
+      {/* Rolled-clay offcuts in the background. Uneven radii + blur so they
+          read as scraps left on the bench, not as geometric blobs. */}
+      <div className="absolute top-10 left-[-60px] w-64 h-64 bg-[#FFD93D] rounded-[70%_30%_58%_42%/45%_62%_38%_55%] rotate-12 opacity-30 -z-10 blur-xl pointer-events-none" />
+      <div className="absolute bottom-10 right-[-60px] w-72 h-72 bg-[#4D96FF] rounded-[38%_62%_45%_55%/60%_42%_58%_40%] -rotate-6 opacity-20 -z-10 blur-2xl pointer-events-none" />
+      <div className="absolute top-1/3 right-[8%] w-24 h-24 bg-[#6BCB77] rounded-[62%_38%_50%_50%/48%_58%_42%_52%] rotate-[18deg] opacity-20 -z-10 blur-lg pointer-events-none hidden lg:block" />
 
       {/* Top Badge */}
       <motion.div
@@ -53,28 +55,30 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
 
       {/* Visual Abstract Product Frame */}
       <div className="relative w-full max-w-sm sm:max-w-md mb-10 group">
-        {/* Abstract Toy Decorative Card */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] bg-[#FFD93D] rounded-[40px] rotate-3 shadow-xl -z-10 transition-transform group-hover:rotate-6" />
+        {/* Yellow slab behind the frame — the second layer of clay. */}
+        <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
         {/* Product Box Container */}
-        <div className="relative bg-white border border-[#F0E6D9] rounded-3xl p-4 sm:p-5 shadow-2xl overflow-hidden">
-          {/* Top Badge Overlay */}
-          <div className="clay clay-yellow absolute top-5 left-5 z-10 text-xs font-black px-4 py-2 uppercase tracking-wider flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-[#FF6B6B]" />
-            <span>Dual-Chamber Yoyo</span>
+        <div className="clay clay-cream clay-lg relative p-4 sm:p-5">
+          {/* Badge + spin control. In flow on mobile — overlaid at 375px the
+              two collide, so they only become an overlay once there's room. */}
+          <div className="flex items-center justify-between gap-2 mb-3 sm:mb-0 sm:absolute sm:top-5 sm:left-5 sm:right-5 sm:z-10">
+            <div className="clay clay-yellow clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#D94F4F] shrink-0" />
+              <span>Dual-Chamber Yoyo</span>
+            </div>
+
+            <button
+              onClick={handleSpinToggle}
+              className="clay clay-btn clay-coral clay-sm text-[10px] sm:text-xs font-black px-3 sm:px-4 py-2 flex items-center gap-1.5 shrink-0"
+            >
+              <RotateCw className={`w-4 h-4 ${isSpinning ? 'animate-spin' : ''}`} />
+              <span>{isSpinning ? 'Stop Spin' : 'Test Spin'}</span>
+            </button>
           </div>
 
-          {/* Spin Interactive Control Button */}
-          <button
-            onClick={handleSpinToggle}
-            className="clay clay-btn clay-coral absolute top-5 right-5 z-10 text-xs font-black px-4 py-2 flex items-center gap-1.5 cursor-pointer"
-          >
-            <RotateCw className={`w-4 h-4 ${isSpinning ? 'animate-spin' : ''}`} />
-            <span>{isSpinning ? 'Stop Spin' : 'Test Spin'}</span>
-          </button>
-
           {/* Main Showcase Image */}
-          <div className="rounded-2xl border border-[#F0E6D9] overflow-hidden bg-[#FFF9F2] p-3 flex items-center justify-center min-h-[320px]">
+          <div className="clay-well clay-cream p-3 flex items-center justify-center min-h-[320px] overflow-hidden">
             <motion.img
               src={HERO_PRODUCT_IMAGE}
               alt="A translucent teal PicaYoyo standing on a desk"
@@ -85,8 +89,8 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound }) => {
           </div>
 
           {/* Image Interactive Bar */}
-          <div className="mt-3.5 pt-3 border-t border-[#F0E6D9] flex items-center justify-between text-xs font-bold text-[#6D6D6D]">
-            <div className="flex items-center gap-1.5 text-[#4D96FF]">
+          <div className="mt-3.5 pt-3 border-t-[3px] border-[#E3CDB0] flex items-center justify-between text-xs font-bold text-[#6D6D6D]">
+            <div className="flex items-center gap-1.5 text-[#2B62D9]">
               <ShieldCheck className="w-4 h-4" />
               <span>3D-Printed PETG</span>
             </div>

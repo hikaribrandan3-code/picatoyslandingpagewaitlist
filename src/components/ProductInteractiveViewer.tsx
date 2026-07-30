@@ -24,13 +24,13 @@ export const ProductInteractiveViewer: React.FC<Props> = ({ playSound }) => {
         </div>
 
         {/* Feature Main Card */}
-        <div className="bg-white border border-[#F0E6D9] rounded-3xl p-5 sm:p-8 shadow-xl overflow-hidden">
+        <div className="clay clay-cream clay-lg p-5 sm:p-8">
           {/* Card Image */}
-          <div className="relative rounded-2xl border border-[#F0E6D9] overflow-hidden mb-6">
+          <div className="clay-well clay-cream relative overflow-hidden mb-6 p-2">
             <img
               src={EXPLODED_IMAGE}
               alt="The four printed PicaYoyo parts laid out with the steel bearing and shoulder screw between them"
-              className="w-full h-auto max-h-[420px] object-cover"
+              className="w-full h-auto max-h-[420px] object-cover rounded-[22px_17px_24px_19px]"
             />
           </div>
 
@@ -45,21 +45,23 @@ export const ProductInteractiveViewer: React.FC<Props> = ({ playSound }) => {
           </div>
 
           {/* Engineering Proof Panel — real, computed verification results */}
-          <div className="mt-8 bg-[#FFF9F2] border border-[#F0E6D9] rounded-2xl p-5">
+          <div className="clay-well clay-cream mt-8 p-5">
             <div className="flex items-center gap-2 mb-4">
-              <FlaskConical className="w-5 h-5 text-[#FF6B6B]" />
+              <FlaskConical className="w-5 h-5 text-[#D94F4F]" />
               <span className="font-black text-sm uppercase text-[#2D2D2D]">
                 Verified in CAD, before a single part is printed
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {ENGINEERING_PROOF.map((item) => (
+            {/* Tilt alternates by index so the tiles look laid out by hand
+                rather than snapped to a grid. */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ENGINEERING_PROOF.map((item, i) => (
                 <div
                   key={item.title}
-                  className="bg-white border border-[#F0E6D9] rounded-xl p-4 flex gap-3 items-start"
+                  className={`clay clay-cream clay-sm clay-lift ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} p-4 flex gap-3 items-start`}
                 >
-                  <CheckCircle2 className="w-5 h-5 text-[#6BCB77] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-[#3E9648] shrink-0 mt-0.5" />
                   <div>
                     <span className="font-black text-xs text-[#2D2D2D] block mb-1">
                       {item.title}
