@@ -125,15 +125,18 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
             </dl>
           </div>
 
-          {/* Engineering Proof — the one trust badge for this whole section */}
-          <div className="clay-well clay-cream mt-4 p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <FlaskConical className="w-5 h-5 text-[#D94F4F]" />
+          {/* Engineering Proof — desktop only. On a phone this is the third
+              "trust us" block in a row (the narrative paragraph and the spec
+              table already carry that weight); on desktop there's room to
+              lay it out as a real horizontal banner instead of stacking. */}
+          <div className="hidden lg:flex clay-well clay-cream mt-4 p-5 items-center gap-6">
+            <div className="flex items-center gap-2 w-64 shrink-0">
+              <FlaskConical className="w-5 h-5 text-[#D94F4F] shrink-0" />
               <span className="font-black text-sm uppercase text-[#2D2D2D]">
                 Verified in CAD, before a single part is printed
               </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 flex-1">
               {ENGINEERING_PROOF.map((item, i) => (
                 <div
                   key={item.title}
