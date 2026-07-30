@@ -35,14 +35,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
           </div>
         </a>
 
-        {/* Center Quick Navigation Links (Desktop) */}
+        {/* Center Quick Navigation Links (Desktop).
+            No Arcade link here on purpose: Flappy Picas is a portrait,
+            one-thumb game that only mounts on mobile widths, so on desktop
+            this would be an anchor to a section that does not exist. */}
         <div className="hidden md:flex items-center gap-8 font-semibold text-xs uppercase tracking-widest text-[#2D2D2D]">
           <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">Features</a>
           <a href="#blueprint" className="hover:text-[#FF6B6B] transition-colors py-1">Blueprint</a>
-          <a href="#arcade" className="hover:text-[#FF6B6B] transition-colors py-1 flex items-center gap-1 font-bold text-[#FF6B6B]">
-            <span>Arcade</span>
-            <span className="clay clay-yellow clay-sm clay-tilt-r text-[9px] px-1.5 py-0.5 font-black">NEW</span>
-          </a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
         </div>
 

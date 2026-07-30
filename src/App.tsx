@@ -3,7 +3,7 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductInteractiveViewer } from './components/ProductInteractiveViewer';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
-import { ClawMachineArcade } from './components/ClawMachineArcade';
+import { FlappyPicas } from './components/FlappyPicas';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { WaitlistForm } from './components/WaitlistForm';
 import { StickyMobileBar } from './components/StickyMobileBar';
@@ -75,8 +75,9 @@ export default function App() {
           setSelectedColorId={setSelectedColorId}
         />
 
-        {/* 4. For-fun retro claw machine arcade — virtual coins/prizes, no real inventory */}
-        <ClawMachineArcade playSound={playSoundEffect} />
+        {/* 4. Pica Arcade — Flappy Picas. Mobile only; the component itself
+            returns null on desktop widths rather than being hidden by CSS. */}
+        <FlappyPicas />
 
         {/* 5. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
