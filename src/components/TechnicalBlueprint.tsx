@@ -53,7 +53,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
           7 parts. 4 printed, 3 hardware, 1 string. Comes assembled.
         </p>
 
-        <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative text-left">
+        <div className="clay clay-cream edge-yellow clay-lg p-5 sm:p-8 mb-8 relative text-left">
           {/* Mobile: real photo only, static, no toggle — the blueprint
               schematic appears further down (after the spec table, right
               before the feature grid) instead of behind a carousel here.
@@ -210,10 +210,13 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
               headingColor: '#3E9648',
               body: 'String snaps back to hand on a tug — the classic beginner feel. Bearing spec is in the numbers above.',
             },
-          ].map((f) => (
+          ].map((f, i) => {
+            const edges = ['edge-blue', 'edge-coral', 'edge-green'];
+            const edgeClass = edges[i % edges.length];
+            return (
             <div
               key={f.heading}
-              className={`clay clay-cream clay-lift ${f.tilt} flex gap-4 p-5`}
+              className={`clay clay-cream ${edgeClass} clay-lift ${f.tilt} flex gap-4 p-5`}
             >
               <div className={`clay ${f.chip} clay-sm shrink-0 w-12 h-12 flex items-center justify-center`}>
                 {f.icon}
@@ -225,7 +228,7 @@ export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
                 <p className="text-xs sm:text-sm text-[#6D6D6D] leading-relaxed">{f.body}</p>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>

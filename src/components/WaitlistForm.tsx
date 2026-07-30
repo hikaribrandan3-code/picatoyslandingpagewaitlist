@@ -70,7 +70,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
           card widens and the form itself becomes the two-column grid: pitch
           + color vote on the left, the actual email/submit action on the
           right — a landscape signup layout instead of a tall narrow card. */}
-      <div className="clay clay-cream edge-green clay-lg max-w-md lg:max-w-3xl mx-auto p-6 sm:p-8 text-center lg:text-left">
+      <div className="clay clay-cream edge-yellow clay-lg max-w-md lg:max-w-3xl mx-auto p-6 sm:p-8 text-center lg:text-left">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-4 text-left lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start"

@@ -34,17 +34,17 @@ export const EcomConversionFeatures: React.FC<Props> = ({ playSound, onJoinWaitl
   return (
     <div className="bg-[#FFF9F2]">
       {/* 1. First-batch target window (real countdown, not fake scarcity) */}
-      <section className="bg-[#2D2D2D] text-white py-14 px-4 sm:px-6 border-b-[3px] border-[#FFD93D]">
+      <section className="bg-[#E6F4EA] text-[#2D2D2D] py-14 px-4 sm:px-6 border-b-[3px] border-[#FFD93D]">
         <div className="max-w-4xl mx-auto text-center">
           <div className="clay clay-coral clay-sm clay-tilt-l inline-flex items-center gap-2 font-black text-xs uppercase px-4 py-2 mb-4">
             <Clock className="w-3.5 h-3.5" />
             <span>Target: First Batch</span>
           </div>
 
-          <h3 className="text-2xl sm:text-4xl font-black uppercase text-[#FFD93D] mb-2 tracking-tight">
+          <h3 className="text-2xl sm:text-4xl font-black uppercase text-[#3E9648] mb-2 tracking-tight">
             We're Printing the First Real Run
           </h3>
-          <p className="text-gray-300 text-sm sm:text-base mb-8 max-w-md mx-auto">
+          <p className="text-[#6D6D6D] text-sm sm:text-base mb-8 max-w-md mx-auto">
             A test print comes first to confirm the thread holds up in PETG, then the first full batch follows. This is our target window — waitlist members hear first if it shifts.
           </p>
 

@@ -62,7 +62,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
           {/* Product Box Container */}
-          <div className="clay clay-cream clay-lg relative p-4 sm:p-5">
+          <div className="clay clay-cream edge-yellow clay-lg relative p-4 sm:p-5">
             {/* Desktop gets the live CAD model; mobile keeps the product
                 shot so a phone never pays for three.js. */}
             {desktop ? (
