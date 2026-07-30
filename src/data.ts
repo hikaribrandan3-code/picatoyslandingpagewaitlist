@@ -21,6 +21,9 @@ export const SPECS = [
 ];
 
 // Real, computed verification results (section.py) — not benchmark claims.
+// The self-locking-thread fact used to live here too as "Caps cant vibrate
+// loose" - dropped because the Twist-to-Grind Core feature card below states
+// the identical fact. Two cards for one fact reads as padding, not proof.
 export const ENGINEERING_PROOF = [
   {
     title: 'Teeth actually mesh',
@@ -29,10 +32,6 @@ export const ENGINEERING_PROOF = [
   {
     title: 'Chamber is sealed',
     detail: 'Floor under the grinder measures as a solid ring — nothing leaks into the string gap.',
-  },
-  {
-    title: 'Caps cant vibrate loose',
-    detail: 'Thread is self-locking at every friction case we checked, so play cant shake a cap open.',
   },
 ];
 

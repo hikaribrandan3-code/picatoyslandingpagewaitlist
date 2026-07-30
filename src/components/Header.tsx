@@ -38,10 +38,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist, soundEnabled, se
         {/* Center Quick Navigation Links (Desktop).
             No Arcade link here on purpose: Flappy Picas is a portrait,
             one-thumb game that only mounts on mobile widths, so on desktop
-            this would be an anchor to a section that does not exist. */}
+            this would be an anchor to a section that does not exist. No
+            separate Blueprint link either — that section merged into
+            Features, so #blueprint no longer exists as its own anchor. */}
         <div className="hidden md:flex items-center gap-8 font-semibold text-xs uppercase tracking-widest text-[#2D2D2D]">
           <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">Features</a>
-          <a href="#blueprint" className="hover:text-[#FF6B6B] transition-colors py-1">Blueprint</a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
         </div>
 

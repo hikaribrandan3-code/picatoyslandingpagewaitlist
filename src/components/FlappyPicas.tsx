@@ -389,11 +389,12 @@ export const FlappyPicas: React.FC = () => {
             wordmark, standing in for the section title — it carries the
             branding on its own so the copy underneath can stay to one line.
             Wide and flat rather than a tilted pill: this is meant to read as
-            a title, not a badge, so it runs the full width with room between
-            the letters instead of being squeezed into a small chip. */}
+            a title, not a badge. Letter-spacing is pushed hard (tracking-wide
+            is only 0.025em — barely visible on 11 characters); the bar's own
+            height stays the same, only the horizontal spread changes. */}
         <div className="clay clay-cream clay-lg mb-3 flex w-full items-center justify-center gap-2 px-3 py-3.5">
           <Gamepad2 className="h-5 w-5 shrink-0 text-[#FF6B6B]" />
-          <span className="text-xl sm:text-2xl font-black uppercase tracking-wide toys-r-us-text whitespace-nowrap">
+          <span className="text-xl sm:text-2xl font-black uppercase tracking-[0.14em] toys-r-us-text whitespace-nowrap">
             <span className="rainbow-p">P</span>
             <span className="rainbow-i">I</span>
             <span className="rainbow-c">C</span>

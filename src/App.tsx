@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { ProductInteractiveViewer } from './components/ProductInteractiveViewer';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
@@ -64,21 +63,19 @@ export default function App() {
           selectedColorId={selectedColorId}
         />
 
-        {/* 2. What's Inside — real engineering proof, not a fake trick simulator */}
-        <ProductInteractiveViewer playSound={playSoundEffect} />
-
-        {/* 3. Under the Hood — real specs (color vote now lives in the
-            waitlist form below, right next to the button that submits it) */}
+        {/* 2. What's Inside — merged with the old "Under the Hood" section:
+            same trust claim, same product-photo layout, told twice. Now one
+            section, real photo -> arrow -> blueprint, one proof badge. */}
         <TechnicalBlueprint playSound={playSoundEffect} />
 
-        {/* 4. Pica Arcade — Flappy Picas. Mobile only; the component itself
+        {/* 3. Pica Arcade — Flappy Picas. Mobile only; the component itself
             returns null on desktop widths rather than being hidden by CSS. */}
         <FlappyPicas />
 
-        {/* 5. First-batch countdown + builder note + FAQ */}
+        {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
-        {/* 6. Waitlist form — color vote lives here now, right above the submit button */}
+        {/* 5. Waitlist form — color vote lives here now, right above the submit button */}
         <WaitlistForm
           playSound={playSoundEffect}
           selectedColor={selectedColorId}

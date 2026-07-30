@@ -40,7 +40,7 @@ export const Footer: React.FC<Props> = ({ playSound }) => {
 
         {/* Links Grid */}
         <div className="grid grid-cols-2 gap-4 text-xs font-bold uppercase tracking-wider text-[#2D2D2D]">
-          <a href="#blueprint" className="hover:text-[#FF6B6B] transition-colors py-1">The Lab</a>
+          <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">The Lab</a>
           <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
         </div>
 

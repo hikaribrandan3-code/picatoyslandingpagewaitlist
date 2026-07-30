@@ -1,53 +1,117 @@
-import React from 'react';
-import { BLUEPRINT_IMAGE, SPECS } from '../data';
-import { Layers, RefreshCw, Hand, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { BLUEPRINT_IMAGE, EXPLODED_IMAGE, ENGINEERING_PROOF, SPECS } from '../data';
+import { Layers, RefreshCw, Hand, CheckCircle2, ChevronLeft, ChevronRight, FlaskConical } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
 }
 
-export const TechnicalBlueprint: React.FC<Props> = () => {
+const IMAGES = [
+  {
+    src: EXPLODED_IMAGE,
+    alt: 'The four printed PicaYoyo parts laid out with the steel bearing and shoulder screw between them',
+    label: 'The Real Parts',
+  },
+  {
+    src: BLUEPRINT_IMAGE,
+    alt: 'Technical drawing of the PicaYoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism',
+    label: 'How It Works',
+  },
+];
+
+/**
+ * This used to be two sections — "What's Inside" and "Under the Hood" —
+ * that each showed one product image, one trust badge, and one proof grid.
+ * Same claim ("built from scratch, CAD-verified"), same shape, twice. Merged
+ * into one section with a single trust badge and a two-image toggle instead:
+ * the real parts first (what convinces someone this is a real object), then
+ * an arrow reveals the blueprint (what convinces them it's engineered, not
+ * guessed at) — the reveal itself is the hook, not just two images stacked.
+ */
+export const TechnicalBlueprint: React.FC<Props> = ({ playSound }) => {
+  const [imgIndex, setImgIndex] = useState(0);
+  const image = IMAGES[imgIndex];
+
+  const nextImage = () => {
+    playSound();
+    setImgIndex((i) => (i + 1) % IMAGES.length);
+  };
+  const prevImage = () => {
+    playSound();
+    setImgIndex((i) => (i - 1 + IMAGES.length) % IMAGES.length);
+  };
+
   return (
-    <section id="blueprint" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
+    <section id="features" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b border-[#F0E6D9]">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge & Title */}
         <span className="clay clay-yellow font-bold text-xs uppercase tracking-widest px-4 py-2 mb-3 inline-block">
-          Technical Blueprint
+          Seven Parts
         </span>
-        <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-8 uppercase tracking-tight">
-          Under the Hood
+        <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">
+          What's Inside
         </h2>
+        <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
+          Four printed pieces, three pieces of hardware, one string. It comes assembled.
+        </p>
 
-        {/* Blueprint Viewer Card */}
-        <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4 pb-3 border-b-[3px] border-[#E3CDB0] flex-wrap gap-2">
-            <div className="flex items-center gap-2">
-              <span className="clay clay-coral w-3.5 h-3.5 [--clay-r:9999px]" />
-              <span className="clay clay-yellow w-3.5 h-3.5 [--clay-r:9999px]" />
-              <span className="clay clay-green w-3.5 h-3.5 [--clay-r:9999px]" />
-              <span className="text-xs font-black uppercase text-[#2D2D2D] ml-2">
-                Reverse-engineered from scratch
-              </span>
-            </div>
+        <div className="clay clay-cream clay-lg p-5 sm:p-8 mb-8 relative text-left">
+          {/* Image Carousel — real photo first, arrow reveals the blueprint */}
+          <div className="clay-well clay-cream relative overflow-hidden mb-3 p-2">
+            <img
+              key={image.src}
+              src={image.src}
+              alt={image.alt}
+              className="w-full h-auto max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
+            />
 
-            <div className="clay clay-cream clay-sm flex items-center gap-1 px-3 py-1 text-[11px] font-bold text-[#D94F4F]">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Computed, not estimated</span>
+            <button
+              onClick={prevImage}
+              aria-label="Previous image"
+              className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={nextImage}
+              aria-label="Next image"
+              className="clay clay-cream clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Caption + dots, centered under the frame */}
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-[11px] font-black uppercase tracking-widest text-[#6D6D6D]">
+              {image.label}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {IMAGES.map((img, i) => (
+                <button
+                  key={img.src}
+                  onClick={() => { playSound(); setImgIndex(i); }}
+                  aria-label={`Show ${img.label}`}
+                  className={`h-2 rounded-full transition-all ${
+                    i === imgIndex ? 'w-5 bg-[#FF6B6B]' : 'w-2 bg-[#E3CDB0]'
+                  }`}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Image Frame */}
-          <div className="clay-well clay-cream relative p-3 overflow-hidden mb-6">
-            <img
-              src={BLUEPRINT_IMAGE}
-              alt="Technical drawing of the PicaYoyo showing the lid, main body, grinding core, dimensions, and the twist-to-grind mechanism"
-              className="w-full h-auto object-contain rounded-[20px_15px_22px_17px]"
-            />
+          {/* Description */}
+          <div className="px-2">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#FF6B6B] mb-3">
+              Built From the Bearing Outward
+            </h3>
+            <p className="text-[#6D6D6D] text-base sm:text-lg font-medium leading-relaxed">
+              We started from a reference drawing that turned out to be impossible — its exploded view and section view described two different machines. So we threw it out and derived the whole thing from scratch, parametrically.
+            </p>
           </div>
 
           {/* Spec Table */}
-          <div className="clay-well clay-cream p-4 text-left">
+          <div className="clay-well clay-cream p-4 mt-6">
             <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-3">
               The Numbers
             </label>
@@ -60,9 +124,39 @@ export const TechnicalBlueprint: React.FC<Props> = () => {
               ))}
             </dl>
           </div>
+
+          {/* Engineering Proof — the one trust badge for this whole section */}
+          <div className="clay-well clay-cream mt-4 p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <FlaskConical className="w-5 h-5 text-[#D94F4F]" />
+              <span className="font-black text-sm uppercase text-[#2D2D2D]">
+                Verified in CAD, before a single part is printed
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ENGINEERING_PROOF.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`clay clay-cream clay-sm clay-lift ${i % 2 ? 'clay-tilt-r' : 'clay-tilt-l'} p-4 flex gap-3 items-start`}
+                >
+                  <CheckCircle2 className="w-5 h-5 text-[#3E9648] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-black text-xs text-[#2D2D2D] block mb-1">
+                      {item.title}
+                    </span>
+                    <p className="text-xs text-[#6D6D6D] font-medium leading-relaxed">
+                      {item.detail}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Feature Component Breakdown Grid — accurate to the real build */}
+        {/* Feature Component Breakdown Grid — accurate to the real build.
+            "Twist-to-Grind Core" carries the self-locking-thread fact alone
+            now; it used to be duplicated in the Engineering Proof grid above. */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left">
           {[
             {
