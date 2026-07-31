@@ -170,7 +170,13 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         </motion.div>
 
         {/* Visual Product Hero */}
-        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group">
+        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
+          {/* Gold tilted sticker badge */}
+          <div className="absolute top-0 -right-6 bg-[#FFD93D] rounded-3xl px-3 py-2 transform -rotate-25 pointer-events-none shadow-lg">
+            <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>
+            <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">ORIGINAL</span>
+          </div>
+
           {/* Yellow slab behind the frame — the second layer of clay. */}
           <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
