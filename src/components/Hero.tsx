@@ -3,7 +3,10 @@ import { motion } from 'motion/react';
 import { Sparkles, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
 
-/** TikTok-style video player with clay frame */
+/** TikTok-style video player with clay frame. A big center button owns the
+    one-time "unlock sound" gesture browsers require for unmuted audio; the
+    small bottom-right controls only handle play/pause and mute afterward
+    so they never have to double as the sound-unlock action. */
 function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
@@ -13,16 +16,23 @@ function HeroVideo() {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
-  const togglePlay = () => {
+  const unlockSound = () => {
     if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play();
-        setIsPlaying(true);
-        setIsMuted(false);
-      }
+      videoRef.current.muted = false;
+      videoRef.current.play();
+    }
+    setIsMuted(false);
+    setIsPlaying(true);
+  };
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
     }
   };
 
@@ -30,6 +40,24 @@ function HeroVideo() {
     <div className="clay clay-cream edge-yellow clay-lg p-3 relative w-full" style={{ maxWidth: '100%' }}>
       <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '9/16' }}>
         <video ref={videoRef} src="/hero-video.mp4" autoPlay muted={isMuted} loop playsInline className="w-full h-full object-cover" />
+
+        {/* Big center button — the sole "unlock sound" gesture. Disappears
+            once tapped so it never fights the corner controls. */}
+        {isMuted && (
+          <button
+            onClick={unlockSound}
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/15 hover:bg-black/25 transition-colors z-10"
+            aria-label="Play with sound"
+          >
+            <span className="bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+              <Volume2 className="w-7 h-7 text-[#2D2D2D]" />
+            </span>
+            <span className="bg-white/90 text-[#2D2D2D] text-[11px] font-black uppercase tracking-wide px-3 py-1 rounded-full">
+              Tap for Sound
+            </span>
+          </button>
+        )}
+
         <div className="absolute bottom-4 right-4 flex gap-2 z-10">
           <button onClick={togglePlay} className="bg-white/80 hover:bg-white rounded-full p-2 transition-colors" aria-label={isPlaying ? 'Pause' : 'Play'}>
             {isPlaying ? <Pause className="w-4 h-4 text-black" /> : <Play className="w-4 h-4 text-black" />}
@@ -163,28 +191,30 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           order stays mobile-first (descr, media, cta, status); the grid
           areas reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
-        {/* Mobile-only: Video hero */}
-        <div className="lg:hidden w-full flex flex-col items-center mb-6">
-          <h3 className="text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
-            The Internet's Next Favorite YOYO!
-          </h3>
-          <div className="w-full max-w-sm">
-            <HeroVideo />
-          </div>
-        </div>
-
-        {/* Product Descriptor & Tagline. Mobile keeps the original single-line
-            title untouched. Desktop (lg:) gets a bigger standalone "Pica Yoyo"
-            wordmark, a diagonal drop-sticker badge, and a real countdown pill
-            (useCountdown — same LAUNCH_TARGET as the countdown section further
-            down the page, so the two never disagree). */}
+        {/* Product Descriptor & Tagline. Video + Bungee headline lead on both
+            breakpoints now (was mobile-only) — on desktop it sits at the top
+            of the left column, above the "Pica Yoyo" wordmark. Mobile keeps
+            the original single-line title untouched. Desktop (lg:) gets a
+            bigger standalone wordmark, a diagonal drop-sticker badge, and a
+            real countdown pill (useCountdown — same LAUNCH_TARGET as the
+            countdown section further down the page, so the two never
+            disagree). */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left"
         >
-          <span className="hidden lg:inline-block clay clay-coral clay-sm absolute -top-7 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
+          <div className="w-full flex flex-col items-center lg:items-start mb-6">
+            <h3 className="text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center lg:text-left mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
+              The Internet's Next Favorite YOYO!
+            </h3>
+            <div className="w-full max-w-sm lg:max-w-[260px]">
+              <HeroVideo />
+            </div>
+          </div>
+
+          <span className="hidden lg:inline-block clay clay-coral clay-sm absolute top-0 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
             Limited<br />First Drop
           </span>
 
