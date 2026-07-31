@@ -212,7 +212,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         {/* Mobile-only status bar showing the launch date */}
         <div className="hero-status lg:hidden clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
           <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
-            <span className="font-black text-[#FF6B6B]">First run: Q4 2026.</span>
+            <span className="font-black text-[#FF6B6B]">COMING SOON!</span>
           </div>
         </div>
       </div>

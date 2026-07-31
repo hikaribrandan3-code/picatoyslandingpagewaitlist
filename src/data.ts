@@ -76,4 +76,22 @@ export const FAQ_ITEMS: FAQItem[] = [
     answer: 'Herbs and spices. You know, like dried oregano, thyme, or crushed red pepper. Why, what else would you put in a 3D-printed pocket yo-yo?',
     category: 'General',
   },
+  {
+    id: 'faq-7',
+    question: 'How do I use the grinder?',
+    answer: 'Unscrew the storage-side cap, drop your herbs into the chamber, and twist. The interleaved teeth shear everything as the two halves turn against each other — about 0.75 turns to fully open. No batteries, no blades to swap, no mess if you keep the seal closed while you grind.',
+    category: 'Grinder Mechanism',
+  },
+  {
+    id: 'faq-8',
+    question: 'Do you ship internationally?',
+    answer: 'Yes, we ship worldwide. The buyer covers shipping, and cost varies by destination and courier rates at the time of the batch. Waitlist members get exact shipping quotes before anything is charged.',
+    category: 'Shipping',
+  },
+  {
+    id: 'faq-9',
+    question: 'Can beginners use this?',
+    answer: 'Yes. The yoyo half is a standard responsive throw — same feel as any beginner-friendly yoyo, string snaps back on a tug. The grinder is on the other end and never touches your play, so you can learn tricks and grind herbs without either side getting in the way.',
+    category: 'General',
+  },
 ];
