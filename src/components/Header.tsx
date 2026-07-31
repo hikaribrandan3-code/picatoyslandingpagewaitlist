@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
               <span className="rainbow-s">S</span>
             </span>
             <span className="text-[8px] sm:text-[9px] font-bold text-[#FF6B6B] tracking-widest uppercase mt-0.5">
-              The Yoyo With A Twist
+              Toys With A Twist
             </span>
           </div>
         </a>
