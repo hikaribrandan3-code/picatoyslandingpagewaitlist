@@ -288,24 +288,24 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
 
         {/* Social proof — right after the product image, before the first CTA */}
         <div className="lg:hidden flex flex-col items-center gap-2.5 mb-6">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
               href="https://instagram.com/getpicatoys"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              className="clay clay-yellow clay-tilt-l clay-sm p-2.5 flex items-center justify-center hover:shadow-lg transition-all"
               aria-label="Follow on Instagram"
             >
-              <Instagram className="w-8 h-8" />
+              <Instagram className="w-6 h-6 text-[#2D2D2D]" />
             </a>
             <a
               href="https://tiktok.com/@getpicatoys"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              className="clay clay-coral clay-tilt-r clay-sm p-2.5 flex items-center justify-center hover:shadow-lg transition-all"
               aria-label="Follow on TikTok"
             >
-              <Music className="w-8 h-8" />
+              <Music className="w-6 h-6 text-white" />
             </a>
           </div>
           <p className="text-xs font-bold text-[#6D6D6D]">As seen on Insta & TikTok!</p>
