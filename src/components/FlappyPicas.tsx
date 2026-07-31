@@ -343,7 +343,7 @@ function FlappyGame() {
 const Overlay: React.FC<{ children: React.ReactNode; lower?: boolean }> = ({ children, lower }) => (
   <div
     className={`absolute inset-0 flex flex-col items-center px-6 text-center ${
-      lower ? 'justify-start pt-[10%]' : 'justify-center'
+      lower ? 'justify-start pt-[15%]' : 'justify-center'
     }`}
   >
     {children}
