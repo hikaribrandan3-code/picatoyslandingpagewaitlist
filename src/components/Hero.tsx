@@ -1,7 +1,26 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
+
+/** TikTok-style video player */
+function HeroVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = isMuted;
+  }, [isMuted]);
+
+  return (
+    <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '9/16', maxWidth: '100%' }}>
+      <video ref={videoRef} src="/hero-video.mp4" autoPlay muted={isMuted} loop playsInline className="w-full h-full object-cover" />
+      <button onClick={() => setIsMuted(!isMuted)} className="absolute bottom-4 right-4 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10" aria-label={isMuted ? 'Unmute' : 'Mute'}>
+        {isMuted ? <VolumeX className="w-4 h-4 text-black" /> : <Volume2 className="w-4 h-4 text-black" />}
+      </button>
+    </div>
+  );
+}
 
 const MOBILE_SLIDES = [
   { src: '/yoyo-hero-box.jpg',  alt: 'Pica Yoyo product box — a yoyo grinder' },
@@ -123,6 +142,13 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           order stays mobile-first (descr, media, cta, status); the grid
           areas reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
+        {/* Mobile-only: Video hero */}
+        <div className="lg:hidden w-full flex justify-center mb-6">
+          <div className="w-full max-w-sm">
+            <HeroVideo />
+          </div>
+        </div>
+
         {/* Product Descriptor & Tagline. Mobile keeps the original single-line
             title untouched. Desktop (lg:) gets a bigger standalone "Pica Yoyo"
             wordmark, a diagonal drop-sticker badge, and a real countdown pill
