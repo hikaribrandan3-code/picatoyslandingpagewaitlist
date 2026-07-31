@@ -181,37 +181,38 @@ function MobileCarousel() {
   );
 }
 
-/** Desktop-only real-photo gallery. The mobile hero already carries these
-    shots as its whole product visual (MobileCarousel, above); desktop swaps
-    the same photo entirely for the interactive CAD viewer, so this was the
-    one place on desktop nobody ever saw them — real printed parts in every
-    color, not just the CAD render. Own thumbnail-driven state, independent
-    of the CAD color swatches above (the two lists don't map 1:1: no
-    yellow/glow CAD swatch has a matching photo yet), so picking a thumbnail
-    here never disagrees with what the 3D model is doing. */
+/** Desktop-only real-photo gallery, shown side-by-side with the CAD viewer
+    inside the same clay frame (not a separate floating block below it) so
+    it reads as the CAD's equal partner, not an afterthought. The mobile
+    hero already carries these shots as its whole product visual
+    (MobileCarousel, above); desktop swaps the same photo entirely for the
+    interactive CAD viewer, so this was the one place on desktop nobody
+    ever saw them — real printed parts in every color, not just the CAD
+    render. Own thumbnail-driven state, independent of the CAD color
+    swatches (the two lists don't map 1:1: no yellow/glow CAD swatch has a
+    matching photo yet), so picking a thumbnail here never disagrees with
+    what the 3D model is doing. */
 function DesktopColorGallery() {
   const [idx, setIdx] = useState(0);
   const slide = MOBILE_SLIDES[idx];
 
   return (
-    <div className="hidden lg:flex flex-col items-center w-full max-w-md">
+    <div className="hidden lg:flex flex-col items-center w-full">
       <span className="text-[11px] font-black uppercase tracking-widest text-[#6D6D6D] mb-3">
         Real Photos · Every Color
       </span>
 
-      <div className="clay clay-cream edge-yellow clay-lg p-3 w-full max-w-[220px]">
-        <div className="w-full bg-white rounded-lg overflow-hidden" style={{ minHeight: 180 }}>
-          <img key={slide.src} src={slide.src} alt={slide.alt} className="w-full max-h-[180px] object-contain" loading="lazy" />
-        </div>
+      <div className="w-full bg-white rounded-lg overflow-hidden flex items-center justify-center" style={{ minHeight: 290 }}>
+        <img key={slide.src} src={slide.src} alt={slide.alt} className="w-full max-h-[290px] object-contain" loading="lazy" />
       </div>
 
-      <div className="flex items-center gap-2.5 mt-4">
+      <div className="flex items-center justify-center gap-3 mt-4">
         {MOBILE_SLIDES.map((s, i) => (
           <button
             key={s.src}
             onClick={() => setIdx(i)}
             aria-label={s.alt}
-            className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+            className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${
               i === idx ? 'border-[#2D2D2D] scale-105' : 'border-[#E3CDB0] opacity-75 hover:opacity-100'
             }`}
           >
@@ -333,49 +334,61 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           {/* Yellow slab behind the frame — the second layer of clay. */}
           <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
-          {/* Product Box Container */}
+          {/* Product Box Container. Desktop splits into two columns inside
+              this one frame — CAD viewer left, real-photo gallery right —
+              so the photos read as part of the same showcase instead of a
+              separate block bolted on below it. */}
           <div className="clay clay-cream edge-yellow clay-lg relative p-4 sm:p-5">
             {/* Desktop gets the live CAD model; mobile keeps the product
                 shot so a phone never pays for three.js. */}
             {desktop ? (
               <>
-                <Suspense
-                  fallback={
-                    <div className="clay-well clay-cream flex min-h-[420px] items-center justify-center bg-white">
-                      <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#E3CDB0] border-t-[#FF6B6B]" />
-                    </div>
-                  }
-                >
-                  <YoyoViewer3D colorId={selectedColorId} />
-                </Suspense>
+                <div className="lg:grid lg:grid-cols-2 lg:gap-6 lg:items-start">
+                  <div>
+                    <Suspense
+                      fallback={
+                        <div className="clay-well clay-cream flex min-h-[420px] items-center justify-center bg-white">
+                          <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#E3CDB0] border-t-[#FF6B6B]" />
+                        </div>
+                      }
+                    >
+                      <YoyoViewer3D colorId={selectedColorId} />
+                    </Suspense>
 
-                {/* Color swatch strip — live preview control for the model
-                    above, not just a decoration; picking a dot recolors the
-                    CAD material in real time. */}
-                <div className="flex items-center justify-center gap-3 mt-4">
-                  {COLOR_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      onClick={() => {
-                        playSound();
-                        setSelectedColorId?.(opt.id);
-                      }}
-                      aria-label={`View in ${opt.name}`}
-                      title={opt.name}
-                      className="w-7 h-7 rounded-full transition-transform hover:scale-110 cursor-pointer"
-                      style={{
-                        backgroundColor: opt.swatch,
-                        boxShadow: selectedColorId === opt.id
-                          ? '0 0 0 2px #FFF9F2, 0 0 0 4px #2D2D2D, 0 2px 6px rgba(0,0,0,0.2)'
-                          : '0 0 0 2px #FFF9F2, 0 0 0 3px #E3CDB0, 0 2px 6px rgba(0,0,0,0.15)',
-                      }}
-                    />
-                  ))}
+                    {/* Color swatch strip — live preview control for the
+                        model above, not just a decoration; picking a dot
+                        recolors the CAD material in real time. */}
+                    <div className="flex items-center justify-center gap-3 mt-4">
+                      {COLOR_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            playSound();
+                            setSelectedColorId?.(opt.id);
+                          }}
+                          aria-label={`View in ${opt.name}`}
+                          title={opt.name}
+                          className="w-7 h-7 rounded-full transition-transform hover:scale-110 cursor-pointer"
+                          style={{
+                            backgroundColor: opt.swatch,
+                            boxShadow: selectedColorId === opt.id
+                              ? '0 0 0 2px #FFF9F2, 0 0 0 4px #2D2D2D, 0 2px 6px rgba(0,0,0,0.2)'
+                              : '0 0 0 2px #FFF9F2, 0 0 0 3px #E3CDB0, 0 2px 6px rgba(0,0,0,0.15)',
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Real photos — desktop-only, same width column as the
+                      CAD viewer beside it. */}
+                  <DesktopColorGallery />
                 </div>
 
                 {/* Blueprint spec strip — real numbers pulled straight from
                     the parametric CAD model (data.ts / SPECS), not filler
-                    text, so the CAD frame itself carries the proof. */}
+                    text, so the CAD frame itself carries the proof. Spans
+                    the full width, under both columns. */}
                 <div className="mt-4 pt-4 border-t border-dashed border-[#E3CDB0] flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
                   {[SPECS[0], SPECS[2], SPECS[7], SPECS[3]].map((spec) => (
                     <span key={spec.label} className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#6D6D6D]">
@@ -389,11 +402,6 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             )}
           </div>
         </motion.div>
-
-        {/* Desktop-only: real product photos, the same shots mobile leads
-            with, surfaced here since desktop's hero visual is the CAD
-            render instead. */}
-        <DesktopColorGallery />
 
         {/* Social proof — right after the product image, before the first CTA */}
         <div className="lg:hidden flex flex-col items-center gap-2.5 mb-6">
