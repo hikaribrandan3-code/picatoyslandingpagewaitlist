@@ -97,9 +97,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
             <span>Arcade</span>
           </button>
 
+          {/* Green, not coral: Arcade already owns coral in the centre nav, so
+              every pill across the header lands on its own hue. Also matches
+              the green Claim Your Spot / Join The Waitlist buttons downpage. */}
           <button
             onClick={onOpenWaitlist}
-            className="hidden lg:flex clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase items-center gap-1.5 cursor-pointer"
+            className="hidden lg:flex clay clay-btn clay-green font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase items-center gap-1.5 cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-[#FFD93D]" />
             <span>Join Waitlist</span>
