@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
+import { PicaCrossing } from './components/PicaCrossing';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { SuggestionBox } from './components/SuggestionBox';
 import { WaitlistForm } from './components/WaitlistForm';
@@ -69,9 +70,14 @@ export default function App() {
             section, real photo -> arrow -> blueprint, one proof badge. */}
         <TechnicalBlueprint playSound={playSoundEffect} />
 
-        {/* 3. Pica Arcade — Flappy Picas. Mobile only; the component itself
-            returns null on desktop widths rather than being hidden by CSS. */}
+        {/* 3. Pica Arcade. Two games, split by viewport — each component gates
+            itself on a real media query and returns null rather than being
+            hidden by CSS, so only one canvas ever mounts or runs a loop.
+            Flappy Picas is portrait/one-thumb (mobile), Pica Crossing is
+            landscape/keyboard (desktop). They share the `#arcade` anchor
+            because they are mutually exclusive. */}
         <FlappyPicas />
+        <PicaCrossing />
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />

@@ -7,6 +7,11 @@ interface HeaderProps {
 
 const CONTACT_EMAIL = 'Hikaristudioai@gmail.com';
 
+/** Shared shape for the centre nav pills, so all three stay the same size. */
+const NAV_PILL =
+  'clay clay-btn clay-sm font-black text-xs uppercase tracking-tight ' +
+  'min-w-[116px] px-4 py-2 inline-flex items-center justify-center gap-1.5 cursor-pointer';
+
 export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
   const scrollToArcade = () => {
     const el = document.getElementById('arcade');
@@ -50,13 +55,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
             this would be an anchor to a section that does not exist. No
             separate Blueprint link either — that section merged into
             Features, so #blueprint no longer exists as its own anchor. */}
+        {/* All three pills share a min-width so the row reads as a set rather
+            than as three differently-sized buttons. Arcade is lg-only: below
+            that the standalone coral Arcade button on the right covers it, and
+            showing both would be a duplicate link to the same anchor. */}
         <div className="hidden md:flex items-center gap-3">
-          <a href="#features" className="clay clay-btn clay-yellow clay-sm clay-tilt-l font-black text-xs uppercase tracking-tight px-4 py-2 cursor-pointer">
+          <a href="#features" className={NAV_PILL + ' clay-yellow clay-tilt-l'}>
             Features
           </a>
-          <a href="#faq" className="clay clay-btn clay-teal clay-sm clay-tilt-r font-black text-xs uppercase tracking-tight px-4 py-2 cursor-pointer">
+          <a href="#faq" className={NAV_PILL + ' clay-teal clay-tilt-r'}>
             FAQ
           </a>
+          <button onClick={scrollToArcade} className={NAV_PILL + ' clay-coral clay-tilt-l hidden lg:inline-flex'}>
+            <Gamepad2 className="w-4 h-4 text-[#FFD93D]" />
+            Arcade
+          </button>
         </div>
 
         {/* Action Buttons */}
