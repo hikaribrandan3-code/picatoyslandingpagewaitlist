@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
+import { SuggestionBox } from './components/SuggestionBox';
 import { WaitlistForm } from './components/WaitlistForm';
 import { VipTicketModal } from './components/VipTicketModal';
 import { Footer } from './components/Footer';
@@ -74,6 +75,11 @@ export default function App() {
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
+
+        {/* 4.5 Suggestion box — soft touch after FAQ, before the hard
+            waitlist CTA. No backend: submitting opens a mailto: to the
+            same contact address Header/Footer use. */}
+        <SuggestionBox playSound={playSoundEffect} />
 
         {/* 5. Waitlist form — color vote lives here now, right above the submit button */}
         <WaitlistForm
