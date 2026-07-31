@@ -145,7 +145,10 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           areas reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
         {/* Mobile-only: Video hero */}
-        <div className="lg:hidden w-full flex justify-center mb-6">
+        <div className="lg:hidden w-full flex flex-col items-center mb-6">
+          <h3 className="text-2xl sm:text-3xl font-black text-[#2D2D2D] uppercase tracking-tight text-center mb-4">
+            The Internet's Next Favorite Toy!
+          </h3>
           <div className="w-full max-w-sm">
             <HeroVideo />
           </div>
