@@ -4,9 +4,9 @@ import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music, PencilRuler,
 import { COLOR_OPTIONS, SPECS } from '../data';
 
 /** Five-point starburst — "NEW!" reads more toy-aisle than a plain pill. */
-function Starburst({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function Starburst({ children, className = '', size = 68 }: { children: React.ReactNode; className?: string; size?: number }) {
   return (
-    <div className={`flex items-center justify-center pointer-events-none ${className}`} style={{ width: 68, height: 68 }}>
+    <div className={`flex items-center justify-center pointer-events-none ${className}`} style={{ width: size, height: size }}>
       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.22))' }}>
         <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" fill="#FF3B3B" />
       </svg>
@@ -261,12 +261,19 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-4xl mb-8 lg:mb-0 group overflow-visible"
         >
-          {/* "NEW!" starburst + the trust pill tucked beneath it — reads
-              like a toy-aisle box cluster instead of a single trust badge. */}
-          <Starburst className="absolute -top-6 -right-5 z-20">NEW!</Starburst>
-          <div className="absolute top-11 -right-2 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-12 pointer-events-none z-10" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+          {/* Mobile: keep the "NEW!" starburst in its corner (8% bigger),
+              trust pill moves to the opposite corner instead of stacking
+              underneath it. Desktop: no starburst — a bigger, bolder clay
+              badge carries the trust claim on its own. */}
+          <Starburst className="lg:hidden absolute -top-6 -right-5 z-20" size={73}>NEW!</Starburst>
+          <div className="lg:hidden absolute -bottom-2 -left-3 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-12 pointer-events-none z-10" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">ORIGINAL</span>
+          </div>
+
+          <div className="hidden lg:flex clay clay-yellow clay-tilt-r clay-lg absolute -top-6 -right-6 z-20 flex-col items-center justify-center px-6 py-3.5 pointer-events-none">
+            <span className="text-xl font-black text-[#2D2D2D] uppercase leading-none tracking-tight">100%</span>
+            <span className="text-xl font-black text-[#2D2D2D] uppercase leading-none tracking-tight">Original</span>
           </div>
 
           {/* Drafting-tool clay accents — desktop only, opposite corners for
