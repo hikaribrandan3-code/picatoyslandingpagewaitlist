@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Sparkles, Volume2, VolumeX } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
 
-/** TikTok-style video player */
+/** TikTok-style video player with clay frame */
 function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
@@ -13,11 +13,13 @@ function HeroVideo() {
   }, [isMuted]);
 
   return (
-    <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '9/16', maxWidth: '100%' }}>
-      <video ref={videoRef} src="/hero-video.mp4" autoPlay muted={isMuted} loop playsInline className="w-full h-full object-cover" />
-      <button onClick={() => setIsMuted(!isMuted)} className="absolute bottom-4 right-4 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10" aria-label={isMuted ? 'Unmute' : 'Mute'}>
-        {isMuted ? <VolumeX className="w-4 h-4 text-black" /> : <Volume2 className="w-4 h-4 text-black" />}
-      </button>
+    <div className="clay clay-cream edge-yellow clay-lg p-3 relative w-full" style={{ maxWidth: '100%' }}>
+      <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '9/16' }}>
+        <video ref={videoRef} src="/hero-video.mp4" autoPlay muted={isMuted} loop playsInline className="w-full h-full object-cover" />
+        <button onClick={() => setIsMuted(!isMuted)} className="absolute bottom-4 right-4 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10" aria-label={isMuted ? 'Unmute' : 'Mute'}>
+          {isMuted ? <VolumeX className="w-4 h-4 text-black" /> : <Volume2 className="w-4 h-4 text-black" />}
+        </button>
+      </div>
     </div>
   );
 }
