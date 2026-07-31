@@ -143,6 +143,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
               </label>
               <input
                 type="text"
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Richard"
@@ -158,6 +159,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                 <Mail className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6D6D6D]" />
                 <input
                   type="email"
+                  autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -174,6 +176,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                 </label>
                 <input
                   type="tel"
+                  autoComplete="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+55 (11) 9..."
@@ -186,6 +189,7 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                 </label>
                 <input
                   type="text"
+                  autoComplete="country-name"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
                   placeholder="Brazil"
