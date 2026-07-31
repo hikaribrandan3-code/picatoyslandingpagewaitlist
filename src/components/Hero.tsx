@@ -66,7 +66,7 @@ function MobileCarousel() {
         />
 
         {/* Diagonal ribbon — mobile only */}
-        <div className="absolute -top-2 -right-16 w-48 h-12 bg-black pointer-events-none transform -rotate-45 flex items-center justify-center">
+        <div className="absolute -top-8 -right-12 w-56 h-12 bg-black pointer-events-none transform rotate-45 flex items-center justify-center">
           <span className="text-white font-black text-xs tracking-widest whitespace-nowrap">100% UNIQUE DESIGN</span>
         </div>
 
@@ -214,12 +214,6 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           </button>
         </div>
 
-        {/* Mobile-only status bar showing the launch date */}
-        <div className="hero-status lg:hidden clay clay-cream flex flex-col sm:flex-row items-center gap-2 px-6 py-4">
-          <div className="text-xs sm:text-sm font-bold text-[#2D2D2D] text-center sm:text-left">
-            <span className="font-black text-[#FF6B6B]">COMING SOON!</span>
-          </div>
-        </div>
       </div>
     </section>
   );
