@@ -160,30 +160,6 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
           </div>
         </form>
       </div>
-
-      {/* Mobile social links — below waitlist form */}
-      <div className="lg:hidden flex justify-center gap-4 mt-6">
-        <a
-          href="https://instagram.com/getpicatoys"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
-        >
-          Instagram
-        </a>
-        <span className="text-[#9E9E9E]">•</span>
-        <a
-          href="https://tiktok.com/@getpicatoys"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
-        >
-          TikTok
-        </a>
-      </div>
-      <p className="lg:hidden text-center text-xs font-bold text-[#6D6D6D] mt-3">
-        As seen on Insta & TikTok!
-      </p>
     </section>
   );
 };
