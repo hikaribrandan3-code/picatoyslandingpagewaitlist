@@ -201,32 +201,34 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           order stays mobile-first (descr, media, cta); the grid areas
           reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
-        {/* Product Descriptor & Tagline. On mobile this carries the video
-            plus its own Bungee headline and wordmark. On desktop all of
-            that text collapses into the single hero title above — this
-            column becomes just the video, centered in the left slot next
-            to the 3D model. */}
-        <div className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left">
+        {/* Product Descriptor & Tagline. Mobile-only now — this whole
+            column (video + its own headline/wordmark) is the TikTok-style
+            lead-in for phones. Desktop drops it entirely: the shared hero
+            title above already covers the copy, and the CAD viewer below
+            is the one centerpiece instead of competing with a cramped
+            video beside it. */}
+        <div className="hero-descr lg:hidden relative text-center mb-6">
           {/* Video sits outside the fade-in wrapper below — an autoplaying
               video competing with Framer's mount animation on the same
               element stalled the fade permanently at opacity:0, so it's
               kept as a plain (un-animated) sibling instead. */}
-          <div className="w-full flex flex-col items-center mb-6 lg:mb-0">
-            <h3 className="lg:hidden text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
+          <div className="w-full flex flex-col items-center mb-6">
+            <h3 className="text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
               The Internet's Next Favorite YOYO!
             </h3>
-            <div className="w-full max-w-sm lg:max-w-[320px]">
+            <div className="w-full max-w-sm">
               <HeroVideo />
             </div>
           </div>
 
-          <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3 mt-6">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3 mt-6">
             Pica Yoyo | 3D-Printed Yoyo Grinder
           </h2>
         </div>
 
-        {/* Visual Product Hero */}
-        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
+        {/* Visual Product Hero — full-width centerpiece on desktop now that
+            it's not sharing the row with the video. */}
+        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-2xl mb-8 lg:mb-0 group overflow-visible">
           {/* Gold tilted sticker badge */}
           <div className="absolute -top-1 -right-2 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-30 pointer-events-none z-20" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>

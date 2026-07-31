@@ -260,27 +260,19 @@
   filter: drop-shadow(3px 3px 0px #2D2D2D);
 }
 
-/* Hero: two-column on desktop, product media beside the copy instead
-   of stacked above it, so the CTA is visible without scrolling past a
-   tall single-column stack. Named grid areas rather than Tailwind's
-   arbitrary-property escaping (spaces inside a bracketed value get
-   fiddly fast) — mobile stays the plain flex-column below this rule
-   untouched, since it only takes effect at the desktop breakpoint. */
+/* Hero: single centered column on desktop. Used to be a two-column
+   grid (video left, CAD model right) but the video read as a cramped
+   afterthought next to the interactive model — desktop now drops the
+   video entirely and lets the CAD viewer be the one big centerpiece
+   under the shared hero title. Mobile stays the plain flex-column
+   below this rule untouched, since it only takes effect at lg. */
 @media (min-width: 1024px) {
   .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    grid-template-areas:
-      "descr media"
-      "cta   cta";
-    align-items: start;
-    column-gap: 3.5rem;
-    row-gap: 2rem;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2.5rem;
   }
-  .hero-grid > .hero-descr { grid-area: descr; align-self: center; }
-  .hero-grid > .hero-media { grid-area: media; align-self: center; }
-  .hero-grid > .hero-cta { grid-area: cta; }
 }
 
 /* PICA TOYS Immersive Rainbow Letter Colors */
