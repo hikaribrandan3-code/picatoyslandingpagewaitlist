@@ -172,7 +172,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         {/* Visual Product Hero */}
         <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
           {/* Diagonal ribbon — mobile only */}
-          <div className="absolute -top-8 -right-12 w-56 h-12 bg-black pointer-events-none transform rotate-45 flex items-center justify-center z-10">
+          <div className="absolute -top-1 -right-20 w-56 h-10 bg-black pointer-events-none transform rotate-45 flex items-center justify-center z-10">
             <span className="text-white font-black text-xs tracking-widest whitespace-nowrap">100% UNIQUE DESIGN</span>
           </div>
 
