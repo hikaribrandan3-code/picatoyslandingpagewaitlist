@@ -199,12 +199,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             real countdown pill (useCountdown — same LAUNCH_TARGET as the
             countdown section further down the page, so the two never
             disagree). */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left"
-        >
+        <div className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left">
+          {/* Video sits outside the fade-in wrapper below — an autoplaying
+              video competing with Framer's mount animation on the same
+              element stalled the fade permanently at opacity:0, so it's
+              kept as a plain (un-animated) sibling instead. */}
           <div className="w-full flex flex-col items-center lg:items-start mb-6">
             <h3 className="text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center lg:text-left mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
               The Internet's Next Favorite YOYO!
@@ -214,40 +213,47 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             </div>
           </div>
 
-          <span className="hidden lg:inline-block clay clay-coral clay-sm absolute top-0 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
-            Limited<br />First Drop
-          </span>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative"
+          >
+            <span className="hidden lg:inline-block clay clay-coral clay-sm absolute top-0 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
+              Limited<br />First Drop
+            </span>
 
-          <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
-            Pica Yoyo | 3D-Printed Yoyo Grinder
-          </h2>
+            <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
+              Pica Yoyo | 3D-Printed Yoyo Grinder
+            </h2>
 
-          <h2 className="hidden lg:block text-6xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none mb-2">
-            Pica Yoyo
-          </h2>
-          <p className="hidden lg:block text-xl font-bold text-[#2D2D2D] normal-case mb-4">
-            3D-Printed Yoyo Grinder
-          </p>
+            <h2 className="hidden lg:block text-6xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none mb-2">
+              Pica Yoyo
+            </h2>
+            <p className="hidden lg:block text-xl font-bold text-[#2D2D2D] normal-case mb-4">
+              3D-Printed Yoyo Grinder
+            </p>
 
-          {/* Digital/LED-style readout: monospace tabular digits with a glow,
-              on the dark clay-ink fill, instead of a plain text pill. */}
-          <div className="hidden lg:inline-flex flex-col gap-1.5">
-            <div className="inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5">
-              <span
-                className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
-                style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
-              >
-                {String(timeLeft.days).padStart(2, '0')}
-              </span>
-              <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
-                Days to<br />First Drop
+            {/* Digital/LED-style readout: monospace tabular digits with a glow,
+                on the dark clay-ink fill, instead of a plain text pill. */}
+            <div className="hidden lg:inline-flex flex-col gap-1.5">
+              <div className="inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5">
+                <span
+                  className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
+                  style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
+                >
+                  {String(timeLeft.days).padStart(2, '0')}
+                </span>
+                <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
+                  Days to<br />First Drop
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-[#6D6D6D] uppercase tracking-wider">
+                As Seen On TikTok & Instagram
               </span>
             </div>
-            <span className="text-[10px] font-bold text-[#6D6D6D] uppercase tracking-wider">
-              As Seen On TikTok & Instagram
-            </span>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Visual Product Hero */}
         <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
