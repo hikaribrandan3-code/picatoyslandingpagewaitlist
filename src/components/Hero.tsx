@@ -181,6 +181,48 @@ function MobileCarousel() {
   );
 }
 
+/** Desktop-only real-photo gallery. The mobile hero already carries these
+    shots as its whole product visual (MobileCarousel, above); desktop swaps
+    the same photo entirely for the interactive CAD viewer, so this was the
+    one place on desktop nobody ever saw them — real printed parts in every
+    color, not just the CAD render. Own thumbnail-driven state, independent
+    of the CAD color swatches above (the two lists don't map 1:1: no
+    yellow/glow CAD swatch has a matching photo yet), so picking a thumbnail
+    here never disagrees with what the 3D model is doing. */
+function DesktopColorGallery() {
+  const [idx, setIdx] = useState(0);
+  const slide = MOBILE_SLIDES[idx];
+
+  return (
+    <div className="hidden lg:flex flex-col items-center w-full max-w-md">
+      <span className="text-[11px] font-black uppercase tracking-widest text-[#6D6D6D] mb-3">
+        Real Photos · Every Color
+      </span>
+
+      <div className="clay clay-cream edge-yellow clay-lg p-3 w-full max-w-[220px]">
+        <div className="w-full bg-white rounded-lg overflow-hidden" style={{ minHeight: 180 }}>
+          <img key={slide.src} src={slide.src} alt={slide.alt} className="w-full max-h-[180px] object-contain" loading="lazy" />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2.5 mt-4">
+        {MOBILE_SLIDES.map((s, i) => (
+          <button
+            key={s.src}
+            onClick={() => setIdx(i)}
+            aria-label={s.alt}
+            className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+              i === idx ? 'border-[#2D2D2D] scale-105' : 'border-[#E3CDB0] opacity-75 hover:opacity-100'
+            }`}
+          >
+            <img src={s.src} alt="" className="w-full h-full object-cover" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 interface HeroProps {
   onJoinWaitlist: () => void;
   playSound: () => void;
@@ -347,6 +389,11 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             )}
           </div>
         </motion.div>
+
+        {/* Desktop-only: real product photos, the same shots mobile leads
+            with, surfaced here since desktop's hero visual is the CAD
+            render instead. */}
+        <DesktopColorGallery />
 
         {/* Social proof — right after the product image, before the first CTA */}
         <div className="lg:hidden flex flex-col items-center gap-2.5 mb-6">
