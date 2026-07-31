@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music, PencilRuler, Ruler } from 'lucide-react';
 
 /** TikTok-style video player with clay frame. A big center button owns the
     one-time "unlock sound" gesture browsers require for unmuted audio; the
@@ -228,11 +228,22 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
 
         {/* Visual Product Hero — full-width centerpiece on desktop now that
             it's not sharing the row with the video. */}
-        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-2xl mb-8 lg:mb-0 group overflow-visible">
+        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-4xl mb-8 lg:mb-0 group overflow-visible">
           {/* Gold tilted sticker badge */}
           <div className="absolute -top-1 -right-2 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-30 pointer-events-none z-20" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">ORIGINAL</span>
+          </div>
+
+          {/* Drafting-tool clay accents — desktop only. Nods to "designed in
+              Fusion 360" (blueprint/engineering, not literal school supplies)
+              the same way the Insta/TikTok icons further down are clay
+              bubbles with an opposite tilt. Purely decorative. */}
+          <div className="hidden lg:flex clay clay-yellow clay-tilt-l clay-sm absolute -top-5 -left-5 z-20 p-3 items-center justify-center pointer-events-none">
+            <PencilRuler className="w-6 h-6 text-[#2D2D2D]" />
+          </div>
+          <div className="hidden lg:flex clay clay-coral clay-tilt-r clay-sm absolute -bottom-5 -left-6 z-20 p-3 items-center justify-center pointer-events-none">
+            <Ruler className="w-6 h-6 text-white" />
           </div>
 
           {/* Yellow slab behind the frame — the second layer of clay. */}
