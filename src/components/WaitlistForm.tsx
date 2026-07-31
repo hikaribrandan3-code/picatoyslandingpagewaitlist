@@ -16,6 +16,10 @@ interface Props {
 
 export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSelectedColor, onSuccessTicket }) => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [country, setCountry] = useState('');
+  const [phone, setPhone] = useState('');
+  const [heardFrom, setHeardFrom] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -34,7 +38,14 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
         const res = await fetch(SUBMIT_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, colorPreference: colorOption.id }),
+          body: JSON.stringify({
+            email,
+            colorPreference: colorOption.id,
+            name,
+            country,
+            phone,
+            heardFrom,
+          }),
         });
         if (!res.ok) throw new Error('bad status');
       } catch {
@@ -62,6 +73,10 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
 
     onSuccessTicket(newTicket);
     setEmail('');
+    setName('');
+    setCountry('');
+    setPhone('');
+    setHeardFrom('');
   };
 
   return (
@@ -124,7 +139,20 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
           <div className="flex flex-col gap-4 lg:justify-center lg:h-full">
             <div>
               <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
-                Your Email Address
+                Your Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Richard"
+                className="clay-well clay-cream w-full px-4 py-3.5 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
+              />
+            </div>
+
+            <div>
+              <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
+                Email Address
               </label>
               <div className="relative">
                 <Mail className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6D6D6D]" />
@@ -137,6 +165,52 @@ export const WaitlistForm: React.FC<Props> = ({ playSound, selectedColor, setSel
                   className="clay-well clay-cream w-full pl-11 pr-4 py-3.5 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
                 />
               </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+55 (11) 9..."
+                  className="clay-well clay-cream w-full px-4 py-3.5 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
+                />
+              </div>
+              <div>
+                <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="Brazil"
+                  className="clay-well clay-cream w-full px-4 py-3.5 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="font-extrabold text-xs uppercase tracking-wider text-[#2D2D2D] mb-2 block">
+                How'd You Hear About Us?
+              </label>
+              <select
+                value={heardFrom}
+                onChange={(e) => setHeardFrom(e.target.value)}
+                className="clay-well clay-cream w-full px-4 py-3.5 text-[#2D2D2D] font-bold text-sm focus:outline-none focus:border-[#D94F4F]"
+              >
+                <option value="">Select one...</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Reddit">Reddit</option>
+                <option value="Friend">Friend</option>
+                <option value="Google">Google</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             {error && <p className="text-xs font-bold text-[#FF6B6B]">{error}</p>}
