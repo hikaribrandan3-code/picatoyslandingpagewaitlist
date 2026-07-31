@@ -1,3 +1,5 @@
+const SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbz0CjncWAkvfc2G-e12_k5v2pfIq3OEgTYb_3wgGtUiIs22U93h58aHDPjl15xpLRjJ7Q/exec';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -18,41 +20,26 @@ export default async function handler(req, res) {
   }
 
   try {
-    const apiKey = process.env.RESEND_API_KEY;
-    const notifyEmail = process.env.NOTIFY_EMAIL;
-
-    if (!apiKey || !notifyEmail) {
-      return res.status(500).json({
-        error: 'Missing configuration',
-        hasKey: !!apiKey,
-        hasEmail: !!notifyEmail
-      });
-    }
-
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await fetch(SHEET_WEBHOOK, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: 'onboarding@resend.dev',
-        to: notifyEmail,
-        subject: `Pica Yoyo Waitlist: ${email}`,
-        text: `New signup: ${email} (${colorPreference})`,
+        email,
+        colorPreference: colorPreference || 'not selected',
       }),
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      console.error('Resend failed:', data);
-      return res.status(400).json({ error: data.message || 'Email send failed' });
+      console.error('Sheet webhook failed:', response.status);
+      return res.status(400).json({ error: 'Failed to save to sheet' });
     }
 
+    console.log(`Waitlist signup: ${email} (${colorPreference})`);
     return res.status(201).json({ success: true });
   } catch (error) {
-    console.error('API error:', error);
+    console.error('API error:', error.message);
     return res.status(500).json({ error: error.message });
   }
 }
