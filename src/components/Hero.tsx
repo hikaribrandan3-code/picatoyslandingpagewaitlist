@@ -170,12 +170,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         </motion.div>
 
         {/* Visual Product Hero */}
-        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
-          {/* Diagonal ribbon — mobile only */}
-          <div className="absolute -top-1 -right-20 w-56 h-10 bg-black pointer-events-none transform rotate-45 flex items-center justify-center z-10">
-            <span className="text-white font-black text-xs tracking-widest whitespace-nowrap">100% UNIQUE DESIGN</span>
-          </div>
-
+        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group">
           {/* Yellow slab behind the frame — the second layer of clay. */}
           <div className="clay clay-yellow clay-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] -z-10 [--clay-tilt:3deg] transition-transform group-hover:[--clay-tilt:6.5deg]" />
 
