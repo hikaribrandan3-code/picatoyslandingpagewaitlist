@@ -50,9 +50,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
             this would be an anchor to a section that does not exist. No
             separate Blueprint link either — that section merged into
             Features, so #blueprint no longer exists as its own anchor. */}
-        <div className="hidden md:flex items-center gap-8 font-semibold text-xs uppercase tracking-widest text-[#2D2D2D]">
-          <a href="#features" className="hover:text-[#FF6B6B] transition-colors py-1">Features</a>
-          <a href="#faq" className="hover:text-[#FF6B6B] transition-colors py-1">FAQ</a>
+        <div className="hidden md:flex items-center gap-3">
+          <a href="#features" className="clay clay-btn clay-yellow clay-sm clay-tilt-l font-black text-xs uppercase tracking-tight px-4 py-2 cursor-pointer">
+            Features
+          </a>
+          <a href="#faq" className="clay clay-btn clay-teal clay-sm clay-tilt-r font-black text-xs uppercase tracking-tight px-4 py-2 cursor-pointer">
+            FAQ
+          </a>
         </div>
 
         {/* Action Buttons */}
