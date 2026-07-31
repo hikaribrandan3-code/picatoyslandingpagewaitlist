@@ -21,6 +21,7 @@ function HeroVideo() {
       } else {
         videoRef.current.play();
         setIsPlaying(true);
+        setIsMuted(false);
       }
     }
   };
