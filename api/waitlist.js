@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, colorPreference } = req.body;
+  const { email, colorPreference, name, country, phone, heardFrom } = req.body;
 
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
@@ -28,6 +28,10 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         email,
         colorPreference: colorPreference || 'not selected',
+        name: name || '',
+        country: country || '',
+        phone: phone || '',
+        heardFrom: heardFrom || '',
       }),
     });
 
