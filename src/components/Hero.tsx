@@ -1,7 +1,5 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
 import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music } from 'lucide-react';
-import { useCountdown } from '../hooks/useCountdown';
 
 /** TikTok-style video player with clay frame. A big center button owns the
     one-time "unlock sound" gesture browsers require for unmuted audio; the
@@ -175,84 +173,56 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedColorId = 'clear' }) => {
   const desktop = useDesktop();
-  const timeLeft = useCountdown();
 
   return (
-    <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 lg:py-10 flex flex-col items-center text-center overflow-hidden relative border-b-[3px] border-[#248383]">
+    <section className="bg-[#FFF9F2] px-4 sm:px-6 py-12 sm:py-20 lg:py-14 flex flex-col items-center text-center overflow-hidden relative border-b-[3px] border-[#248383]">
       {/* Rolled-clay offcuts in the background. Uneven radii + blur so they
           read as scraps left on the bench, not as geometric blobs. */}
       <div className="absolute top-10 left-[-60px] w-64 h-64 bg-[#FFD93D] rounded-[70%_30%_58%_42%/45%_62%_38%_55%] rotate-12 opacity-30 -z-10 blur-xl pointer-events-none" />
       <div className="absolute bottom-10 right-[-60px] w-72 h-72 bg-[#4D96FF] rounded-[38%_62%_45%_55%/60%_42%_58%_40%] -rotate-6 opacity-20 -z-10 blur-2xl pointer-events-none" />
       <div className="absolute top-1/3 right-[8%] w-24 h-24 bg-[#6BCB77] rounded-[62%_38%_50%_50%/48%_58%_42%_52%] rotate-[18deg] opacity-20 -z-10 blur-lg pointer-events-none hidden lg:block" />
 
+      {/* Single desktop-only hero title, sitting above both the video and the
+          3D CAD columns instead of each column carrying its own duplicate
+          headline. Mobile keeps its own title inline with the video below —
+          untouched. */}
+      <div className="hidden lg:block w-full max-w-4xl mx-auto text-center mb-10">
+        <h1 className="text-4xl xl:text-5xl font-black text-[#2D2D2D] uppercase tracking-tight leading-tight">
+          Pica Yoyo — The Original 2-in-1 3D-Printed Grinder Yoyo
+        </h1>
+        <p className="text-lg xl:text-xl font-bold text-[#6D6D6D] normal-case mt-3">
+          Built for the 90s kids who now have adult money
+        </p>
+      </div>
+
       {/* Layout: plain flex-column stack on mobile (unchanged), two-column
           grid on desktop (.hero-grid, src/index.css) so the CTA sits
           beside the media instead of requiring a scroll past it. DOM
-          order stays mobile-first (descr, media, cta, status); the grid
-          areas reposition on lg without touching that order. */}
+          order stays mobile-first (descr, media, cta); the grid areas
+          reposition on lg without touching that order. */}
       <div className="w-full flex flex-col items-center hero-grid lg:w-full lg:max-w-6xl lg:mx-auto">
-        {/* Product Descriptor & Tagline. Video + Bungee headline lead on both
-            breakpoints now (was mobile-only) — on desktop it sits at the top
-            of the left column, above the "Pica Yoyo" wordmark. Mobile keeps
-            the original single-line title untouched. Desktop (lg:) gets a
-            bigger standalone wordmark, a diagonal drop-sticker badge, and a
-            real countdown pill (useCountdown — same LAUNCH_TARGET as the
-            countdown section further down the page, so the two never
-            disagree). */}
+        {/* Product Descriptor & Tagline. On mobile this carries the video
+            plus its own Bungee headline and wordmark. On desktop all of
+            that text collapses into the single hero title above — this
+            column becomes just the video, centered in the left slot next
+            to the 3D model. */}
         <div className="hero-descr relative text-center mb-6 lg:mb-0 lg:text-left">
           {/* Video sits outside the fade-in wrapper below — an autoplaying
               video competing with Framer's mount animation on the same
               element stalled the fade permanently at opacity:0, so it's
               kept as a plain (un-animated) sibling instead. */}
-          <div className="w-full flex flex-col items-center lg:items-start mb-6">
-            <h3 className="text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center lg:text-left mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
+          <div className="w-full flex flex-col items-center mb-6 lg:mb-0">
+            <h3 className="lg:hidden text-3xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight text-center mb-4" style={{ fontFamily: 'Bungee, sans-serif', fontWeight: 400, lineHeight: '1.1' }}>
               The Internet's Next Favorite YOYO!
             </h3>
-            <div className="w-full max-w-sm lg:max-w-[260px]">
+            <div className="w-full max-w-sm lg:max-w-[320px]">
               <HeroVideo />
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative"
-          >
-            <span className="hidden lg:inline-block clay clay-coral clay-sm absolute top-0 right-6 rotate-12 px-4 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-wide">
-              Limited<br />First Drop
-            </span>
-
-            <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3">
-              Pica Yoyo | 3D-Printed Yoyo Grinder
-            </h2>
-
-            <h2 className="hidden lg:block text-6xl font-black text-[#2D2D2D] uppercase tracking-tight leading-none mb-2">
-              Pica Yoyo
-            </h2>
-            <p className="hidden lg:block text-xl font-bold text-[#2D2D2D] normal-case mb-4">
-              3D-Printed Yoyo Grinder
-            </p>
-
-            {/* Digital/LED-style readout: monospace tabular digits with a glow,
-                on the dark clay-ink fill, instead of a plain text pill. */}
-            <div className="hidden lg:inline-flex flex-col gap-1.5">
-              <div className="inline-flex clay clay-ink clay-sm items-center gap-3 px-5 py-2.5">
-                <span
-                  className="font-mono text-3xl font-black leading-none tabular-nums text-[#FF3B3B]"
-                  style={{ textShadow: '0 0 10px rgba(255,59,59,0.65)' }}
-                >
-                  {String(timeLeft.days).padStart(2, '0')}
-                </span>
-                <span className="text-[11px] font-black uppercase leading-tight tracking-widest text-white/80">
-                  Days to<br />First Drop
-                </span>
-              </div>
-              <span className="text-[10px] font-bold text-[#6D6D6D] uppercase tracking-wider">
-                As Seen On TikTok & Instagram
-              </span>
-            </div>
-          </motion.div>
+          <h2 className="lg:hidden text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3 mt-6">
+            Pica Yoyo | 3D-Printed Yoyo Grinder
+          </h2>
         </div>
 
         {/* Visual Product Hero */}
@@ -312,7 +282,10 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         </div>
 
         {/* Main CTA */}
-        <div className="hero-cta flex items-center justify-center lg:justify-start w-full max-w-md lg:max-w-none mb-10 lg:mb-6">
+        <div className="hero-cta flex flex-col items-center justify-center w-full max-w-md lg:max-w-sm lg:mx-auto mb-10 lg:mb-0">
+          <span className="hidden lg:block text-[11px] font-bold text-[#6D6D6D] uppercase tracking-wider mb-3">
+            As Seen On TikTok & Instagram
+          </span>
           <button
             onClick={() => {
               playSound();

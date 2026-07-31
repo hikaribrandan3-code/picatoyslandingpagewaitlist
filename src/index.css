@@ -272,16 +272,15 @@
     grid-template-columns: 1fr 1.1fr;
     grid-template-areas:
       "descr media"
-      "cta   media"
-      "status media";
-    align-items: center;
+      "cta   cta";
+    align-items: start;
     column-gap: 3.5rem;
+    row-gap: 2rem;
     text-align: left;
   }
-  .hero-grid > .hero-descr { grid-area: descr; }
+  .hero-grid > .hero-descr { grid-area: descr; align-self: center; }
   .hero-grid > .hero-media { grid-area: media; align-self: center; }
   .hero-grid > .hero-cta { grid-area: cta; }
-  .hero-grid > .hero-status { grid-area: status; }
 }
 
 /* PICA TOYS Immersive Rainbow Letter Colors */
