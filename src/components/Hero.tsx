@@ -172,7 +172,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         {/* Visual Product Hero */}
         <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-none mb-8 lg:mb-0 group overflow-visible">
           {/* Gold tilted sticker badge */}
-          <div className="absolute top-0 -right-6 bg-[#FFD93D] rounded-3xl px-3 py-2 transform -rotate-25 pointer-events-none shadow-lg">
+          <div className="absolute -top-4 -left-4 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-25 pointer-events-none z-20" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">ORIGINAL</span>
           </div>
