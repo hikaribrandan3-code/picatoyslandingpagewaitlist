@@ -9,9 +9,10 @@
  * Run: npx tsx scripts/verify-crossing.ts
  */
 import {
-  createState, start, step, hop,
+  createState, start, step, hop, buildLanes,
   VIEW, ROW_START, ROW_GOAL, ROW_MEDIAN, HOME_COUNT, START_TIME, START_LIVES,
-  homeCenterX, isRiver, isRoad, rowY, forEachItem, speedOf, type GameState,
+  homeCenterX, isRiver, isRoad, rowY, forEachItem, speedOf, levelMultiplier, MAP_NAMES,
+  type GameState, type Phase,
 } from '../src/components/arcade/crossingEngine';
 
 let failures = 0;
@@ -177,12 +178,54 @@ console.log('\nPica Crossing — engine checks\n');
   }
   check('filling every home clears the level', g.phase === 'levelup', `phase ${g.phase}`);
   check('clearing advances to level 2', g.level === 2);
+  check('every home fill counts as a crossing', g.crossings === HOME_COUNT, `crossings ${g.crossings}`);
   until(g, () => g.phase === 'playing', 200);
   check('the next level resets the homes', g.homes.every((h) => !h));
 
-  const l1 = createState(0);
-  check('level 2 traffic is faster than level 1',
-    g.lanes[0].baseSpeed * (1 + (2 - 1) * 0.15) > l1.lanes[0].baseSpeed);
+  check('the per-level speed multiplier grows monotonically',
+    levelMultiplier(2) > levelMultiplier(1) && levelMultiplier(12) > levelMultiplier(2));
+  check('the per-level multiplier never resets or caps',
+    levelMultiplier(50) > levelMultiplier(20) && levelMultiplier(20) > levelMultiplier(10));
+}
+
+// -------------------------------------------------------------- map rotation
+{
+  // This is the actual fix for "it's the same board forever": every single
+  // home landing — not just every level clear — must swap in a different map.
+  const g = createState(0);
+  start(g);
+  check('a fresh game starts on map 0', g.mapIndex === 0);
+
+  const seenMaps = new Set<number>();
+  const seenLaneShapes = new Set<string>();
+  for (let i = 0; i < HOME_COUNT * MAP_NAMES.length; i++) {
+    g.phase = 'playing';
+    g.frog.row = ROW_GOAL;
+    g.frog.x = homeCenterX(i % HOME_COUNT);
+    g.frog.toX = g.frog.x;
+    g.frog.toY = rowY(ROW_GOAL);
+    g.frog.t = 1 - 1 / 8;
+    const mapBefore = g.mapIndex;
+    step(g);
+    seenMaps.add(g.mapIndex);
+    seenLaneShapes.add(g.lanes.map((l) => `${l.item}${l.baseSpeed}${l.gap}`).join('|'));
+    check(`crossing ${i}: map advances on a home landing`, g.mapIndex !== mapBefore || MAP_NAMES.length === 1);
+    // step() mutates g.phase, but TS's control-flow narrowing still treats it
+    // as the literal assigned above ('playing') and does not account for a
+    // function call invalidating that — cast past it rather than compare
+    // against a type TS has (wrongly) narrowed to a single literal.
+    if ((g.phase as Phase) === 'levelup') until(g, () => (g.phase as Phase) === 'playing', 200);
+  }
+  check('every predefined map gets visited over time', seenMaps.size === MAP_NAMES.length, `${seenMaps.size}/${MAP_NAMES.length}`);
+  check('the lane composition actually differs across maps', seenLaneShapes.size >= MAP_NAMES.length - 1, `${seenLaneShapes.size} distinct shapes`);
+
+  // Returning to a map already visited must not replay an identical layout —
+  // this was the bug where buildLanes' phase depended only on lane index, so
+  // every revisit of a given map was a frozen, byte-identical replay.
+  const first = buildLanes(0, 0);
+  const secondVisit = buildLanes(0, MAP_NAMES.length);
+  const identical = first.every((l, i) => l.offset === secondVisit[i].offset);
+  check('revisiting a map does not replay the exact same phase', !identical);
 }
 
 // -------------------------------------------------------------- clock & end
@@ -288,6 +331,96 @@ console.log('\nPica Crossing — engine checks\n');
   // The flip side: if even a bot with perfect information never dies, there is
   // no game here. Some failure is the point.
   check('the board is not a walkover', rate <= 97, `${rate}%`);
+}
+
+// ------------------------------------------------------ every map is fair
+{
+  /** Same competent-player logic as above, but pointed at an arbitrary map
+   *  built directly via `buildLanes` rather than only whatever a fresh game
+   *  starts on — this is what actually exercises maps 1-3 and high levels. */
+  function safeAt(g: GameState, row: number, x: number, look = 16): boolean {
+    if (row < ROW_GOAL || row > ROW_START) return false;
+    if (x < 20 || x > VIEW.w - 20) return false;
+    const l = g.lanes.find((ln) => ln.row === row);
+    if (!l) return true;
+    if (l.kind === 'river') {
+      let ok = false;
+      forEachItem(l, (ix) => { if (x >= ix + 10 && x <= ix + l.len - 10) ok = true; });
+      return ok;
+    }
+    const v = l.dir * speedOf(l, g.level);
+    let ok = true;
+    forEachItem(l, (ix) => {
+      for (let t = 0; t <= look; t += 2) {
+        const cx = ix + v * t;
+        if (x + 13 > cx - 8 && x - 13 < cx + l.len + 8) ok = false;
+      }
+    });
+    return ok;
+  }
+  const inTraffic = (g: GameState, row: number) => g.lanes.some((l) => l.row === row && l.kind === 'road');
+
+  function winRate(mapIdx: number, level: number, N = 120): number {
+    let wins = 0;
+    for (let visit = 0; visit < N; visit++) {
+      const g = createState(0);
+      start(g);
+      g.level = level;
+      g.mapIndex = mapIdx;
+      g.lanes = buildLanes(mapIdx, visit);
+      g.phase = 'playing';
+      g.time = START_TIME;
+
+      let guard = 0;
+      while (g.phase === 'playing' && guard++ < 9000) {
+        const f = g.frog;
+        if (f.t >= 1) {
+          if (f.row === ROW_GOAL + 1) {
+            let best = -1;
+            let bestD = Infinity;
+            for (let i = 0; i < HOME_COUNT; i++) {
+              if (g.homes[i]) continue;
+              const d = Math.abs(homeCenterX(i) - f.x);
+              if (d < bestD) { bestD = d; best = i; }
+            }
+            if (best >= 0 && bestD > 20) {
+              const dir = homeCenterX(best) > f.x ? 1 : 3;
+              if (safeAt(g, f.row, f.x + (dir === 1 ? 40 : -40))) hop(g, dir);
+            } else if (safeAt(g, ROW_GOAL, f.x)) hop(g, 0);
+          } else if (safeAt(g, f.row - 1, f.x)) {
+            hop(g, 0);
+          } else if (inTraffic(g, f.row) && !safeAt(g, f.row, f.x, 12)) {
+            if (safeAt(g, f.row, f.x + 40)) hop(g, 1);
+            else if (safeAt(g, f.row, f.x - 40)) hop(g, 3);
+            else if (safeAt(g, f.row + 1, f.x)) hop(g, 2);
+          }
+        }
+        step(g);
+        if (g.homes.some(Boolean)) break;
+      }
+      if (g.homes.some(Boolean)) wins++;
+    }
+    return Math.round((wins / N) * 100);
+  }
+
+  const l1Rates = MAP_NAMES.map((_, i) => winRate(i, 1));
+  l1Rates.forEach((rate, i) => {
+    check(`${MAP_NAMES[i]} is fair at level 1`, rate >= 55 && rate <= 99, `${rate}%`);
+  });
+
+  // Gridlock is the designed hard mode — if it is not measurably tougher
+  // than the opening map, difficulty tuning has drifted or someone edited
+  // the numbers without re-checking the balance.
+  check('Gridlock is harder than Sunny Crossing at the same level',
+    l1Rates[l1Rates.length - 1] < l1Rates[0] - 5,
+    `Gridlock ${l1Rates[l1Rates.length - 1]}% vs Sunny ${l1Rates[0]}%`);
+
+  // The level multiplier must eventually bite hard — "keeps going, keeps
+  // getting harder" is the whole point, not a curve that flattens out.
+  const earlyRate = winRate(0, 1, 80);
+  const lateRate = winRate(0, 14, 80);
+  check('the same map gets substantially harder by level 14',
+    lateRate < earlyRate - 25, `L1 ${earlyRate}% vs L14 ${lateRate}%`);
 }
 
 console.log(`\n${failures === 0 ? 'All checks passed.' : `${failures} FAILED.`}\n`);

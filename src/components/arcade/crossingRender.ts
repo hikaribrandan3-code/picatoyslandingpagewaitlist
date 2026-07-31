@@ -18,7 +18,7 @@
  */
 import {
   VIEW, ROW_H, ROW_GOAL, ROW_MEDIAN, ROW_START, HOME_COUNT, HOME_W,
-  homeCenterX, rowY, isRiver, isRoad, forEachItem, type GameState, type Lane,
+  homeCenterX, rowY, isRiver, isRoad, forEachItem, MAP_NAMES, type GameState, type Lane,
 } from './crossingEngine';
 
 const TAU = Math.PI * 2;
@@ -48,6 +48,31 @@ const C = {
 
 /** Car body colours, cycled by lane hue so no two lanes look like clones. */
 const CAR_CLAY: Clay[] = [C.coral, C.blue, C.yellow, C.teal];
+
+/**
+ * A mood shift per map, on top of the lane-config changes — so a returning
+ * player reads "new place" at a glance before they've even parsed the
+ * traffic pattern. Indices line up 1:1 with crossingEngine's MAPS array.
+ */
+const MAP_TINT: { road: Clay; water: Clay }[] = [
+  // 0 Sunny Crossing — the baseline daylight palette.
+  { road: C.road, water: C.water },
+  // 1 Rush Hour — warm dusk cast.
+  {
+    road: { top: '#A69080', fill: '#8C7566', bot: '#786357', edge: '#5C493D', ledge: '#453630' },
+    water: { top: '#7FC9E0', fill: '#4E9DC4', bot: '#3E85AC', edge: '#2C6889', ledge: '#204F69' },
+  },
+  // 2 Flood Surge — overcast and stormy.
+  {
+    road: { top: '#8B8F99', fill: '#6E7480', bot: '#5C616B', edge: '#454951', ledge: '#33363C' },
+    water: { top: '#6FA8C7', fill: '#3E7DA0', bot: '#2F6684', edge: '#204C63', ledge: '#17384A' },
+  },
+  // 3 Gridlock — hazard-red asphalt, dark water.
+  {
+    road: { top: '#B08A85', fill: '#96706B', bot: '#815D59', edge: '#644542', ledge: '#4A3230' },
+    water: { top: '#6A9FBE', fill: '#3D7699', bot: '#2E5F7D', edge: '#1F4759', ledge: '#153541' },
+  },
+];
 
 // ------------------------------------------------------------------ textures
 
@@ -250,13 +275,13 @@ function drawBank(ctx: CanvasRenderingContext2D, row: number, c: Clay, seed: num
   }
 }
 
-function drawRoad(ctx: CanvasRenderingContext2D, rows: number[]) {
+function drawRoad(ctx: CanvasRenderingContext2D, rows: number[], tint: Clay) {
   const top = rows[0] * ROW_H;
   const h = rows.length * ROW_H;
   const g = ctx.createLinearGradient(0, top, 0, top + h);
-  g.addColorStop(0, C.road.top);
-  g.addColorStop(0.45, C.road.fill);
-  g.addColorStop(1, C.road.bot);
+  g.addColorStop(0, tint.top);
+  g.addColorStop(0.45, tint.fill);
+  g.addColorStop(1, tint.bot);
   ctx.fillStyle = g;
   ctx.fillRect(0, top, VIEW.w, h);
 
@@ -278,13 +303,13 @@ function drawRoad(ctx: CanvasRenderingContext2D, rows: number[]) {
   }
 }
 
-function drawRiver(ctx: CanvasRenderingContext2D, rows: number[], tick: number) {
+function drawRiver(ctx: CanvasRenderingContext2D, rows: number[], tick: number, tint: Clay) {
   const top = rows[0] * ROW_H;
   const h = rows.length * ROW_H;
   const g = ctx.createLinearGradient(0, top, 0, top + h);
-  g.addColorStop(0, C.water.top);
-  g.addColorStop(0.5, C.water.fill);
-  g.addColorStop(1, C.water.bot);
+  g.addColorStop(0, tint.top);
+  g.addColorStop(0.5, tint.fill);
+  g.addColorStop(1, tint.bot);
   ctx.fillStyle = g;
   ctx.fillRect(0, top, VIEW.w, h);
 
@@ -678,13 +703,46 @@ function crtPass(ctx: CanvasRenderingContext2D) {
 const RIVER_ROWS = [1, 2, 3, 4];
 const ROAD_ROWS = [6, 7, 8, 9];
 
+/**
+ * "New stage" banner: fires every crossing (not just every level, per
+ * MAP_NAMES/mapIndex), so the map swap that just happened under the frog's
+ * feet gets named instead of just silently looking different. Fades in over
+ * its first ~10 ticks and out over its last ~20; drawn on-canvas rather than
+ * as a React overlay because it fires mid-`playing`, not on a phase change.
+ */
+function drawStageBanner(ctx: CanvasRenderingContext2D, g: GameState) {
+  if (g.stageT <= 0) return;
+  const DUR = 80;
+  const elapsed = DUR - g.stageT;
+  const a = elapsed < 10 ? elapsed / 10 : g.stageT < 20 ? g.stageT / 20 : 1;
+
+  const label = MAP_NAMES[g.mapIndex] ?? 'Next Stage';
+  const y = ROW_MEDIAN * ROW_H + ROW_H / 2;
+
+  ctx.save();
+  ctx.globalAlpha = a;
+  ctx.font = '900 15px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  const w = ctx.measureText(label.toUpperCase()).width + 44;
+  const h = 30;
+  const x = VIEW.w / 2 - w / 2;
+  const top = y - h / 2;
+  groundShadow(ctx, VIEW.w / 2 + 1, top + h + 3, w * 0.42, 5, 0.16 * a);
+  clayBlock(ctx, x, top, w, h, [15, 15, 15, 15], C.yellow, 4, false);
+  ctx.fillStyle = '#2D2D2D';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label.toUpperCase(), VIEW.w / 2, top + h / 2 + 1);
+  ctx.restore();
+}
+
 export function drawFrame(ctx: CanvasRenderingContext2D, g: GameState) {
   ctx.clearRect(0, 0, VIEW.w, VIEW.h);
+  const tint = MAP_TINT[g.mapIndex] ?? MAP_TINT[0];
 
   drawGoal(ctx, g);
-  drawRiver(ctx, RIVER_ROWS, g.tick);
+  drawRiver(ctx, RIVER_ROWS, g.tick, tint.water);
   drawBank(ctx, ROW_MEDIAN, C.grass, 11);
-  drawRoad(ctx, ROAD_ROWS);
+  drawRoad(ctx, ROAD_ROWS, tint.road);
   drawBank(ctx, ROW_START, C.grass, 47);
 
   for (const l of g.lanes) {
@@ -696,6 +754,7 @@ export function drawFrame(ctx: CanvasRenderingContext2D, g: GameState) {
   }
 
   if (g.phase !== 'over' && g.phase !== 'levelup') drawFrog(ctx, g);
+  if (g.phase === 'playing') drawStageBanner(ctx, g);
 
   crtPass(ctx);
 }

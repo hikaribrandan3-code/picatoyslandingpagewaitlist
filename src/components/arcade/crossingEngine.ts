@@ -123,6 +123,16 @@ export interface GameState {
   levelT: number;
   tick: number;
   seed: number;
+  /** Total home landings this game, across every level. Never resets mid-run
+   *  — it is the clock that drives which map is live, so the board keeps
+   *  changing on every single crossing instead of looping one layout. */
+  crossings: number;
+  /** Which entry of MAPS is currently built into `lanes`. Derived from
+   *  `crossings`, but kept on state so the renderer can tint the scene and
+   *  the shell can fire a "new stage" beat without recomputing it. */
+  mapIndex: number;
+  /** Counts down after a map swap, for the renderer's stage banner. */
+  stageT: number;
 }
 
 interface LaneCfg {
@@ -137,26 +147,89 @@ interface LaneCfg {
 }
 
 /**
- * Traffic gets faster as it gets further from the start bank, so the run has a
- * difficulty ramp inside a single crossing rather than four interchangeable
- * lanes. The river alternates direction every row for the same reason: you
- * cannot ride one heading all the way across.
+ * Four hand-tuned boards. The frog lands on a fresh one after every single
+ * home — not just every level — so "keep going" actually means something:
+ * the terrain itself changes crossing to crossing, and the level-up moment on
+ * top of that is a bonus checkpoint, not the only source of new content.
+ *
+ * Within each map, traffic still gets faster the further a row sits from the
+ * start bank, and the river still alternates direction row to row — a rider
+ * can never coast one heading all the way across. What changes map to map is
+ * which road row is the fast lane, which way each lane runs, and how tight
+ * the gaps are, so memorising map 1 does not help on map 2.
  */
-const LANE_CFG: LaneCfg[] = [
-  { row: 1, kind: 'river', item: 'log', dir: -1, speed: 0.95, len: 150, gap: 252, hue: 0 },
-  { row: 2, kind: 'river', item: 'pad', dir: 1, speed: 1.30, len: 84, gap: 182, hue: 1 },
-  { row: 3, kind: 'river', item: 'log', dir: -1, speed: 1.70, len: 194, gap: 314, hue: 2 },
-  { row: 4, kind: 'river', item: 'pad', dir: 1, speed: 1.05, len: 96, gap: 198, hue: 3 },
-  { row: 6, kind: 'road', item: 'truck', dir: 1, speed: 1.15, len: 118, gap: 322, hue: 0 },
-  { row: 7, kind: 'road', item: 'racer', dir: -1, speed: 2.55, len: 58, gap: 270, hue: 1 },
-  { row: 8, kind: 'road', item: 'car', dir: 1, speed: 1.85, len: 64, gap: 238, hue: 2 },
-  { row: 9, kind: 'road', item: 'car', dir: -1, speed: 1.30, len: 64, gap: 212, hue: 3 },
+const MAPS: LaneCfg[][] = [
+  // 0 — Sunny Crossing. The original tuning: fair, medium pace, racer in the
+  // second road row. Always the game's first stage, so a new player's first
+  // impression is calibrated, not a coin flip.
+  [
+    { row: 1, kind: 'river', item: 'log', dir: -1, speed: 0.95, len: 150, gap: 252, hue: 0 },
+    { row: 2, kind: 'river', item: 'pad', dir: 1, speed: 1.30, len: 84, gap: 182, hue: 1 },
+    { row: 3, kind: 'river', item: 'log', dir: -1, speed: 1.70, len: 194, gap: 314, hue: 2 },
+    { row: 4, kind: 'river', item: 'pad', dir: 1, speed: 1.05, len: 96, gap: 198, hue: 3 },
+    { row: 6, kind: 'road', item: 'truck', dir: 1, speed: 1.15, len: 118, gap: 322, hue: 0 },
+    { row: 7, kind: 'road', item: 'racer', dir: -1, speed: 2.55, len: 58, gap: 270, hue: 1 },
+    { row: 8, kind: 'road', item: 'car', dir: 1, speed: 1.85, len: 64, gap: 238, hue: 2 },
+    { row: 9, kind: 'road', item: 'car', dir: -1, speed: 1.30, len: 64, gap: 212, hue: 3 },
+  ],
+  // 1 — Rush Hour. Every road row a notch faster and a notch tighter; the
+  // river shortens its rafts so landings need to be more deliberate.
+  [
+    { row: 1, kind: 'river', item: 'log', dir: -1, speed: 1.05, len: 140, gap: 232, hue: 1 },
+    { row: 2, kind: 'river', item: 'pad', dir: 1, speed: 1.45, len: 76, gap: 168, hue: 2 },
+    { row: 3, kind: 'river', item: 'log', dir: -1, speed: 1.85, len: 172, gap: 292, hue: 3 },
+    { row: 4, kind: 'river', item: 'pad', dir: 1, speed: 1.15, len: 86, gap: 182, hue: 0 },
+    { row: 6, kind: 'road', item: 'car', dir: -1, speed: 1.55, len: 64, gap: 246, hue: 1 },
+    { row: 7, kind: 'road', item: 'truck', dir: 1, speed: 1.35, len: 118, gap: 290, hue: 2 },
+    { row: 8, kind: 'road', item: 'racer', dir: -1, speed: 2.70, len: 58, gap: 250, hue: 3 },
+    { row: 9, kind: 'road', item: 'car', dir: 1, speed: 1.65, len: 64, gap: 210, hue: 0 },
+  ],
+  // 2 — Flood Surge. Directions flip against maps 0/1 so a memorised gaze
+  // pattern actively misleads. River gaps widen (fewer rafts on screen at
+  // once), trading a road-heavy stage for a water-heavy one.
+  [
+    { row: 1, kind: 'river', item: 'log', dir: 1, speed: 1.15, len: 128, gap: 268, hue: 2 },
+    { row: 2, kind: 'river', item: 'pad', dir: -1, speed: 1.50, len: 68, gap: 204, hue: 3 },
+    { row: 3, kind: 'river', item: 'log', dir: 1, speed: 1.95, len: 158, gap: 330, hue: 0 },
+    { row: 4, kind: 'river', item: 'pad', dir: -1, speed: 1.20, len: 78, gap: 214, hue: 1 },
+    { row: 6, kind: 'road', item: 'truck', dir: -1, speed: 1.20, len: 118, gap: 300, hue: 2 },
+    { row: 7, kind: 'road', item: 'car', dir: 1, speed: 1.90, len: 64, gap: 224, hue: 3 },
+    { row: 8, kind: 'road', item: 'racer', dir: -1, speed: 2.60, len: 58, gap: 258, hue: 0 },
+    { row: 9, kind: 'road', item: 'car', dir: 1, speed: 1.40, len: 64, gap: 204, hue: 1 },
+  ],
+  // 3 — Gridlock. The hardest predefined board: dense on both river and
+  // road, short rafts, two fast lanes instead of one. Meant to feel like a
+  // real spike — level-based scaling stacks on top of this from here on.
+  [
+    { row: 1, kind: 'river', item: 'log', dir: -1, speed: 1.25, len: 118, gap: 240, hue: 3 },
+    { row: 2, kind: 'river', item: 'pad', dir: 1, speed: 1.60, len: 62, gap: 182, hue: 0 },
+    { row: 3, kind: 'river', item: 'log', dir: -1, speed: 2.10, len: 148, gap: 296, hue: 1 },
+    { row: 4, kind: 'river', item: 'pad', dir: 1, speed: 1.30, len: 70, gap: 190, hue: 2 },
+    { row: 6, kind: 'road', item: 'truck', dir: 1, speed: 1.45, len: 118, gap: 264, hue: 3 },
+    { row: 7, kind: 'road', item: 'racer', dir: -1, speed: 2.85, len: 58, gap: 232, hue: 0 },
+    { row: 8, kind: 'road', item: 'car', dir: 1, speed: 2.20, len: 64, gap: 196, hue: 1 },
+    { row: 9, kind: 'road', item: 'racer', dir: -1, speed: 2.35, len: 58, gap: 212, hue: 2 },
+  ],
 ];
 
-function buildLanes(): Lane[] {
-  return LANE_CFG.map((c, i) => {
+/** Shown on the stage banner when the board swaps. Purely cosmetic. */
+export const MAP_NAMES = ['Sunny Crossing', 'Rush Hour', 'Flood Surge', 'Gridlock'];
+
+const mapIndexFor = (crossings: number) => crossings % MAPS.length;
+
+/**
+ * `visit` is the crossing count at the moment this map was (re)built. Folding
+ * it into the phase means the Nth time a player lands back on, say, Sunny
+ * Crossing, the traffic is offset differently than the first time — without
+ * it every return trip to a given map replayed the exact same frozen frame,
+ * because the phase formula depended only on the lane index.
+ */
+export function buildLanes(mapIndex: number, visit = 0): Lane[] {
+  const cfg = MAPS[((mapIndex % MAPS.length) + MAPS.length) % MAPS.length];
+  return cfg.map((c, i) => {
     const count = Math.ceil((VIEW.w + c.len + c.gap) / c.gap);
     const span = count * c.gap;
+    const raw = i * 137 + visit * 269;
     return {
       row: c.row,
       kind: c.kind,
@@ -167,15 +240,22 @@ function buildLanes(): Lane[] {
       gap: c.gap,
       count,
       span,
-      // Stagger the phases so the board never lines up into a visible grid.
-      offset: (i * 137) % span,
+      offset: ((raw % span) + span) % span,
       hue: c.hue,
     };
   });
 }
 
-/** Level 1 plays at the tuned speed; each level adds 15%. */
-export const speedOf = (l: Lane, level: number) => l.baseSpeed * (1 + (level - 1) * 0.15);
+/**
+ * Level 1 plays each map at its tuned speed. Every level afterward adds a
+ * further 7% on top — deliberately smaller than the old flat 15%, because
+ * now the map itself is a second, bigger difficulty lever (map 3 alone is
+ * already ~35% faster than map 0). The two stack and never cap, so the game
+ * keeps getting harder for as long as the player keeps clearing levels.
+ */
+const LEVEL_GROWTH = 0.07;
+export const levelMultiplier = (level: number) => 1 + (level - 1) * LEVEL_GROWTH;
+export const speedOf = (l: Lane, level: number) => l.baseSpeed * levelMultiplier(level);
 
 /**
  * Walk a lane's items without allocating. Positions are derived from a single
@@ -209,7 +289,7 @@ function freshFrog(): Frog {
 export function createState(best: number): GameState {
   return {
     phase: 'cover',
-    lanes: buildLanes(),
+    lanes: buildLanes(0),
     frog: freshFrog(),
     homes: new Array(HOME_COUNT).fill(false),
     score: 0,
@@ -226,6 +306,9 @@ export function createState(best: number): GameState {
     levelT: 0,
     tick: 0,
     seed: 0x5eed1234,
+    crossings: 0,
+    mapIndex: 0,
+    stageT: 0,
   };
 }
 
@@ -245,6 +328,10 @@ export function start(g: GameState) {
   g.level = 1;
   g.flashT = 0;
   g.levelT = 0;
+  g.crossings = 0;
+  g.mapIndex = 0;
+  g.lanes = buildLanes(0);
+  g.stageT = 80;
   beginLife(g, true);
 }
 
@@ -335,6 +422,15 @@ function resolveHome(g: GameState) {
   g.homes[i] = true;
   g.score += 100 + Math.floor(g.time / 60) * 5;
   g.flashT = 34;
+
+  // Every home advances the board, not just every level — this is what makes
+  // the game keep changing instead of looping the same layout with a speed
+  // bump. Done before the level-clear branch so both paths get the new map.
+  g.crossings += 1;
+  g.mapIndex = mapIndexFor(g.crossings);
+  g.lanes = buildLanes(g.mapIndex, g.crossings);
+  g.stageT = 80;
+
   if (g.homes.every(Boolean)) {
     g.score += 300 * g.level;
     g.level += 1;
@@ -374,6 +470,7 @@ function advanceLanes(g: GameState) {
 export function step(g: GameState) {
   g.tick++;
   if (g.flashT > 0) g.flashT--;
+  if (g.stageT > 0) g.stageT--;
 
   // Attract mode and the game-over card keep the board alive behind them.
   if (g.phase === 'cover' || g.phase === 'over') {
