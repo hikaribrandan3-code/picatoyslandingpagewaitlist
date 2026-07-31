@@ -60,6 +60,7 @@ export default function App() {
           onJoinWaitlist={handleOpenWaitlist}
           playSound={playSoundEffect}
           selectedColorId={selectedColorId}
+          setSelectedColorId={setSelectedColorId}
         />
 
         {/* 2. What's Inside — merged with the old "Under the Hood" section:

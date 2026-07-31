@@ -1,5 +1,21 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music, PencilRuler, Ruler } from 'lucide-react';
+import { COLOR_OPTIONS, SPECS } from '../data';
+
+/** Five-point starburst — "NEW!" reads more toy-aisle than a plain pill. */
+function Starburst({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`flex items-center justify-center pointer-events-none ${className}`} style={{ width: 68, height: 68 }}>
+      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.22))' }}>
+        <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" fill="#FF3B3B" />
+      </svg>
+      <span className="relative text-white font-black text-[13px] uppercase italic tracking-tight" style={{ transform: 'rotate(-8deg)' }}>
+        {children}
+      </span>
+    </div>
+  );
+}
 
 /** TikTok-style video player with clay frame. A big center button owns the
     one-time "unlock sound" gesture browsers require for unmuted audio; the
@@ -169,9 +185,10 @@ interface HeroProps {
   onJoinWaitlist: () => void;
   playSound: () => void;
   selectedColorId?: string;
+  setSelectedColorId?: (id: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedColorId = 'clear' }) => {
+export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedColorId = 'clear', setSelectedColorId }) => {
   const desktop = useDesktop();
 
   return (
@@ -187,7 +204,10 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
           headline. Mobile keeps its own title inline with the video below —
           untouched. */}
       <div className="hidden lg:block w-full max-w-4xl mx-auto text-center mb-10">
-        <h1 className="text-4xl xl:text-5xl font-black text-[#2D2D2D] uppercase tracking-tight leading-tight">
+        <h1
+          className="text-4xl xl:text-5xl text-[#2D2D2D] uppercase tracking-tight leading-tight"
+          style={{ fontFamily: 'Bevan, serif', fontWeight: 400 }}
+        >
           Pica Yoyo — The Original 2-in-1 3D-Printed Grinder Yoyo
         </h1>
         <p className="text-lg xl:text-xl font-bold text-[#6D6D6D] normal-case mt-3">
@@ -221,28 +241,43 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             </div>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] uppercase tracking-tight mb-3 mt-6">
+          <h2
+            className="text-2xl sm:text-4xl text-[#2D2D2D] uppercase tracking-tight mb-3 mt-6"
+            style={{ fontFamily: 'Bevan, serif', fontWeight: 400 }}
+          >
             Pica Yoyo | 3D-Printed Yoyo Grinder
           </h2>
         </div>
 
         {/* Visual Product Hero — full-width centerpiece on desktop now that
-            it's not sharing the row with the video. */}
-        <div className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-4xl mb-8 lg:mb-0 group overflow-visible">
-          {/* Gold tilted sticker badge */}
-          <div className="absolute -top-1 -right-2 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-30 pointer-events-none z-20" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+            it's not sharing the row with the video. Tilts/settles into
+            place the first time it scrolls into view (once) instead of
+            just appearing — mobile gets the same entrance since it's
+            already the top-of-page content there. */}
+        <motion.div
+          initial={{ opacity: 0, rotate: -4, y: 26 }}
+          whileInView={{ opacity: 1, rotate: 0, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="hero-media relative w-full max-w-sm sm:max-w-md lg:max-w-4xl mb-8 lg:mb-0 group overflow-visible"
+        >
+          {/* "NEW!" starburst + the trust pill tucked beneath it — reads
+              like a toy-aisle box cluster instead of a single trust badge. */}
+          <Starburst className="absolute -top-6 -right-5 z-20">NEW!</Starburst>
+          <div className="absolute top-11 -right-2 bg-[#FFD93D] rounded-3xl px-3 py-2 transform rotate-12 pointer-events-none z-10" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">100%</span>
             <span className="text-[9px] font-black text-[#2D2D2D] text-center leading-tight block">ORIGINAL</span>
           </div>
 
-          {/* Drafting-tool clay accents — desktop only. Nods to "designed in
-              Fusion 360" (blueprint/engineering, not literal school supplies)
-              the same way the Insta/TikTok icons further down are clay
-              bubbles with an opposite tilt. Purely decorative. */}
+          {/* Drafting-tool clay accents — desktop only, opposite corners for
+              balance. Nods to "designed in Fusion 360" (blueprint/
+              engineering, not literal school supplies) the same way the
+              Insta/TikTok icons further down are clay bubbles with an
+              opposite tilt. Purely decorative. */}
           <div className="hidden lg:flex clay clay-yellow clay-tilt-l clay-sm absolute -top-5 -left-5 z-20 p-3 items-center justify-center pointer-events-none">
             <PencilRuler className="w-6 h-6 text-[#2D2D2D]" />
           </div>
-          <div className="hidden lg:flex clay clay-coral clay-tilt-r clay-sm absolute -bottom-5 -left-6 z-20 p-3 items-center justify-center pointer-events-none">
+          <div className="hidden lg:flex clay clay-coral clay-tilt-r clay-sm absolute -bottom-5 -right-5 z-20 p-3 items-center justify-center pointer-events-none">
             <Ruler className="w-6 h-6 text-white" />
           </div>
 
@@ -254,20 +289,57 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
             {/* Desktop gets the live CAD model; mobile keeps the product
                 shot so a phone never pays for three.js. */}
             {desktop ? (
-              <Suspense
-                fallback={
-                  <div className="clay-well clay-cream flex min-h-[420px] items-center justify-center bg-white">
-                    <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#E3CDB0] border-t-[#FF6B6B]" />
-                  </div>
-                }
-              >
-                <YoyoViewer3D colorId={selectedColorId} />
-              </Suspense>
+              <>
+                <Suspense
+                  fallback={
+                    <div className="clay-well clay-cream flex min-h-[420px] items-center justify-center bg-white">
+                      <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#E3CDB0] border-t-[#FF6B6B]" />
+                    </div>
+                  }
+                >
+                  <YoyoViewer3D colorId={selectedColorId} />
+                </Suspense>
+
+                {/* Color swatch strip — live preview control for the model
+                    above, not just a decoration; picking a dot recolors the
+                    CAD material in real time. */}
+                <div className="flex items-center justify-center gap-3 mt-4">
+                  {COLOR_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => {
+                        playSound();
+                        setSelectedColorId?.(opt.id);
+                      }}
+                      aria-label={`View in ${opt.name}`}
+                      title={opt.name}
+                      className="w-7 h-7 rounded-full transition-transform hover:scale-110 cursor-pointer"
+                      style={{
+                        backgroundColor: opt.swatch,
+                        boxShadow: selectedColorId === opt.id
+                          ? '0 0 0 2px #FFF9F2, 0 0 0 4px #2D2D2D, 0 2px 6px rgba(0,0,0,0.2)'
+                          : '0 0 0 2px #FFF9F2, 0 0 0 3px #E3CDB0, 0 2px 6px rgba(0,0,0,0.15)',
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Blueprint spec strip — real numbers pulled straight from
+                    the parametric CAD model (data.ts / SPECS), not filler
+                    text, so the CAD frame itself carries the proof. */}
+                <div className="mt-4 pt-4 border-t border-dashed border-[#E3CDB0] flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+                  {[SPECS[0], SPECS[2], SPECS[7], SPECS[3]].map((spec) => (
+                    <span key={spec.label} className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#6D6D6D]">
+                      {spec.label}: <span className="text-[#2D2D2D]">{spec.value}</span>
+                    </span>
+                  ))}
+                </div>
+              </>
             ) : (
               <MobileCarousel />
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Social proof — right after the product image, before the first CTA */}
         <div className="lg:hidden flex flex-col items-center gap-2.5 mb-6">
