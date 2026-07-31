@@ -1,24 +1,42 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
 
 /** TikTok-style video player with clay frame */
 function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
   return (
     <div className="clay clay-cream edge-yellow clay-lg p-3 relative w-full" style={{ maxWidth: '100%' }}>
       <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '9/16' }}>
         <video ref={videoRef} src="/hero-video.mp4" autoPlay muted={isMuted} loop playsInline className="w-full h-full object-cover" />
-        <button onClick={() => setIsMuted(!isMuted)} className="absolute bottom-4 right-4 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10" aria-label={isMuted ? 'Unmute' : 'Mute'}>
-          {isMuted ? <VolumeX className="w-4 h-4 text-black" /> : <Volume2 className="w-4 h-4 text-black" />}
-        </button>
+        <div className="absolute bottom-4 right-4 flex gap-2 z-10">
+          <button onClick={togglePlay} className="bg-white/80 hover:bg-white rounded-full p-2 transition-colors" aria-label={isPlaying ? 'Pause' : 'Play'}>
+            {isPlaying ? <Pause className="w-4 h-4 text-black" /> : <Play className="w-4 h-4 text-black" />}
+          </button>
+          <button onClick={() => setIsMuted(!isMuted)} className="bg-white/80 hover:bg-white rounded-full p-2 transition-colors" aria-label={isMuted ? 'Unmute' : 'Mute'}>
+            {isMuted ? <VolumeX className="w-4 h-4 text-black" /> : <Volume2 className="w-4 h-4 text-black" />}
+          </button>
+        </div>
       </div>
     </div>
   );
