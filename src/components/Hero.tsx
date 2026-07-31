@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX, Play, Pause, Instagram, Music } from 'lucide-react';
 import { useCountdown } from '../hooks/useCountdown';
 
 /** TikTok-style video player with clay frame. A big center button owns the
@@ -287,24 +287,25 @@ export const Hero: React.FC<HeroProps> = ({ onJoinWaitlist, playSound, selectedC
         </div>
 
         {/* Social proof — right after the product image, before the first CTA */}
-        <div className="lg:hidden flex flex-col items-center gap-1.5 mb-6">
-          <div className="flex items-center gap-3">
+        <div className="lg:hidden flex flex-col items-center gap-2.5 mb-6">
+          <div className="flex items-center gap-4">
             <a
               href="https://instagram.com/getpicatoys"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              className="text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              aria-label="Follow on Instagram"
             >
-              Instagram
+              <Instagram className="w-8 h-8" />
             </a>
-            <span className="text-[#9E9E9E]">•</span>
             <a
               href="https://tiktok.com/@getpicatoys"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              className="text-[#2D2D2D] hover:text-[#FF6B6B] transition-colors"
+              aria-label="Follow on TikTok"
             >
-              TikTok
+              <Music className="w-8 h-8" />
             </a>
           </div>
           <p className="text-xs font-bold text-[#6D6D6D]">As seen on Insta & TikTok!</p>
