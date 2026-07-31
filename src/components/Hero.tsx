@@ -65,6 +65,23 @@ function MobileCarousel() {
           loading="eager"
         />
 
+        {/* Diagonal stripe — mobile only */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute w-full h-full bg-black/80"
+            style={{
+              transform: 'skewY(-12deg) translateY(-20%)',
+              width: '120%',
+              left: '-10%',
+              top: '10%',
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center text-white font-black text-sm tracking-widest" style={{ transform: 'skewY(12deg)' }}>
+              100% UNIQUE DESIGN
+            </div>
+          </div>
+        </div>
+
         {/* Left arrow */}
         <button
           onClick={prev}

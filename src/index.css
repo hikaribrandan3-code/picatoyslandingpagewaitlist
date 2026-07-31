@@ -233,6 +233,20 @@
 
 .clay-pop { animation: clay-pop 0.45s var(--clay-bounce) both; }
 
+@keyframes slide-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up { animation: slide-up 0.5s ease-out 0.2s both; }
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-fade-in { animation: fade-in 0.4s ease-out both; }
+
 @media (prefers-reduced-motion: reduce) {
   .clay, .clay-btn { transition: none; }
   .clay-pop { animation: none; }

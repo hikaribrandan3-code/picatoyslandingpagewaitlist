@@ -76,6 +76,16 @@ export const VipTicketModal: React.FC<Props> = ({ ticket, onClose, playSound }) 
           </div>
         </div>
 
+        {/* VIP Launch Offer */}
+        <div className="bg-[#FFF9F2] border-2 border-[#FFD93D] rounded-xl p-4 mb-6 animate-slide-up">
+          <div className="text-[10px] font-black uppercase tracking-widest text-[#D94F4F] mb-2">
+            🎉 VIP Launch Offer
+          </div>
+          <p className="text-xs font-bold text-[#2D2D2D] leading-snug">
+            Join today & secure your <span className="text-[#6BCB77] font-black">15% discount</span> for the Batch #001 drop!
+          </p>
+        </div>
+
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopyPass}
