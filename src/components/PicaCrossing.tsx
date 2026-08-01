@@ -11,6 +11,28 @@ import { drawFrame } from './arcade/crossingRender';
 
 const BEST_KEY = 'pica_crossing_best';
 
+/**
+ * Desktop-only: keeps mobile launch scope to Flappy Picas alone — one clear
+ * game, one clear path to the waitlist CTA. The board is also landscape and
+ * reads best with a keyboard. Everything below is still fully touch-capable
+ * (D-pad, swipe, fluid canvas) if a second mobile game is worth adding later.
+ */
+function useDesktopViewport() {
+  const [desktop, setDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setDesktop(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    window.addEventListener('resize', sync);
+    return () => {
+      mq.removeEventListener('change', sync);
+      window.removeEventListener('resize', sync);
+    };
+  }, []);
+  return desktop;
+}
+
 function CrossingGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -501,6 +523,9 @@ const Dpad: React.FC<{ icon: React.ReactNode; onPress: () => void; label: string
  * touch-capable (D-pad, swipe, fluid canvas) — see useCoarsePointer below.
  */
 export const PicaCrossing: React.FC = () => {
+  const desktop = useDesktopViewport();
+  if (!desktop) return null;
+
   return (
     <section className="relative overflow-hidden border-y-[3px] border-[#4D96FF] bg-[#FFF4E4] px-6 py-10">
       <div className="mx-auto max-w-4xl text-center">
