@@ -532,8 +532,18 @@ function buildMap() {
     box(14,yBot-0.18,z0, 16,yTop-0.18+0.001,z1, tile);                  // slide bed (visual sloped-ish steps)
     box(13.8,yBot-0.18,z0, 14,yTop+0.62,z1, tile);                      // left rail
     box(16,yBot-0.18,z0, 16.2,yTop+0.62,z1, tile);                      // right rail
-    solid(14,0,z0, 16,yBot-0.17,z1);                                    // solid under bed so player stands on it
   }
+  // One flat floor-collider for the whole corridor instead of 5 stepped ones
+  // that matched the visual bed height (up to ~1.5m near the platform end).
+  // Two bugs there: (1) that height was a wall a ground-level player walking
+  // east from the arch could flush-stop against with zero sideways velocity
+  // to route around, freezing indefinitely; (2) adjacent segments had
+  // different floor heights meeting at a hard seam, and a player's foot
+  // position straddling that seam bounced across it every frame — a stuck-
+  // looking jitter even after (1) was capped. A single seamless floor at a
+  // step-up-safe height (the slideZone push below still carries you through
+  // it as if riding the visual slope) has neither failure mode.
+  solid(14,0,-1, 16,0.05,4.6);
   slideZones.push({ x0:13.9, x1:16.1, z0:-1.4, z1:4.9, dirX:0, dirZ:1 });
   // ball pit (x 12..19, z 6..12), rim + ball surface at 0.55
   sbox(11.7,0,5.7, 19.3,0.8,6, T.PAD_B); sbox(11.7,0,11.7, 19.3,0.8,12, T.PAD_B);
@@ -824,6 +834,29 @@ const flashTex = textTexture(64, 64, (g) => {
 const flash = new THREE.Sprite(new THREE.SpriteMaterial({ map: flashTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
 flash.scale.set(0.5,0.5,1); flash.position.set(0, 0.0, -0.75); flash.visible = false;
 gunHolder.add(flash);
+
+/* yo-yo melee viewmodel — until now `melee()` was a pure hit-check with zero
+   visual, so pressing V just kicked the current gun a little; nothing in the
+   player's hand ever actually looked like a yoyo. Built here (needs dvox,
+   defined below — hoisted, so this call is fine) and swung by meleeArc() in
+   the main loop, layered in front of whatever gun is currently held. */
+const yoyoModel = new THREE.Group();
+dvoxYoyo(yoyoModel, -0.15,-0.15,-0.05, 0.15,0.15,-0.008);   // near disc
+dvoxYoyo(yoyoModel, -0.15,-0.15, 0.008, 0.15,0.15, 0.05);   // far disc
+dvoxYoyo(yoyoModel, -0.03,-0.03,-0.03, 0.03,0.03,0.03, true); // axle
+yoyoModel.visible = false;
+gunHolder.add(yoyoModel);
+function dvoxYoyo(parent, x0,y0,z0, x1,y1,z1, axle) {
+  return dvox(parent, x0,y0,z0, x1,y1,z1, axle ? T.GACC : (z0 < 0 ? T.PAD_R : T.PAD_B));
+}
+function meleeArc(dt) {
+  if (player.meleeCd <= 0) { yoyoModel.visible = false; return; }
+  yoyoModel.visible = true;
+  const e = Math.sin(Math.min(1, 1 - player.meleeCd / 0.55) * Math.PI); // 0 -> 1 -> 0 over the swing
+  yoyoModel.position.set(-0.1 + e*0.32, 0.05 - e*0.02, -0.42 - e*0.22);
+  yoyoModel.rotation.x = e * 1.3;
+  yoyoModel.rotation.z += dt * 42; // fast independent spin, sells "yoyo" over "prop"
+}
 
 /* ============================================================
    THE ECONOMY — doors, barricades, wall-buys, claw machine,
@@ -1965,6 +1998,8 @@ window.dbg = {
   power: () => { powerOn = true; powerSwitch.thrown = true; for (const pm of perkMachines) pm.light.intensity = 1.6; grinder.glow.intensity = 1.4; claw.beam.intensity = 0.7; },
   unlock: () => { for (const d of doors) if (!d.open) openDoor(d); },
   give: (gi) => acquireGun(gi),
+  solidsNear: (x, z, r = 0.6) => solids.filter(b => x+r>b.x0 && x-r<b.x1 && z+r>b.z0 && z-r<b.z1).map(b => ({...b})),
+  yoyoVisible: () => yoyoModel.visible,
   interact: () => { const it = scanInteract(); if (it && !it.cant) doInteract(it); return it; },
   step: (dt) => stepGame(dt || 1/60),
   start: () => { if (!started) { initAudio?.(); document.getElementById('start').style.display='none'; started = true; startRound(1); } },
@@ -2278,6 +2313,7 @@ function stepGame(dt) {
   gunHolder.position.set(adsX + bobX * (ads?0.3:1), adsY - bobY * (ads?0.3:1) + (player.reloading > 0 ? -0.15 : 0) + (gunSwitchT > 0 ? -gunSwitchT * 0.8 : 0), adsZ + gunKick);
   gunHolder.rotation.x = (player.reloading > 0 ? -0.5 : 0) + gunKick * 1.6;
   gunHolder.visible = !player.gunHidden;
+  meleeArc(dt);
 
   // FOV: sprint stretches it, ADS narrows it (sniper narrows hard), shots kick it
   if (fovKick > 0) fovKick = Math.max(0, fovKick - dt * 26);
