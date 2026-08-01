@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { Lightbulb, CheckCircle2, ArrowRight } from 'lucide-react';
 
 const CONTACT_EMAIL = 'Hikaristudioai@gmail.com';
@@ -15,9 +15,20 @@ interface Props {
  * for a low-stakes suggestion box.
  */
 export const SuggestionBox: React.FC<Props> = ({ playSound }) => {
+  const [desktop, setDesktop] = useState(false);
   const [idea, setIdea] = useState('');
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    setDesktop(mq.matches);
+    const sync = () => setDesktop(mq.matches);
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  if (!desktop) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

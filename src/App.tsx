@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
-import { PicaCrossing } from './components/PicaCrossing';
 import { ZombiesTeaser } from './components/ZombiesTeaser';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { SuggestionBox } from './components/SuggestionBox';
@@ -71,18 +70,11 @@ export default function App() {
             section, real photo -> arrow -> blueprint, one proof badge. */}
         <TechnicalBlueprint playSound={playSoundEffect} />
 
-        {/* 3. Pica Arcade. Flagship game is split by viewport, each gating
-            itself on a real media query and returning null rather than being
-            hidden by CSS, so only one flagship ever mounts or runs a loop:
-            Closing Time (3D zombie FPS, keyboard + mouse) leads on desktop,
-            Flappy Picas (one-thumb) leads on mobile. Whichever one mounts
-            owns the `#arcade` anchor the header's Arcade link points at.
-            Pica Crossing renders on every viewport underneath as the
-            secondary "also try" game — it's fully touch-capable too, so
-            mobile isn't stuck with just one. */}
+        {/* 3. Pica Arcade. One game per viewport: Closing Time (3D zombie FPS,
+            keyboard + mouse) on desktop, Flappy Picas (one-thumb) on mobile.
+            Each owns the `#arcade` anchor the header's Arcade link points to. */}
         <ZombiesTeaser />
         <FlappyPicas />
-        <PicaCrossing />
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
