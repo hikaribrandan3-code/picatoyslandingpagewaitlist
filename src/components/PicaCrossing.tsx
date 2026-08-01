@@ -11,28 +11,6 @@ import { drawFrame } from './arcade/crossingRender';
 
 const BEST_KEY = 'pica_crossing_best';
 
-/**
- * Desktop-only for now: the board is landscape and reads best with a keyboard.
- * Everything below is already touch- and small-screen-capable (D-pad, swipe,
- * fluid canvas), so putting a second game on mobile is a one-line change to
- * this query.
- */
-function useDesktopViewport() {
-  const [desktop, setDesktop] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
-    const sync = () => setDesktop(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    window.addEventListener('resize', sync);
-    return () => {
-      mq.removeEventListener('change', sync);
-      window.removeEventListener('resize', sync);
-    };
-  }, []);
-  return desktop;
-}
-
 function CrossingGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -515,23 +493,25 @@ const Dpad: React.FC<{ icon: React.ReactNode; onPress: () => void; label: string
 /**
  * Pica Arcade — Pica Crossing.
  *
- * Desktop counterpart to Flappy Picas. The two are mutually exclusive by
- * viewport, so they share the `#arcade` anchor and the header's Arcade link
- * lands on whichever one is mounted.
+ * Secondary arcade entry on both viewports now: ZombiesTeaser (Closing
+ * Time) is the desktop flagship and owns `#arcade`; FlappyPicas is the
+ * mobile flagship and owns `#arcade` there. This card has no id of its
+ * own — it's the "also try" option underneath whichever one is primary.
+ * It renders on every viewport since the game itself is fully
+ * touch-capable (D-pad, swipe, fluid canvas) — see useCoarsePointer below.
  */
 export const PicaCrossing: React.FC = () => {
-  const desktop = useDesktopViewport();
-  if (!desktop) return null;
-
   return (
-    <section
-      id="arcade"
-      className="relative overflow-hidden border-y-[3px] border-[#4D96FF] bg-[#FFF4E4] px-6 py-12"
-    >
+    <section className="relative overflow-hidden border-y-[3px] border-[#4D96FF] bg-[#FFF4E4] px-6 py-10">
       <div className="mx-auto max-w-4xl text-center">
+        <div className="mb-3 flex w-full items-center justify-center gap-2">
+          <span className="clay clay-blue clay-sm clay-tilt-r px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+            Also Try
+          </span>
+        </div>
         <div className="mb-3 flex w-full items-center justify-center gap-3">
-          <Gamepad2 className="h-9 w-9 shrink-0 text-[#FF6B6B]" />
-          <span className="toys-r-us-text text-4xl font-black uppercase tracking-[0.14em] whitespace-nowrap">
+          <Gamepad2 className="h-7 w-7 shrink-0 text-[#FF6B6B]" />
+          <span className="toys-r-us-text text-2xl font-black uppercase tracking-[0.14em] whitespace-nowrap sm:text-3xl">
             <span className="rainbow-p">P</span>
             <span className="rainbow-i">I</span>
             <span className="rainbow-c">C</span>

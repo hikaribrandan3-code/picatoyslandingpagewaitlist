@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Skull, Gamepad2, ArrowRight } from 'lucide-react';
+import { Skull, Gamepad2, ArrowRight, Users, Sparkles } from 'lucide-react';
 
 /**
- * Desktop-only launch card for PICA TOYS: CLOSING TIME — the 3D zombie
+ * Flagship desktop arcade card for PICA TOYS: CLOSING TIME — the 3D zombie
  * survival FPS living at public/games/pica-zombies/. The game is a
  * self-contained fullscreen page (pointer lock, WASD, its own audio), so it
- * opens in a new tab rather than embedding in the landing flow.
+ * opens in a new tab rather than embedding in the landing flow — pointer
+ * lock inside an iframe is unreliable across browsers, a new tab isn't.
  *
- * Same viewport gate as PicaCrossing: real media query, renders null on
- * mobile instead of hiding with CSS.
+ * This is the primary arcade entry on desktop now (owns #arcade, the
+ * header's Arcade link lands here). PicaCrossing is the secondary "also
+ * try" card rendered right below it.
  */
 function useDesktopViewport() {
   const [desktop, setDesktop] = useState(false);
@@ -27,34 +29,72 @@ export const ZombiesTeaser: React.FC = () => {
   if (!desktop) return null;
 
   return (
-    <section className="bg-[#FFF9F2] pb-16 sm:pb-20 px-4 sm:px-6 -mt-4">
-      <a
-        href="/games/pica-zombies/index.html"
-        target="_blank"
-        rel="noopener"
-        className="clay clay-lg edge-yellow max-w-3xl mx-auto p-5 sm:p-6 flex items-center gap-5 cursor-pointer group"
-        style={{ background: '#1a1626', textDecoration: 'none' }}
-      >
-        <div className="clay clay-coral clay-sm clay-tilt-l w-14 h-14 flex items-center justify-center shrink-0">
-          <Skull className="w-7 h-7 text-white" />
+    <section id="arcade" className="relative overflow-hidden border-y-[3px] border-[#D94F4F] bg-[#140f1e] px-6 py-14">
+      {/* faint clay-dot texture, matches the rest of the site's section treatments */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '22px 22px' }}
+      />
+
+      <div className="relative mx-auto max-w-5xl">
+        <div className="mb-6 flex items-center justify-center gap-2">
+          <span className="clay clay-coral clay-sm clay-tilt-l px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+            Pica Arcade — Desktop
+          </span>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="clay clay-yellow clay-sm px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#2D2D2D]">New</span>
-            <h3 className="font-black text-lg sm:text-xl uppercase tracking-tight text-[#FFF6EA] truncate">
-              Pica Toys: Closing Time
-            </h3>
+
+        <a
+          href="/games/pica-zombies/index.html"
+          target="_blank"
+          rel="noopener"
+          className="clay clay-lg edge-coral clay-lift group relative block overflow-hidden p-2"
+          style={{ background: 'linear-gradient(160deg, #241a33, #140f1e)' }}
+        >
+          {/* cover art, framed inside the clay border like a poster */}
+          <div className="relative overflow-hidden rounded-[calc(var(--clay-r-lg)-8px)]">
+            <img
+              src="/games/pica-zombies/media/cover.png"
+              alt="Pica Toys: Closing Time — the storefront at night, zombies at the barricades"
+              className="aspect-[16/8] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#140f1e] via-[#140f1e]/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#140f1e]/70 via-transparent to-transparent" />
+
+            {/* play button, centered, pops on hover */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="clay clay-btn clay-green clay-pop flex items-center gap-2 px-7 py-4 text-lg font-black uppercase tracking-tight text-white shadow-2xl transition-transform group-hover:scale-110">
+                <Gamepad2 className="h-5 w-5" />
+                Clock In
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+
+            {/* copy, bottom-left over the fade */}
+            <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-5 sm:p-7">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="clay clay-yellow clay-sm px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-[#2D2D2D]">
+                  New
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full border-2 border-white/25 bg-black/40 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white/80">
+                  <Users className="h-3 w-3" /> 3D FPS · Zombie Survival
+                </span>
+              </div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-white drop-shadow-[0_2px_0_#000] sm:text-4xl">
+                Pica Toys: Closing Time
+              </h3>
+              <p className="max-w-xl text-sm font-bold text-white/70 sm:text-base">
+                The store locked its doors at midnight. Board the windows, buy your way deeper in,
+                and feed <span className="text-[#FFD93D]">The Grinder</span> — round after round, the horde gets worse.
+              </p>
+            </div>
           </div>
-          <p className="text-sm font-bold text-[#b9aed4] truncate">
-            3D zombie survival in the toy store after hours. Board the windows. Buy the walls. Feed The Grinder.
-          </p>
+        </a>
+
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-white/40">
+          <Sparkles className="h-3.5 w-3.5" />
+          WASD + mouse · opens fullscreen in a new tab
         </div>
-        <div className="clay clay-btn clay-green font-black text-sm px-5 py-3 uppercase whitespace-nowrap flex items-center gap-2 group-hover:scale-105 transition-transform">
-          <Gamepad2 className="w-4 h-4" />
-          <span>Play</span>
-          <ArrowRight className="w-4 h-4" />
-        </div>
-      </a>
+      </div>
     </section>
   );
 };

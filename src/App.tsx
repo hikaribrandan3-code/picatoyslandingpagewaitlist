@@ -71,17 +71,18 @@ export default function App() {
             section, real photo -> arrow -> blueprint, one proof badge. */}
         <TechnicalBlueprint playSound={playSoundEffect} />
 
-        {/* 3. Pica Arcade. Two games, split by viewport — each component gates
-            itself on a real media query and returns null rather than being
-            hidden by CSS, so only one canvas ever mounts or runs a loop.
-            Flappy Picas is portrait/one-thumb (mobile), Pica Crossing is
-            landscape/keyboard (desktop). They share the `#arcade` anchor
-            because they are mutually exclusive. */}
+        {/* 3. Pica Arcade. Flagship game is split by viewport, each gating
+            itself on a real media query and returning null rather than being
+            hidden by CSS, so only one flagship ever mounts or runs a loop:
+            Closing Time (3D zombie FPS, keyboard + mouse) leads on desktop,
+            Flappy Picas (one-thumb) leads on mobile. Whichever one mounts
+            owns the `#arcade` anchor the header's Arcade link points at.
+            Pica Crossing renders on every viewport underneath as the
+            secondary "also try" game — it's fully touch-capable too, so
+            mobile isn't stuck with just one. */}
+        <ZombiesTeaser />
         <FlappyPicas />
         <PicaCrossing />
-        {/* 3.5 Closing Time — 3D zombie FPS, desktop-only, opens fullscreen in a
-            new tab (pointer lock + its own audio don't belong inside the page). */}
-        <ZombiesTeaser />
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
