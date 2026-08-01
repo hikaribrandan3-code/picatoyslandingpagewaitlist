@@ -33,8 +33,8 @@ export const SuggestionBox: React.FC<Props> = ({ playSound }) => {
   };
 
   return (
-    <section className="bg-[#FFF9F2] py-16 sm:py-20 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
-      <div className="clay clay-cream edge-yellow clay-lg max-w-md lg:max-w-2xl mx-auto p-6 sm:p-8 lg:p-10 text-center lg:text-left">
+    <section className="bg-[#FFF9F2] py-8 sm:py-12 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
+      <div className="clay clay-cream edge-yellow clay-lg max-w-md lg:max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 text-center lg:text-left">
         <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
           {/* Left: Icon + Heading + Description */}
           <div>
@@ -42,7 +42,7 @@ export const SuggestionBox: React.FC<Props> = ({ playSound }) => {
               <Lightbulb className="w-6 h-6 text-[#D94F4F]" />
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-black text-[#3BA8A8] uppercase tracking-tight mb-2">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-[#3BA8A8] uppercase tracking-tight mb-2">
               Got Ideas To Make Pica Yoyo Better?
             </h2>
             <p className="text-sm text-[#6D6D6D] font-medium leading-relaxed mb-6 lg:mb-0">
@@ -63,7 +63,7 @@ export const SuggestionBox: React.FC<Props> = ({ playSound }) => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-left">
                 <textarea
                   required
                   value={idea}
@@ -76,7 +76,7 @@ export const SuggestionBox: React.FC<Props> = ({ playSound }) => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email (optional, if you want a reply)"
+                  placeholder="Your email"
                   className="clay-well clay-cream w-full px-4 py-3 text-[#2D2D2D] placeholder:text-[#9E9E9E] font-bold text-sm focus:outline-none focus:border-[#3BA8A8]"
                 />
                 <button
