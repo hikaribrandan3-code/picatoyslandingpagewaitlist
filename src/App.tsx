@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
 import { PicaCrossing } from './components/PicaCrossing';
+import { ZombiesTeaser } from './components/ZombiesTeaser';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { SuggestionBox } from './components/SuggestionBox';
 import { WaitlistForm } from './components/WaitlistForm';
@@ -78,6 +79,9 @@ export default function App() {
             because they are mutually exclusive. */}
         <FlappyPicas />
         <PicaCrossing />
+        {/* 3.5 Closing Time — 3D zombie FPS, desktop-only, opens fullscreen in a
+            new tab (pointer lock + its own audio don't belong inside the page). */}
+        <ZombiesTeaser />
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
