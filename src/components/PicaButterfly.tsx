@@ -16,14 +16,25 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
   const [imgIndex, setImgIndex] = useState(0);
   const image = BUTTERFLY_IMAGES[imgIndex];
 
-  const nextImage = () => {
+  const nextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     playSound();
     setImgIndex((i) => (i + 1) % BUTTERFLY_IMAGES.length);
   };
 
-  const prevImage = () => {
+  const prevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     playSound();
     setImgIndex((i) => (i - 1 + BUTTERFLY_IMAGES.length) % BUTTERFLY_IMAGES.length);
+  };
+
+  const jumpToImage = (e: React.MouseEvent, idx: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    playSound();
+    setImgIndex(idx);
   };
 
   return (
@@ -48,6 +59,7 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
 
             {/* Carousel controls: prev/next buttons */}
             <button
+              type="button"
               onClick={prevImage}
               aria-label="Previous image"
               className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
@@ -55,6 +67,7 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={nextImage}
               aria-label="Next image"
               className="clay clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
@@ -68,7 +81,8 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
             {BUTTERFLY_IMAGES.map((_, i) => (
               <button
                 key={i}
-                onClick={() => { playSound(); setImgIndex(i); }}
+                type="button"
+                onClick={(e) => jumpToImage(e, i)}
                 aria-label={`Show image ${i + 1}`}
                 className={`h-2 rounded-full transition-all ${
                   i === imgIndex ? 'w-5 bg-[#3BA8A8]' : 'w-2 bg-[#E3CDB0]'
