@@ -18,6 +18,9 @@ export default function App() {
   const [selectedColorId, setSelectedColorId] = useState(COLOR_OPTIONS[0].id);
   const [vipTicket, setVipTicket] = useState<VipTicket | null>(null);
 
+  // Simple pathname-based routing
+  const isFilesPage = window.location.pathname === '/files' || window.location.pathname === '/butterfly';
+
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API
   const playSoundEffect = () => {
     if (!soundEnabled) return;
@@ -57,45 +60,48 @@ export default function App() {
     <div className="min-h-screen bg-[#FFF9F2] text-[#2D2D2D] flex flex-col font-sans selection:bg-[#FF6B6B] selection:text-white">
       <Header onOpenWaitlist={handleOpenWaitlist} />
 
-      <main className="flex-1">
-        {/* 1. Hero — the 3D model picks up whichever colour they voted for */}
-        <Hero
-          onJoinWaitlist={handleOpenWaitlist}
-          playSound={playSoundEffect}
-          selectedColorId={selectedColorId}
-          setSelectedColorId={setSelectedColorId}
-        />
+      {isFilesPage ? (
+        <main className="flex-1">
+          <PicaButterfly playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
+        </main>
+      ) : (
+        <main className="flex-1">
+          {/* 1. Hero — the 3D model picks up whichever colour they voted for */}
+          <Hero
+            onJoinWaitlist={handleOpenWaitlist}
+            playSound={playSoundEffect}
+            selectedColorId={selectedColorId}
+            setSelectedColorId={setSelectedColorId}
+          />
 
-        {/* 2. What's Inside — merged with the old "Under the Hood" section:
-            same trust claim, same product-photo layout, told twice. Now one
-            section, real photo -> arrow -> blueprint, one proof badge. */}
-        <TechnicalBlueprint playSound={playSoundEffect} />
+          {/* 2. What's Inside — merged with the old "Under the Hood" section:
+              same trust claim, same product-photo layout, told twice. Now one
+              section, real photo -> arrow -> blueprint, one proof badge. */}
+          <TechnicalBlueprint playSound={playSoundEffect} />
 
-        {/* 3. Pica Arcade. One game per viewport: Closing Time (3D zombie FPS,
-            keyboard + mouse) on desktop, Flappy Picas (one-thumb) on mobile.
-            Each owns the `#arcade` anchor the header's Arcade link points to. */}
-        <ZombiesTeaser />
-        <FlappyPicas />
+          {/* 3. Pica Arcade. One game per viewport: Closing Time (3D zombie FPS,
+              keyboard + mouse) on desktop, Flappy Picas (one-thumb) on mobile.
+              Each owns the `#arcade` anchor the header's Arcade link points to. */}
+          <ZombiesTeaser />
+          <FlappyPicas />
 
-        {/* 3.5 Pica Butterfly — second design, own section, own Files nav anchor */}
-        <PicaButterfly playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
+          {/* 4. First-batch countdown + builder note + FAQ */}
+          <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
-        {/* 4. First-batch countdown + builder note + FAQ */}
-        <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
+          {/* 4.5 Suggestion box — soft touch after FAQ, before the hard
+              waitlist CTA. No backend: submitting opens a mailto: to the
+              same contact address Header/Footer use. */}
+          <SuggestionBox playSound={playSoundEffect} />
 
-        {/* 4.5 Suggestion box — soft touch after FAQ, before the hard
-            waitlist CTA. No backend: submitting opens a mailto: to the
-            same contact address Header/Footer use. */}
-        <SuggestionBox playSound={playSoundEffect} />
-
-        {/* 5. Waitlist form — color vote lives here now, right above the submit button */}
-        <WaitlistForm
-          playSound={playSoundEffect}
-          selectedColor={selectedColorId}
-          setSelectedColor={setSelectedColorId}
-          onSuccessTicket={(ticket) => setVipTicket(ticket)}
-        />
-      </main>
+          {/* 5. Waitlist form — color vote lives here now, right above the submit button */}
+          <WaitlistForm
+            playSound={playSoundEffect}
+            selectedColor={selectedColorId}
+            setSelectedColor={setSelectedColorId}
+            onSuccessTicket={(ticket) => setVipTicket(ticket)}
+          />
+        </main>
+      )}
 
       <Footer playSound={playSoundEffect} />
 

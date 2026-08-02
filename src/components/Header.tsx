@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const scrollToArcade = () => scrollToId('arcade');
-  const scrollToFiles = () => scrollToId('butterfly');
+  const navigateToFiles = () => window.location.href = '/files';
   const scrollToFeatures = () => scrollToId('features');
 
   const closeMenu = () => setMenuOpen(false);
@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
           <a href="#features" className={NAV_PILL + ' clay-yellow clay-tilt-l'}>
             Features
           </a>
-          <button onClick={scrollToFiles} className={NAV_PILL + ' clay-teal clay-tilt-r'}>
+          <button onClick={navigateToFiles} className={NAV_PILL + ' clay-teal clay-tilt-r'}>
             <FileBox className="w-4 h-4" />
             Files
           </button>
@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
 
       {/* Mobile dropdown menu */}
       {menuOpen && (
-        <div className="lg:hidden border-t-[3px] border-[#4D96FF] bg-[#FFF9F2] px-4 sm:px-6 py-4">
+        <div className="lg:hidden border-t-[3px] border-[#4D96FF] bg-[#FFF9F2] px-4 sm:px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col gap-2.5">
             <button
               onClick={() => { scrollToFeatures(); closeMenu(); }}
@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
               Games
             </button>
             <button
-              onClick={() => { scrollToFiles(); closeMenu(); }}
+              onClick={() => { navigateToFiles(); closeMenu(); }}
               className="clay clay-btn clay-teal font-black text-xs uppercase px-4 py-3 flex items-center justify-center gap-1.5"
             >
               <FileBox className="w-4 h-4" />
