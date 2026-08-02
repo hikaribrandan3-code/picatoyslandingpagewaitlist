@@ -6,7 +6,6 @@ import { FlappyPicas } from './components/FlappyPicas';
 import { ZombiesTeaser } from './components/ZombiesTeaser';
 import { PicaButterfly } from './components/PicaButterfly';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
-import { SuggestionBox } from './components/SuggestionBox';
 import { WaitlistForm } from './components/WaitlistForm';
 import { VipTicketModal } from './components/VipTicketModal';
 import { Footer } from './components/Footer';
@@ -18,8 +17,8 @@ export default function App() {
   const [selectedColorId, setSelectedColorId] = useState(COLOR_OPTIONS[0].id);
   const [vipTicket, setVipTicket] = useState<VipTicket | null>(null);
 
-  // Simple pathname-based routing
-  const isFilesPage = window.location.pathname === '/files' || window.location.pathname === '/butterfly';
+  // Hash-based routing (no server-side redirect needed)
+  const isFilesPage = window.location.hash === '#/files' || window.location.hash === '#/butterfly';
 
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API
   const playSoundEffect = () => {
@@ -87,11 +86,6 @@ export default function App() {
 
           {/* 4. First-batch countdown + builder note + FAQ */}
           <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
-
-          {/* 4.5 Suggestion box — soft touch after FAQ, before the hard
-              waitlist CTA. No backend: submitting opens a mailto: to the
-              same contact address Header/Footer use. */}
-          <SuggestionBox playSound={playSoundEffect} />
 
           {/* 5. Waitlist form — color vote lives here now, right above the submit button */}
           <WaitlistForm
