@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
@@ -16,9 +16,20 @@ export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [selectedColorId, setSelectedColorId] = useState(COLOR_OPTIONS[0].id);
   const [vipTicket, setVipTicket] = useState<VipTicket | null>(null);
+  const [isFilesPage, setIsFilesPage] = useState(
+    window.location.hash === '#/files' || window.location.hash === '#/butterfly'
+  );
 
-  // Hash-based routing (no server-side redirect needed)
-  const isFilesPage = window.location.hash === '#/files' || window.location.hash === '#/butterfly';
+  // Listen for hash changes to update routing state
+  useEffect(() => {
+    const handleHashChange = () => {
+      setIsFilesPage(
+        window.location.hash === '#/files' || window.location.hash === '#/butterfly'
+      );
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API
   const playSoundEffect = () => {

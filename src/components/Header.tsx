@@ -35,8 +35,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
     <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#4D96FF] shadow-[0_5px_18px_rgba(77,150,255,0.2)]">
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-        {/* Brand Logo — wordmark only, no separate icon */}
-        <a href="#" className="flex items-center">
+        {/* Brand Logo — wordmark only, no separate icon. Clicking goes home. */}
+        <a href="#/" className="flex items-center" onClick={(e) => { e.preventDefault(); window.location.hash = '#/'; }}>
           <div className="flex flex-col">
             {/* Toys-R-Us style rainbow wordmark. Letters colored individually
                 via the .rainbow-* classes rather than one gradient on the

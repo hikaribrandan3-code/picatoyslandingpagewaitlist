@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BUTTERFLY_IMAGES, BUTTERFLY_SPECS } from '../data';
-import { Bell, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Download, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
@@ -41,10 +41,11 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
     <section id="butterfly" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">
-          Pica Butterfly
+          Free STL File
         </h2>
         <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
-          Our second design — a classic responsive throw, free &amp; open source.
+          <span className="font-black">Pica Butterfly (Responsive / Unresponsive)</span><br />
+          a classic responsive throw, free &amp; open source.
         </p>
 
         <div className="clay clay-cream edge-teal clay-lg p-5 sm:p-8 mb-8 text-left">
@@ -114,13 +115,26 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
             </dl>
           </div>
 
-          <button
-            onClick={() => { playSound(); onJoinWaitlist(); }}
-            className="clay clay-btn clay-teal font-black text-xs sm:text-sm px-6 py-3 uppercase flex items-center gap-2 mx-auto mt-6"
-          >
-            <Bell className="w-4 h-4 text-[#FFD93D]" />
-            <span>Get Notified When Files Drop</span>
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+            <a
+              href="/pica_imperial_assembly.stl"
+              download
+              onClick={playSound}
+              className="clay clay-btn clay-teal font-black text-xs sm:text-sm px-6 py-3 uppercase flex items-center gap-2"
+            >
+              <Download className="w-4 h-4 text-[#FFD93D]" />
+              <span>STL Files</span>
+            </a>
+            <a
+              href="/pica_imperial_assembly.step"
+              download
+              onClick={playSound}
+              className="clay clay-btn clay-yellow font-black text-xs sm:text-sm px-6 py-3 uppercase flex items-center gap-2"
+            >
+              <Download className="w-4 h-4 text-[#2D2D2D]" />
+              <span>STEP Files</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
