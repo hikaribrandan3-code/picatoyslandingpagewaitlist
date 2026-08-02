@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BUTTERFLY_IMAGES, BUTTERFLY_SPECS } from '../data';
-import { ImagePlus, Bell } from 'lucide-react';
+import { Bell, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Props {
   playSound: () => void;
@@ -8,12 +8,24 @@ interface Props {
 }
 
 /**
- * Second design, shown separately from the Grinder Yoyo above. Photo slots
- * render an empty "coming soon" placeholder until a real file lands at the
- * matching BUTTERFLY_IMAGES path in /public — swapping in a photo later
- * needs no code change here, only dropping the file in place.
+ * Second design, shown separately from the Grinder Yoyo above. Carousel of
+ * real product photos with carousel controls (prev/next, dots), specs table,
+ * and waitlist CTA button.
  */
 export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) => {
+  const [imgIndex, setImgIndex] = useState(0);
+  const image = BUTTERFLY_IMAGES[imgIndex];
+
+  const nextImage = () => {
+    playSound();
+    setImgIndex((i) => (i + 1) % BUTTERFLY_IMAGES.length);
+  };
+
+  const prevImage = () => {
+    playSound();
+    setImgIndex((i) => (i - 1 + BUTTERFLY_IMAGES.length) % BUTTERFLY_IMAGES.length);
+  };
+
   return (
     <section id="butterfly" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
       <div className="max-w-4xl mx-auto text-center">
@@ -25,19 +37,52 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
         </p>
 
         <div className="clay clay-cream edge-teal clay-lg p-5 sm:p-8 mb-8 text-left">
-          {/* Photo gallery — 3 slots reserved for real product photos */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-            {BUTTERFLY_IMAGES.map((src, i) => (
-              <div
-                key={src}
-                className="clay-well clay-cream aspect-square flex flex-col items-center justify-center gap-2 p-4"
-              >
-                <ImagePlus className="w-6 h-6 text-[#B7A78C]" />
-                <span className="text-[10px] font-black uppercase tracking-wider text-[#B7A78C] text-center">
-                  Photo {i + 1} coming soon
-                </span>
-              </div>
+          {/* Photo carousel */}
+          <div className="clay-well clay-cream relative overflow-hidden mb-6 p-2">
+            <img
+              key={image}
+              src={image}
+              alt={`Pica Butterfly design view ${imgIndex + 1}`}
+              className="w-full h-auto max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
+            />
+
+            {/* Carousel controls: prev/next buttons */}
+            <button
+              onClick={prevImage}
+              aria-label="Previous image"
+              className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={nextImage}
+              aria-label="Next image"
+              className="clay clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Carousel dots — click to jump to image */}
+          <div className="flex items-center justify-center gap-1.5 mb-6">
+            {BUTTERFLY_IMAGES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { playSound(); setImgIndex(i); }}
+                aria-label={`Show image ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  i === imgIndex ? 'w-5 bg-[#3BA8A8]' : 'w-2 bg-[#E3CDB0]'
+                }`}
+              />
             ))}
+          </div>
+
+          {/* Description */}
+          <div className="px-2">
+            <p className="text-[#6D6D6D] text-sm sm:text-base font-medium leading-relaxed mb-6">
+              Two-piece butterfly profile, silicone response recess, standard 608 bearing —
+              print files ship free once we're live.
+            </p>
           </div>
 
           {/* Spec Table */}
@@ -54,11 +99,6 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
               ))}
             </dl>
           </div>
-
-          <p className="text-[#6D6D6D] text-sm sm:text-base font-medium leading-relaxed mt-6 px-1">
-            Two-piece butterfly profile, silicone response recess, standard 608 bearing —
-            print files ship free once we're live.
-          </p>
 
           <button
             onClick={() => { playSound(); onJoinWaitlist(); }}
