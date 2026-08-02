@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const scrollToArcade = () => scrollToId('arcade');
-  const navigateToFiles = () => window.location.hash = '#/files';
+  const navigateToFiles = () => window.location.pathname = '/files';
   const scrollToFeatures = () => scrollToId('features');
 
   const closeMenu = () => setMenuOpen(false);
@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
       {/* Main Nav */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Brand Logo — wordmark only, no separate icon. Clicking goes home. */}
-        <a href="#/" className="flex items-center" onClick={(e) => { e.preventDefault(); window.location.hash = '#/'; }}>
+        <a href="/" className="flex items-center">
           <div className="flex flex-col">
             {/* Toys-R-Us style rainbow wordmark. Letters colored individually
                 via the .rainbow-* classes rather than one gradient on the

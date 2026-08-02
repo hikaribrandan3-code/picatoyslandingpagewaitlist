@@ -17,18 +17,18 @@ export default function App() {
   const [selectedColorId, setSelectedColorId] = useState(COLOR_OPTIONS[0].id);
   const [vipTicket, setVipTicket] = useState<VipTicket | null>(null);
   const [isFilesPage, setIsFilesPage] = useState(
-    window.location.hash === '#/files' || window.location.hash === '#/butterfly'
+    window.location.pathname === '/files' || window.location.pathname === '/butterfly'
   );
 
-  // Listen for hash changes to update routing state
+  // Listen for popstate (back/forward) to update routing state
   useEffect(() => {
-    const handleHashChange = () => {
+    const handlePopState = () => {
       setIsFilesPage(
-        window.location.hash === '#/files' || window.location.hash === '#/butterfly'
+        window.location.pathname === '/files' || window.location.pathname === '/butterfly'
       );
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API

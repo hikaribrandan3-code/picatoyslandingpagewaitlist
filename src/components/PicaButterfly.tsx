@@ -38,24 +38,24 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
   };
 
   return (
-    <section id="butterfly" className="bg-[#FFF9F2] py-16 sm:py-24 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
+    <section id="butterfly" className="bg-[#FFF9F2] py-12 sm:py-16 px-4 sm:px-6 border-b-[3px] border-[#3BA8A8]">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-5xl font-black text-[#2D2D2D] mb-2 uppercase tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] mb-1.5 uppercase tracking-tight">
           Free STL File
         </h2>
-        <p className="text-[#6D6D6D] text-sm sm:text-base font-medium max-w-lg mx-auto mb-8">
+        <p className="text-[#6D6D6D] text-xs sm:text-sm font-medium max-w-lg mx-auto mb-6">
           <span className="font-black">Pica Butterfly (Responsive / Unresponsive)</span><br />
           a classic responsive throw, free &amp; open source.
         </p>
 
-        <div className="clay clay-cream edge-teal clay-lg p-5 sm:p-8 mb-8 text-left">
+        <div className="clay clay-cream edge-teal clay-lg p-4 sm:p-6 mb-6 text-left">
           {/* Photo carousel */}
-          <div className="clay-well clay-cream relative overflow-hidden mb-6 p-2">
+          <div className="clay-well clay-cream relative overflow-hidden mb-4 p-2">
             <img
               key={image}
               src={image}
               alt={`Pica Butterfly design view ${imgIndex + 1}`}
-              className="w-full h-auto max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
+              className="w-full h-auto max-h-[300px] sm:max-h-[420px] object-cover rounded-[20px_15px_22px_17px]"
             />
 
             {/* Carousel controls: prev/next buttons */}
@@ -63,22 +63,22 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
               type="button"
               onClick={prevImage}
               aria-label="Previous image"
-              className="clay clay-cream clay-btn clay-sm absolute left-3 top-1/2 -translate-y-1/2 p-2"
+              className="clay clay-cream clay-btn clay-sm absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-1.5 sm:p-2"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3 sm:w-4 h-3 sm:h-4" />
             </button>
             <button
               type="button"
               onClick={nextImage}
               aria-label="Next image"
-              className="clay clay-btn clay-sm absolute right-3 top-1/2 -translate-y-1/2 p-2"
+              className="clay clay-btn clay-sm absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-1.5 sm:p-2"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4" />
             </button>
           </div>
 
           {/* Carousel dots — click to jump to image */}
-          <div className="flex items-center justify-center gap-1.5 mb-6">
+          <div className="flex items-center justify-center gap-1 mb-4">
             {BUTTERFLY_IMAGES.map((_, i) => (
               <button
                 key={i}
@@ -93,46 +93,45 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
           </div>
 
           {/* Description */}
-          <div className="px-2">
-            <p className="text-[#6D6D6D] text-sm sm:text-base font-medium leading-relaxed mb-6">
-              Two-piece butterfly profile, silicone response recess, standard 608 bearing —
-              free STL &amp; STEP files, open source, print it yourself.
+          <div className="px-2 mb-4">
+            <p className="text-[#6D6D6D] text-xs sm:text-sm font-medium leading-relaxed">
+              Two-piece butterfly profile, silicone response recess, standard 608 bearing — free STL &amp; STEP files, open source, print it yourself.
             </p>
           </div>
 
           {/* Spec Table */}
-          <div className="clay-well clay-cream p-4">
-            <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-3">
+          <div className="clay-well clay-cream p-3">
+            <label className="text-xs font-black uppercase tracking-wider text-[#2D2D2D] block mb-2">
               The Numbers
             </label>
-            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2.5">
+            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-2">
               {BUTTERFLY_SPECS.map((s) => (
                 <div key={s.label} className="flex flex-col">
-                  <dt className="text-[10px] font-bold uppercase tracking-wider text-[#6D6D6D]">{s.label}</dt>
-                  <dd className="text-xs font-black text-[#2D2D2D]">{s.value}</dd>
+                  <dt className="text-[8px] sm:text-[10px] font-bold uppercase tracking-wider text-[#6D6D6D]">{s.label}</dt>
+                  <dd className="text-[10px] sm:text-xs font-black text-[#2D2D2D]">{s.value}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-4">
             <a
               href="/pica_imperial_assembly.stl"
               download
               onClick={playSound}
-              className="clay clay-btn clay-teal font-black text-xs sm:text-sm px-6 py-3 uppercase flex items-center gap-2"
+              className="clay clay-btn clay-teal font-black text-xs px-4 py-2 sm:px-5 sm:py-2.5 uppercase flex items-center gap-1.5"
             >
-              <Download className="w-4 h-4 text-[#FFD93D]" />
-              <span>STL Files</span>
+              <Download className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFD93D]" />
+              <span>STL</span>
             </a>
             <a
               href="/pica_imperial_assembly.step"
               download
               onClick={playSound}
-              className="clay clay-btn clay-yellow font-black text-xs sm:text-sm px-6 py-3 uppercase flex items-center gap-2"
+              className="clay clay-btn clay-yellow font-black text-xs px-4 py-2 sm:px-5 sm:py-2.5 uppercase flex items-center gap-1.5"
             >
-              <Download className="w-4 h-4 text-[#2D2D2D]" />
-              <span>STEP Files</span>
+              <Download className="w-3 h-3 sm:w-4 sm:h-4 text-[#2D2D2D]" />
+              <span>STEP</span>
             </a>
           </div>
         </div>
