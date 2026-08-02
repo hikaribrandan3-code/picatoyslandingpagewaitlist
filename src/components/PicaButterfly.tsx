@@ -95,7 +95,7 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
           <div className="px-2">
             <p className="text-[#6D6D6D] text-sm sm:text-base font-medium leading-relaxed mb-6">
               Two-piece butterfly profile, silicone response recess, standard 608 bearing —
-              print files ship free once we're live.
+              free STL &amp; STEP files, open source, print it yourself.
             </p>
           </div>
 
