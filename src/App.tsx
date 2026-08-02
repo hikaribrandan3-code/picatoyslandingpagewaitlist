@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { TechnicalBlueprint } from './components/TechnicalBlueprint';
 import { FlappyPicas } from './components/FlappyPicas';
 import { ZombiesTeaser } from './components/ZombiesTeaser';
+import { PicaButterfly } from './components/PicaButterfly';
 import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { SuggestionBox } from './components/SuggestionBox';
 import { WaitlistForm } from './components/WaitlistForm';
@@ -75,6 +76,9 @@ export default function App() {
             Each owns the `#arcade` anchor the header's Arcade link points to. */}
         <ZombiesTeaser />
         <FlappyPicas />
+
+        {/* 3.5 Pica Butterfly — second design, own section, own Files nav anchor */}
+        <PicaButterfly playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />
 
         {/* 4. First-batch countdown + builder note + FAQ */}
         <EcomConversionFeatures playSound={playSoundEffect} onJoinWaitlist={handleOpenWaitlist} />

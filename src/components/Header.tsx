@@ -1,5 +1,5 @@
-import React from 'react';
-import { Sparkles, Gamepad2, Mail } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Gamepad2, Mail, FileBox, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onOpenWaitlist: () => void;
@@ -12,16 +12,25 @@ const NAV_PILL =
   'clay clay-btn clay-sm font-black text-xs uppercase tracking-tight ' +
   'min-w-[116px] px-4 py-2 inline-flex items-center justify-center gap-1.5 cursor-pointer';
 
+const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) {
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.offsetHeight : 0;
+    const y = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
+
 export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
-  const scrollToArcade = () => {
-    const el = document.getElementById('arcade');
-    if (el) {
-      const header = document.querySelector('header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const y = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const scrollToArcade = () => scrollToId('arcade');
+  const scrollToFiles = () => scrollToId('butterfly');
+  const scrollToFeatures = () => scrollToId('features');
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFF9F2] border-b-[3px] border-[#4D96FF] shadow-[0_5px_18px_rgba(77,150,255,0.2)]">
       {/* Main Nav */}
@@ -50,25 +59,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
         </a>
 
         {/* Center Quick Navigation Links (Desktop).
-            No Arcade link here on purpose: Flappy Picas is a portrait,
-            one-thumb game that only mounts on mobile widths, so on desktop
-            this would be an anchor to a section that does not exist. No
-            separate Blueprint link either — that section merged into
-            Features, so #blueprint no longer exists as its own anchor. */}
-        {/* All three pills share a min-width so the row reads as a set rather
-            than as three differently-sized buttons. Arcade is lg-only: below
-            that the standalone coral Arcade button on the right covers it, and
-            showing both would be a duplicate link to the same anchor. */}
+            Games (was Arcade) is lg-only: below that the standalone coral
+            button on the right covers the same anchor, so showing both would
+            be a duplicate link. Files (was FAQ) points at the Pica Butterfly
+            section — its own anchor now, not the merged Features block. */}
         <div className="hidden md:flex items-center gap-3">
           <a href="#features" className={NAV_PILL + ' clay-yellow clay-tilt-l'}>
             Features
           </a>
-          <a href="#faq" className={NAV_PILL + ' clay-teal clay-tilt-r'}>
-            FAQ
-          </a>
+          <button onClick={scrollToFiles} className={NAV_PILL + ' clay-teal clay-tilt-r'}>
+            <FileBox className="w-4 h-4" />
+            Files
+          </button>
           <button onClick={scrollToArcade} className={NAV_PILL + ' clay-coral clay-tilt-l hidden lg:inline-flex'}>
             <Gamepad2 className="w-4 h-4 text-[#FFD93D]" />
-            Arcade
+            Games
           </button>
         </div>
 
@@ -86,20 +91,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
             <span>Contact</span>
           </a>
 
-          {/* Mobile/tablet (<1024px): routes straight to the Pica Arcade game.
-              Desktop (>=1024px): routes to the waitlist form — the game
-              doesn't mount there. */}
-          <button
-            onClick={scrollToArcade}
-            className="lg:hidden clay clay-btn clay-coral font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase flex items-center gap-1.5 cursor-pointer"
-          >
-            <Gamepad2 className="w-4 h-4 text-[#FFD93D]" />
-            <span>Arcade</span>
-          </button>
-
-          {/* Green, not coral: Arcade already owns coral in the centre nav, so
-              every pill across the header lands on its own hue. Also matches
-              the green Claim Your Spot / Join The Waitlist buttons downpage. */}
           <button
             onClick={onOpenWaitlist}
             className="hidden lg:flex clay clay-btn clay-green font-black text-xs sm:text-sm px-4 sm:px-6 py-2.5 uppercase items-center gap-1.5 cursor-pointer"
@@ -107,8 +98,63 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWaitlist }) => {
             <Sparkles className="w-4 h-4 text-[#FFD93D]" />
             <span>Join Waitlist</span>
           </button>
+
+          {/* Mobile/tablet (<1024px): hamburger opens a dropdown with every
+              nav item in one place, instead of a single standalone Arcade
+              button competing for the same header row as Contact/Waitlist. */}
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            className="lg:hidden clay clay-btn clay-cream clay-sm p-2.5 flex items-center justify-center cursor-pointer"
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="lg:hidden border-t-[3px] border-[#4D96FF] bg-[#FFF9F2] px-4 sm:px-6 py-4">
+          <div className="flex flex-col gap-2.5">
+            <button
+              onClick={() => { scrollToFeatures(); closeMenu(); }}
+              className="clay clay-btn clay-yellow font-black text-xs uppercase px-4 py-3 flex items-center justify-center"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => { scrollToArcade(); closeMenu(); }}
+              className="clay clay-btn clay-coral font-black text-xs uppercase px-4 py-3 flex items-center justify-center gap-1.5"
+            >
+              <Gamepad2 className="w-4 h-4 text-[#FFD93D]" />
+              Games
+            </button>
+            <button
+              onClick={() => { scrollToFiles(); closeMenu(); }}
+              className="clay clay-btn clay-teal font-black text-xs uppercase px-4 py-3 flex items-center justify-center gap-1.5"
+            >
+              <FileBox className="w-4 h-4" />
+              Files
+            </button>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              onClick={closeMenu}
+              className="clay clay-btn clay-cream font-black text-xs uppercase px-4 py-3 flex items-center justify-center gap-1.5"
+            >
+              <Mail className="w-4 h-4 text-[#6D6D6D]" />
+              Contact
+            </a>
+            <button
+              onClick={() => { onOpenWaitlist(); closeMenu(); }}
+              className="clay clay-btn clay-green font-black text-xs uppercase px-4 py-3 flex items-center justify-center gap-1.5"
+            >
+              <Sparkles className="w-4 h-4 text-[#FFD93D]" />
+              Join Waitlist
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

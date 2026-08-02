@@ -5,6 +5,28 @@ export const HERO_PRODUCT_IMAGE = '/picayoyo-hero.jpg';
 export const BLUEPRINT_IMAGE = '/picayoyo-blueprint.jpg';
 export const EXPLODED_IMAGE = '/picayoyo-exploded.jpg';
 
+// Pica Butterfly — second design, a classic responsive throw. Photos land
+// here as they come in; slots stay empty (placeholder) until a real file
+// exists at that path in /public.
+export const BUTTERFLY_IMAGES = [
+  '/pica-butterfly-1.jpg',
+  '/pica-butterfly-2.jpg',
+  '/pica-butterfly-3.jpg',
+];
+
+// Specs pulled directly from the parametric CAD model (nurb / README.md).
+export const BUTTERFLY_SPECS = [
+  { label: 'Diameter', value: '62.0 mm' },
+  { label: 'Width', value: '44.0 mm' },
+  { label: 'Bearing', value: '608 · 8/22/7mm, steel' },
+  { label: 'Axle', value: '8mm ground shoulder, M6 tip' },
+  { label: 'Response', value: 'Silicone recess, responsive' },
+  { label: 'Material', value: 'PLA or PETG, 3D printed' },
+  { label: 'Weight (light)', value: '~56g · 40% infill' },
+  { label: 'Weight (mid)', value: '~77g · 60% infill' },
+  { label: 'Profile', value: 'Butterfly, narrow gap' },
+];
+
 // Specs pulled directly from the parametric CAD model (params.py / README.md).
 // Nothing here is measured off a physical sample — the first physical print
 // hasn't happened yet. That's stated plainly on the page, not hidden.
