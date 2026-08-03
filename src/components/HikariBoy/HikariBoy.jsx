@@ -16,7 +16,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './HikariBoy.css';
 import MunchboyBoot from './MunchboyBoot';
-import SlotMachine from './SlotMachine';
+import SlotMachine, { ARCADE_WINNER_STORAGE_KEY } from './SlotMachine';
 import EndScreen from './EndScreen';
 
 const BUTTONS = {
@@ -452,7 +452,12 @@ export function HikariBoy({
         {isBooting ? (
           <MunchboyBoot onComplete={handleBootComplete} />
         ) : sandboxMode && !currentGame && sandboxPhase === 'ended' ? (
-          <EndScreen onPlayAgain={() => setSandboxPhase('spin')} />
+          <EndScreen
+            onPlayAgain={() => {
+              sessionStorage.removeItem(ARCADE_WINNER_STORAGE_KEY);
+              setSandboxPhase('spin');
+            }}
+          />
         ) : sandboxMode && !currentGame ? (
           <SlotMachine games={GAMES} onLand={launchGame} />
         ) : !currentGame ? (
