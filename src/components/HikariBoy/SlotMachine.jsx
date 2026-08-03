@@ -1,16 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './SlotMachine.css';
 
-const REEL_COUNT = 3;
+const TILE_HEIGHT = 78;
 const STRIP_LEN = 22;
-// One entry per reel: [duration, delay] in seconds — staggered so reels
-// stop left-to-right, landing all three on the winner. Kids' attention
-// spans want the suspense stretched, not rushed — lands around the 5s mark.
-const REEL_TIMING = [
-  { duration: 2.8, delay: 0 },
-  { duration: 3.6, delay: 0.3 },
-  { duration: 4.4, delay: 0.6 },
-];
+// Winner sits second-to-last; one extra "peek" tile trails it so the
+// window can show a sliver of the next tile below, like a real wheel.
+const WINNER_INDEX = STRIP_LEN - 2;
+const SPIN_DURATION = 4.6; // seconds — lands right around the 5s mark
+const SPIN_DELAY = 0.2;
 
 // One winner per scan/session — a page reload should NOT reroll the game
 // the kid already landed on. "Play Again" explicitly clears this to reroll.
@@ -27,22 +24,34 @@ function pickWinner(games) {
 
 function buildStrip(games, winner) {
   const strip = [];
-  for (let i = 0; i < STRIP_LEN - 1; i++) {
-    strip.push(games[Math.floor(Math.random() * games.length)]);
+  for (let i = 0; i < STRIP_LEN; i++) {
+    if (i === WINNER_INDEX) {
+      strip.push(winner);
+    } else {
+      strip.push(games[Math.floor(Math.random() * games.length)]);
+    }
   }
-  strip.push(winner);
   return strip;
 }
 
+const BRAND_LETTERS = [
+  { ch: 'P', color: '#FF4D8D' },
+  { ch: 'I', color: '#FFC93C' },
+  { ch: 'C', color: '#4DD5FF' },
+  { ch: 'A', color: '#7CE87C' },
+  { ch: ' ', color: 'transparent' },
+  { ch: 'S', color: '#FF9F4D' },
+  { ch: 'L', color: '#B98CFF' },
+  { ch: 'O', color: '#FF4D8D' },
+  { ch: 'T', color: '#4DD5FF' },
+  { ch: 'S', color: '#7CE87C' },
+];
+
 export default function SlotMachine({ games, onLand }) {
   const winner = useMemo(() => pickWinner(games), [games]);
-  const strips = useMemo(
-    () => Array.from({ length: REEL_COUNT }, () => buildStrip(games, winner)),
-    [games, winner]
-  );
+  const strip = useMemo(() => buildStrip(games, winner), [games, winner]);
   const [started, setStarted] = useState(false);
-  const [reelLanded, setReelLanded] = useState([false, false, false]);
-  const allLanded = reelLanded.every(Boolean);
+  const [landed, setLanded] = useState(false);
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => setStarted(true));
@@ -50,46 +59,48 @@ export default function SlotMachine({ games, onLand }) {
   }, []);
 
   useEffect(() => {
-    if (!allLanded) return;
-    const launchTimer = setTimeout(() => onLand(winner), 500);
+    if (!landed) return;
+    const launchTimer = setTimeout(() => onLand(winner), 600);
     return () => clearTimeout(launchTimer);
-  }, [allLanded, winner, onLand]);
+  }, [landed, winner, onLand]);
+
+  // Center the winner tile in the window, leaving one tile-height of
+  // peek above and below.
+  const targetY = -(WINNER_INDEX - 1) * TILE_HEIGHT;
 
   return (
-    <div className="slot-machine">
-      <div className="slot-title">{allLanded ? winner.name.toUpperCase() + '!' : 'SPINNING...'}</div>
-      <div className={`slot-reels ${allLanded ? 'jackpot' : ''}`}>
-        {strips.map((strip, reelIdx) => {
-          const { duration, delay } = REEL_TIMING[reelIdx];
-          return (
-            <div className="slot-reel-window" key={reelIdx}>
-              <div
-                className={`slot-reel-strip ${reelLanded[reelIdx] ? 'landed' : ''}`}
-                style={{
-                  transitionDuration: `${duration}s`,
-                  transitionDelay: `${delay}s`,
-                  transform: started
-                    ? `translateY(-${(strip.length - 1) * 84}px)`
-                    : 'translateY(0px)',
-                }}
-                onTransitionEnd={(e) => {
-                  if (e.propertyName !== 'transform') return;
-                  setReelLanded((prev) => {
-                    const next = [...prev];
-                    next[reelIdx] = true;
-                    return next;
-                  });
-                }}
-              >
-                {strip.map((g, i) => (
-                  <div className="slot-item" key={i}>
-                    <img src={g.cover} alt={g.name} />
-                  </div>
-                ))}
+    <div className="pica-slots">
+      <div className="pica-slots-cabinet">
+        <div className="pica-slots-header">
+          {BRAND_LETTERS.map((l, i) => (
+            <span key={i} style={{ color: l.color }}>{l.ch === ' ' ? ' ' : l.ch}</span>
+          ))}
+        </div>
+
+        <div className="pica-slots-window">
+          <div
+            className={`pica-slots-strip ${landed ? 'landed' : ''}`}
+            style={{
+              transitionDuration: `${SPIN_DURATION}s`,
+              transitionDelay: `${SPIN_DELAY}s`,
+              transform: started ? `translateY(${targetY}px)` : 'translateY(0px)',
+            }}
+            onTransitionEnd={(e) => {
+              if (e.propertyName !== 'transform') return;
+              setLanded(true);
+            }}
+          >
+            {strip.map((g, i) => (
+              <div className="pica-slots-tile" key={i}>
+                <img src={g.cover} alt={g.name} />
+                <div className="pica-slots-tile-label">{g.name}</div>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+          <div className={`pica-slots-highlight ${landed ? 'jackpot' : ''}`} />
+        </div>
+
+        <div className="pica-slots-status">{landed ? winner.name.toUpperCase() + '!' : 'SPINNING...'}</div>
       </div>
     </div>
   );
