@@ -10,6 +10,7 @@ export function PicaMealToysArcade() {
       munchboyBColor={undefined}
       onViewReceipt={() => {}}
       onDismissFoodReady={() => {}}
+      sandboxMode
     />
   );
 }

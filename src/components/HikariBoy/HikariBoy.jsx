@@ -16,6 +16,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './HikariBoy.css';
 import MunchboyBoot from './MunchboyBoot';
+import SlotMachine from './SlotMachine';
+import EndScreen from './EndScreen';
 
 const BUTTONS = {
   DPAD_UP: 'dpad-up',
@@ -66,9 +68,13 @@ export function HikariBoy({
   foodReadyTexts = {},
   onViewReceipt,
   onDismissFoodReady,
+  sandboxMode = false,
 }) {
   const [isBooting, setIsBooting] = useState(true);
   const [currentGame, setCurrentGame] = useState(null);
+  // Sandbox mode (Pica QR arcade): 'spin' shows the slot machine, 'ended'
+  // shows the play-again screen — replaces the normal game list entirely.
+  const [sandboxPhase, setSandboxPhase] = useState('spin');
   const [isPaused, setIsPaused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showLoader, setShowLoader] = useState(false);
@@ -152,6 +158,7 @@ export function HikariBoy({
     const handleMessage = (e) => {
       if (e.data.type === 'GAME_EXIT') {
         setCurrentGame(null);
+        if (sandboxMode) setSandboxPhase('ended');
       }
     };
     window.addEventListener('message', handleMessage);
@@ -387,11 +394,17 @@ export function HikariBoy({
         }
       }
       if (button === BUTTONS.MENU) {
+        if (sandboxMode) {
+          setCurrentGame(null);
+          setSandboxPhase('ended');
+          return;
+        }
         onClose?.();
         return;
       }
       if (button === BUTTONS.SELECT) {
         setCurrentGame(null);
+        if (sandboxMode) setSandboxPhase('ended');
         return;
       }
     } else if (isBooting) {
@@ -438,6 +451,10 @@ export function HikariBoy({
       <div className="hb-screen">
         {isBooting ? (
           <MunchboyBoot onComplete={handleBootComplete} />
+        ) : sandboxMode && !currentGame && sandboxPhase === 'ended' ? (
+          <EndScreen onPlayAgain={() => setSandboxPhase('spin')} />
+        ) : sandboxMode && !currentGame ? (
+          <SlotMachine games={GAMES} onLand={launchGame} />
         ) : !currentGame ? (
           <GameSelector
             games={GAMES}
