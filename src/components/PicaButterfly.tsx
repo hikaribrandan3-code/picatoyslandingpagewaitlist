@@ -109,7 +109,7 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
               <span>Download STL + STEP + README</span>
             </a>
             <p className="text-[10px] sm:text-[11px] text-[#6D6D6D] font-medium">
-              Both halves, ready to print — no supports needed
+              Includes both halves, tolerance test coupon &amp; assembly reference — no supports needed
             </p>
           </div>
         </div>
