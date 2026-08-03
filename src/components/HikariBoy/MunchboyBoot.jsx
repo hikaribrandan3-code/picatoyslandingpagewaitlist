@@ -7,8 +7,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MunchboyBoot.css';
 
-// Shared AudioContext — created once at module level, resumed on first user gesture
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// Shared AudioContext — created once at module level, resumed on first user
+// gesture. Exported so other sandbox screens (e.g. SlotMachine) can reuse
+// this exact already-unlocked instance instead of creating a fresh one that
+// mobile Safari would block until its own separate gesture.
+export const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 export default function MunchboyBoot({ onComplete }) {
   const [lettersDropped, setLettersDropped] = useState(false);
