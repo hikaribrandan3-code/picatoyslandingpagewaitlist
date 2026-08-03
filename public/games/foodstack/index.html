@@ -34,6 +34,13 @@ const GAME_W=448,GAME_H=520;
     gc.style.top=((window.innerHeight-h)/2)+'px';
   }
   rs();window.addEventListener('resize',rs);
+  // iOS Safari can report a stale iframe size on first paint (before the
+  // parent shell's flex layout settles), which stretches the canvas past
+  // the visible screen and clips the bottom row. Re-measure a few times
+  // after mount to catch that late layout settle.
+  requestAnimationFrame(()=>requestAnimationFrame(rs));
+  setTimeout(rs,150);setTimeout(rs,500);
+  window.addEventListener('orientationchange',()=>setTimeout(rs,150));
 })();
 const W=GAME_W,H=GAME_H;
 const canvas=document.getElementById('C'),ctx=canvas.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2);
