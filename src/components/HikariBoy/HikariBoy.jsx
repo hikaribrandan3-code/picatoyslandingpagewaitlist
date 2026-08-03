@@ -51,7 +51,6 @@ const GAMES = [
   { id: 'graveyard-shift', name: 'Graveyard Shift',   cover: '/games/graveyard-shift/cover.webp',  url: '/games/graveyard-shift/index.html',  proOnly: false, shellPause: false },
   { id: 'light-cycles',   name: 'Daisuke Racer',       cover: '/games/light-cycles/cover.webp',     url: '/games/light-cycles/index.html',     proOnly: false, shellPause: false },
   { id: 'rush-hour',      name: 'Rush Hour',          cover: '/games/rush-hour/cover.webp',        url: '/games/rush-hour/index.html',        proOnly: false, shellPause: false },
-  { id: 'food-wheel',     name: 'Food Wheel',         cover: '/games/food-wheel/cover.svg',        url: '/games/food-wheel/index.html',       proOnly: false },
   { id: 'foodstack',      name: 'FoodStack',          cover: '/games/foodstack/cover.svg',         url: '/games/foodstack/index.html',        proOnly: false },
 ];
 
