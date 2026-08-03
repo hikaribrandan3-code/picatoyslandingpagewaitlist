@@ -98,25 +98,19 @@ export const PicaButterfly: React.FC<Props> = ({ playSound, onJoinWaitlist }) =>
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-3">
+          <div className="flex flex-col items-center justify-center gap-2 mt-3">
             <a
-              href="/pica_imperial_assembly.stl"
+              href="/pica-butterfly-files.zip"
               download
               onClick={playSound}
-              className="clay clay-btn clay-teal font-black text-xs px-4 py-2 sm:px-5 sm:py-2.5 uppercase flex items-center gap-1.5"
+              className="clay clay-btn clay-teal font-black text-xs sm:text-sm px-6 py-2.5 sm:px-8 sm:py-3 uppercase flex items-center gap-2"
             >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFD93D]" />
-              <span>STL</span>
+              <Download className="w-4 h-4 text-[#FFD93D]" />
+              <span>Download STL + STEP + README</span>
             </a>
-            <a
-              href="/pica_imperial_assembly.step"
-              download
-              onClick={playSound}
-              className="clay clay-btn clay-yellow font-black text-xs px-4 py-2 sm:px-5 sm:py-2.5 uppercase flex items-center gap-1.5"
-            >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4 text-[#2D2D2D]" />
-              <span>STEP</span>
-            </a>
+            <p className="text-[10px] sm:text-[11px] text-[#6D6D6D] font-medium">
+              Both halves, ready to print — no supports needed
+            </p>
           </div>
         </div>
       </div>
