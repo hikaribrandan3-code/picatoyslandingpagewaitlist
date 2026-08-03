@@ -9,6 +9,7 @@ import { EcomConversionFeatures } from './components/EcomConversionFeatures';
 import { WaitlistForm } from './components/WaitlistForm';
 import { VipTicketModal } from './components/VipTicketModal';
 import { Footer } from './components/Footer';
+import { PicaMealToysArcade } from './components/PicaMealToysArcade';
 import { COLOR_OPTIONS } from './data';
 import { VipTicket } from './types';
 
@@ -19,6 +20,7 @@ export default function App() {
   const [isFilesPage, setIsFilesPage] = useState(
     window.location.pathname === '/files' || window.location.pathname === '/butterfly'
   );
+  const [isArcadeSandbox] = useState(window.location.pathname === '/picamealtoys');
 
   // Listen for popstate (back/forward) to update routing state
   useEffect(() => {
@@ -30,6 +32,13 @@ export default function App() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // /picamealtoys is a hidden sandbox: no Header/Footer/site chrome, no way
+  // back to the main site, only reachable by direct URL (QR code) — never
+  // linked from nav.
+  if (isArcadeSandbox) {
+    return <PicaMealToysArcade />;
+  }
 
   // Play synthetic retro click/yoyo spin SFX safely using Web Audio API
   const playSoundEffect = () => {

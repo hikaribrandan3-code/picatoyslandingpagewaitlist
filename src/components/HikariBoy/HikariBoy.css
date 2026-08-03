@@ -1,0 +1,1026 @@
+/**
+ * HikariBoy Controller Shell Reskin
+ * Visual CSS changes only - no logic/touch modifications
+ * 
+ * Changes:
+ * - D-pad: cross only, no circular surround
+ * - L/R shoulders: light gray #D1D5DB, 27% width, 4.5% height, flush top
+ * - Shell: #6B0FCC with --shell-color variable
+ * - All buttons: light gray #D1D5DB
+ * - Brand: mid-bar, 12px, weight 400, letter-spacing 3px, white
+ * - Sparkle: bottom-right, shell color, 28px
+ */
+
+/* ========== CSS CUSTOM PROPERTIES ========== */
+:root {
+  --shell-color: #6E56CF;
+  --shell-color-dark: #4B3FA3;
+  --shell-color-light: #7B2FD9;
+  --button-gray: #D1D5DB;
+  --button-gray-dark: #9CA3AF;
+  --button-a-color: #D1D5DB;
+  --button-b-color: #D1D5DB;
+  --button-a-outline: #1a1a1a;
+  --button-b-outline: #1a1a1a;
+  --hb-screen-bg: #000000;
+}
+
+/* iPhone Regular (SE / Mini / 15) */
+@media (max-height: 850px) {
+  :root {
+    --btn-scale: 0.82;
+    --dpad-size: 137px;
+    --sys-btn-size: 22px;
+    --action-a-size: 66px;
+    --action-b-size: 66px;
+    --shoulder-height: 4.5vh;
+    --controls-pad-x: 24px;
+    --controls-pad-y: 8px;
+    --sys-btn-bottom: 20px;
+  }
+}
+
+/* iPhone Pro */
+@media (min-height: 851px) and (max-height: 920px) {
+  :root {
+    --btn-scale: 0.92;
+    --dpad-size: 147px;
+    --sys-btn-size: 24px;
+    --action-a-size: 73px;
+    --action-b-size: 73px;
+    --shoulder-height: 4.5vh;
+    --controls-pad-x: 30px;
+    --controls-pad-y: 10px;
+    --sys-btn-bottom: 22px;
+  }
+}
+
+/* iPhone Pro Max (PRIMARY BASELINE) */
+@media (min-height: 921px) {
+  :root {
+    --btn-scale: 1;
+    --dpad-size: 158px;
+    --sys-btn-size: 28px;
+    --action-a-size: 75px;
+    --action-b-size: 75px;
+    --shoulder-height: 4.5vh;
+    --controls-pad-x: 36px;
+    --controls-pad-y: 12px;
+    --sys-btn-bottom: 24px;
+  }
+}
+
+/* ========== MAIN CONTAINER — NO ZOOM ========== */
+.hikariboy-emulator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  z-index: 9999;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
+  /* Prevent double-tap zoom and pinch zoom */
+  touch-action: manipulation pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  gap: 0;
+}
+
+/* Prevent zoom on all interactive elements */
+.hikariboy-emulator * {
+  touch-action: manipulation;
+}
+
+/* ========== SCREEN (flexible aspect, game maintains own ratio) ========== */
+.hb-screen {
+  flex: 0 0 53%;
+  position: relative;
+  background: var(--hb-screen-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+.hb-game-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+/* Loading Spinner */
+.hb-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.hb-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(107, 15, 204, 0.3);
+  border-top-color: #6B0FCC;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hb-loading-text {
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Boot Screen */
+.hb-boot {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.boot-logo {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--shell-color-light);
+  letter-spacing: 2px;
+  text-transform: lowercase;
+  text-shadow: 0 0 20px rgba(107, 15, 204, 0.5);
+}
+
+/* Pause Overlay */
+.hb-pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.pause-icon {
+  font-size: 24px;
+  color: #FFD700;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.hb-pause-overlay button {
+  padding: 12px 30px;
+  background: transparent;
+  border: 2px solid var(--shell-color);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ========== FOOD READY NOTIFICATION — RETRO ARCADE CARD ========== */
+.hb-food-notification {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: hfn-fadein 0.2s ease;
+}
+
+@keyframes hfn-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hfn-card {
+  width: 88%;
+  max-width: 340px;
+  background: #050510;
+  border: 2px solid #35e85a;
+  box-shadow:
+    0 0 0 1px #050510,
+    0 0 20px rgba(53, 232, 90, 0.35),
+    0 0 60px rgba(53, 232, 90, 0.12),
+    inset 0 0 20px rgba(53, 232, 90, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 16px;
+  gap: 0;
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* Top header bar */
+.hfn-header {
+  width: 100%;
+  background: #35e85a;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hfn-paused-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+.hfn-blink {
+  font-size: 10px;
+  color: #000;
+  animation: hfn-blink 0.7s step-end infinite;
+}
+
+@keyframes hfn-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Food icon */
+.hfn-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  animation: hfn-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes hfn-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.12); }
+}
+
+/* Main title */
+.hfn-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #35e85a;
+  text-align: center;
+  line-height: 1.6;
+  padding: 0 16px;
+  text-shadow: 0 0 12px rgba(53, 232, 90, 0.8);
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.hfn-sub {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #888;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+/* Pixel divider */
+.hfn-divider {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #222;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+/* Primary CTA — VIEW RECEIPT */
+.hfn-btn-primary {
+  width: calc(100% - 32px);
+  background: #35e85a;
+  border: 2px solid #35e85a;
+  color: #000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 0 #1a6b30, 0 0 16px rgba(53, 232, 90, 0.4);
+  transition: transform 0.08s, box-shadow 0.08s;
+  margin-bottom: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hfn-btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #1a6b30, 0 0 8px rgba(53, 232, 90, 0.3);
+}
+
+.hfn-btn-icon {
+  font-size: 14px;
+}
+
+/* Secondary — KEEP PLAYING */
+.hfn-btn-secondary {
+  background: transparent;
+  border: none;
+  color: #444;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 8px 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hfn-btn-secondary:active {
+  color: #666;
+}
+
+/* Countdown */
+.hfn-countdown {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 1px;
+}
+
+.hfn-dot {
+  color: #35e85a;
+  font-size: 8px;
+  animation: hfn-blink 1s step-end infinite;
+}
+
+/* ========== BRAND MARK — MUNCH BOY ========== */
+.hb-brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.hb-brand-text-layer {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 5vw, 30px);
+  color: #E8E6E3;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-style: italic;
+  position: relative;
+  width: 40%;
+  text-align: center;
+  /* Simple black outline */
+  -webkit-text-stroke: 2px #1a1a1a;
+  paint-order: stroke fill;
+  /* Print effect - embedded look */
+  text-shadow:
+    0 -0.5px 0.5px rgba(255, 255, 255, 0.08),
+    0 0.8px 0.8px rgba(0, 0, 0, 0.12);
+  /* Subtle blur for print unevenness */
+  filter: blur(0.4px);
+  opacity: 0.98;
+}
+
+/* Noise overlay - scoped to text layer only */
+.hb-brand-text-layer::before {
+  content: 'MUNCH BOY';
+  position: absolute;
+  inset: 0;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-shadow: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: cover;
+  opacity: 0.015;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ========== CONTROLLER BODY — SHELL COLOR ========== */
+.hb-controller {
+  flex: 0 0 47%;
+  background: var(--shell-color, #6E56CF); /* Primary Shell Color */
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.2) 100%), var(--shell-color, #6E56CF);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  min-height: 315px;
+  /* Outer shell shadow */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  margin-top: 0;
+}
+
+/* Noise overlay */
+.hb-controller::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Vignette effect */
+.hb-controller::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 85%, rgba(0,0,0,0.08) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Top highlight - global light source from top-left */
+.hb-controller > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Top edge highlight */
+.hb-controller {
+  position: relative;
+}
+
+/* ========== SHOULDER BUTTONS (L / R) — 3D LIGHT GRAY ========== */
+.hb-shoulders {
+  position: relative;
+  width: 100%;
+  height: var(--shoulder-height);
+  flex: 0 0 auto;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The "well" background behind buttons */
+.hb-shoulders::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.shoulder-l, .shoulder-r {
+  position: absolute;
+  top: -3px;
+  height: calc(100% + 8%);
+  width: 30%;
+  /* Cartoon 3D bevel: highlight on top, shadow on bottom */
+  background: linear-gradient(
+    180deg,
+    #F3F4F6 0%,
+    var(--button-gray) 18%,
+    var(--button-gray) 78%,
+    #B8B8B8 100%
+  );
+  border: 3px solid #1a1a1a;
+  color: #444;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  letter-spacing: 2px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  z-index: 2;
+  /* Chunky cartoon drop shadow */
+  box-shadow:
+    0 5px 0 #1a1a1a,
+    inset 0 2px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* L trigger: flush left, longer tab */
+.shoulder-l {
+  left: 0;
+  border-radius: 2px 4px 20px 2px;
+  padding-left: 20px;
+  justify-content: flex-start;
+}
+
+/* R trigger: flush right, longer tab */
+.shoulder-r {
+  right: 0;
+  border-radius: 4px 2px 2px 20px;
+  padding-right: 20px;
+  justify-content: flex-end;
+}
+
+/* Active/pressed state for shoulders */
+.shoulder-l:active,
+.shoulder-r:active {
+  transform: translateY(5px);
+  box-shadow:
+    0 0 0 #1a1a1a,
+    inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ========== MAIN CONTROLS ROW ========== */
+.hb-controls-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--controls-pad-y) var(--controls-pad-x);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ========== D-PAD — CROSS WITH BLACK OUTLINE & CENTER CIRCLE ========== */
+.hb-dpad {
+  width: var(--dpad-size);
+  height: var(--dpad-size);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  z-index: 2;
+  margin-top: -3%;
+  perspective: 500px;
+}
+
+/* D-pad cross container — chunky cartoon drop shadow */
+.dpad-cross {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 0 #1a1a1a);
+  transition: transform 0.05s ease, filter 0.05s ease;
+  transform-style: preserve-3d;
+}
+
+/* Horizontal arm — solid color, thick border, inner highlight */
+.dpad-cross::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 38%;
+  background: var(--button-gray);
+  border-radius: 6px;
+  border: 3px solid #1a1a1a;
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.35);
+}
+
+/* Vertical arm — solid color, thick border, inner highlight */
+.dpad-cross::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 38%;
+  height: 100%;
+  background: var(--button-gray);
+  border-radius: 6px;
+  border: 3px solid #1a1a1a;
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.35);
+  z-index: 1;
+}
+
+/* D-pad hit-boxes */
+.dpad-area:active,
+.dpad-diagonal:active {
+  filter: brightness(0.97);
+}
+
+/* Center circle — cartoon dimple */
+.dpad-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28%;
+  height: 28%;
+  background: var(--button-gray);
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.25);
+}
+
+/* Directional hit-boxes with larger triangle arrows */
+.dpad-area {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Large triangle arrows like reference photo */
+.dpad-area::after {
+  content: '';
+  width: 0;
+  height: 0;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,0.8));
+  opacity: 0.8;
+}
+
+.dpad-up {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 30%;
+}
+
+.dpad-up::after {
+  border: none;
+  border-bottom: 18px solid var(--button-gray-dark);
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+}
+
+.dpad-down {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 30%;
+}
+
+.dpad-down::after {
+  border: none;
+  border-top: 18px solid var(--button-gray-dark);
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+}
+
+.dpad-left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30%;
+  height: 36%;
+}
+
+.dpad-left::after {
+  border: none;
+  border-right: 18px solid var(--button-gray-dark);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+}
+
+.dpad-right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30%;
+  height: 36%;
+}
+
+.dpad-right::after {
+  border: none;
+  border-left: 18px solid var(--button-gray-dark);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+}
+
+/* Diagonal zones */
+.dpad-diagonal {
+  position: absolute;
+  width: 24%;
+  height: 24%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 4;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.dpad-up-left { top: 3%; left: 3%; }
+.dpad-up-right { top: 3%; right: 3%; }
+.dpad-down-left { bottom: 3%; left: 3%; }
+.dpad-down-right { bottom: 3%; right: 3%; }
+.dpad-down-right { bottom: 3%; right: 3%; }
+
+/* ========== A/B BUTTONS — LIGHT GRAY WITH BLACK OUTLINE ========== */
+.hb-action-btns {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-right: -10px;
+  z-index: 2;
+}
+
+.action-btn {
+  position: absolute;
+  border-radius: 50%;
+  /* Thick black outline like reference photo */
+  border: 3px solid #1a1a1a;
+  /* Radial gradient - center brighter, edge darker */
+  background: radial-gradient(circle at 35% 35%, #E8E8E8 0%, #D1D5DB 40%, #B8B8B8 100%);
+  /* Outer shadow + inner shadow for depth */
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.15),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  color: var(--button-a-label-color, var(--button-gray-dark));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  will-change: transform;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+/* Press state for A/B buttons */
+.action-btn:active {
+  transform: scale(0.97) translateY(3px);
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.10),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.17),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* A button — cartoon flat color */
+.btn-a {
+  width: var(--action-a-size);
+  height: var(--action-a-size);
+  font-size: calc(28px * var(--btn-scale));
+  top: 0;
+  right: 0;
+  background: var(--button-a-color);
+  border: 3px solid #1a1a1a;
+  box-shadow:
+    0 4px 0 #1a1a1a,
+    inset 0 2px 2px rgba(255,255,255,0.35);
+}
+
+/* B button — cartoon flat color */
+.btn-b {
+  width: var(--action-b-size);
+  height: var(--action-b-size);
+  font-size: calc(28px * var(--btn-scale));
+  bottom: 12px;
+  left: 12px;
+  background: var(--button-b-color);
+  border: 3px solid #1a1a1a;
+  box-shadow:
+    0 4px 0 #1a1a1a,
+    inset 0 2px 2px rgba(255,255,255,0.35);
+  color: var(--button-b-label-color, var(--button-gray-dark));
+}
+
+/* ========== SYSTEM BUTTONS — LIGHT GRAY ========== */
+.hb-system-btns {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 30px var(--sys-btn-bottom, 20px);
+  position: relative;
+  height: 60px;
+  flex: 0 0 auto;
+  gap: 0;
+}
+
+.menu-wrap {
+  margin-right: auto;
+}
+
+.select-wrap {
+  margin-right: 15px;
+}
+
+.start-wrap {
+  margin-right: 0;
+}
+
+.sys-btn-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sys-circle {
+  width: var(--sys-btn-size);
+  height: var(--sys-btn-size);
+  border-radius: 50%;
+  background: var(--button-gray);
+  /* Black outline like A/B buttons */
+  border: 3px solid #1a1a1a;
+  box-shadow:
+    inset 0 1px 3px rgba(255,255,255,0.85),
+    0 2px 4px rgba(0,0,0,0.4);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.sys-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ========== SPARKLE — BOTTOM-RIGHT, SHELL COLOR ========== */
+.hb-sparkle {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  font-size: 28px;
+  color: var(--shell-color);
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* ========== LEAK FIX ========== */
+body.hikariboy-active .signup-container,
+body.hikariboy-active .auth-container,
+body.hikariboy-active .login-container,
+body.hikariboy-active [class*="signup"],
+body.hikariboy-active [class*="auth"],
+body.hikariboy-active .modal-overlay {
+  display: none !important;
+}
+
+/* ========== GAME SELECTOR — FULL SCREEN ========== */
+.hb-selector {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.selector-arrows {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.arrow-left, .arrow-right {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.game-counter {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.game-showcase {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-container-full {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game-cover-full {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.cover-fallback-full {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ========== ACTIVE / PRESSED STATES ========== */
+.sys-circle:active {
+  transform: scale(0.88);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.3),
+    inset 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.dpad-area:active {
+  filter: brightness(0.90);
+}
+
+/* ========== TOUCH OPTIMIZATION ========== */
+.action-btn,
+.sys-circle,
+.dpad-area,
+.shoulder-l,
+.shoulder-r,
+.dpad-diagonal {
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ========== RESPONSIVE — SMALL SCREENS ========== */
+@media (max-height: 700px) {
+  .hb-system-btns {
+    height: 48px;
+    padding-bottom: 10px;
+  }
+
+  .sys-label {
+    font-size: 10px;
+  }
+
+  .hb-sparkle {
+    bottom: 10px;
+    right: 12px;
+    font-size: 22px;
+  }
+}
