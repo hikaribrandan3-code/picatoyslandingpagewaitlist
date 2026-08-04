@@ -190,9 +190,33 @@ export default function SlotMachine({ games, onLand }) {
         <div className="pica-slots-status">{allLanded ? winner.name.toUpperCase() + '!' : 'SPINNING...'}</div>
 
         {allLanded && (
-          <div className="pica-slots-jackpot-banner">
-            <span>JACKPOT!</span>
-          </div>
+          <>
+            <div className="pica-slots-jackpot-banner">
+              <span>JACKPOT!</span>
+            </div>
+            {Array.from({ length: 28 }).map((_, i) => {
+              const angle = (i / 28) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+              const distance = 100 + Math.random() * 140;
+              const tx = Math.cos(angle) * distance;
+              const ty = Math.sin(angle) * distance;
+              const delay = Math.random() * 0.4;
+              const duration = 1.0 + Math.random() * 0.6;
+              const coinStyle = {
+                '--tx': `${tx}px`,
+                '--ty': `${ty}px`,
+                '--delay': `${delay}s`,
+                '--duration': `${duration}s`,
+              };
+
+              return (
+                <div
+                  key={`coin-${i}`}
+                  className="pica-slots-coin"
+                  style={coinStyle}
+                />
+              );
+            })}
+          </>
         )}
       </div>
     </div>
