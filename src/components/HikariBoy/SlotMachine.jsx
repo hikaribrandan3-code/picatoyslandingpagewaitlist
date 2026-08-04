@@ -142,8 +142,8 @@ export default function SlotMachine({ games, onLand }) {
   const targetY = tileHeight ? -(WINNER_INDEX - 1) * tileHeight : 0;
 
   return (
-    <div className="pica-slots">
-      <div className="pica-slots-cabinet">
+    <div className={`pica-slots ${allLanded ? 'jackpot-shake' : ''}`}>
+      <div className={`pica-slots-cabinet ${started && !allLanded ? 'spinning' : ''} ${allLanded ? 'jackpot' : ''}`}>
         <div className="pica-slots-header">
           {BRAND_LETTERS.map((l, i) => (
             <span key={i} style={{ color: l.color }}>{l.ch === ' ' ? ' ' : l.ch}</span>
@@ -171,7 +171,11 @@ export default function SlotMachine({ games, onLand }) {
                   }}
                 >
                   {strip.map((g, i) => (
-                    <div className="pica-slots-tile" key={i} style={{ height: `${tileHeight}px` }}>
+                    <div
+                      className={`pica-slots-tile ${reelLanded[reelIdx] && i === WINNER_INDEX ? 'winner-tile' : ''}`}
+                      key={i}
+                      style={{ height: `${tileHeight}px` }}
+                    >
                       <img src={g.cover} alt={g.name} />
                       <div className="pica-slots-tile-label">{g.name}</div>
                     </div>
@@ -184,6 +188,12 @@ export default function SlotMachine({ games, onLand }) {
         </div>
 
         <div className="pica-slots-status">{allLanded ? winner.name.toUpperCase() + '!' : 'SPINNING...'}</div>
+
+        {allLanded && (
+          <div className="pica-slots-jackpot-banner">
+            <span>JACKPOT!</span>
+          </div>
+        )}
       </div>
     </div>
   );
