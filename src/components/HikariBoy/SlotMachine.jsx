@@ -87,6 +87,42 @@ function playLandChime() {
   }
 }
 
+// Single bright "coin" ping — used to build the cascade below.
+function playCoinPing(startTime, freq, volume) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, startTime);
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(volume, startTime + 0.005);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(startTime);
+  osc.stop(startTime + 0.2);
+}
+
+// Cascade of rapid, ascending coin pings — layered on top of the land
+// chime so the jackpot moment has real texture instead of one clean note.
+// Timed to roughly overlap the coin-burst animation (~0.4-1.6s window).
+function playCoinCascade() {
+  const coinCount = 14;
+  // Pentatonic-ish scale so random ordering still sounds musical.
+  const notes = [1046, 1175, 1319, 1568, 1760, 2093];
+  for (let i = 0; i < coinCount; i++) {
+    const delayMs = 150 + i * (1300 / coinCount) + Math.random() * 40;
+    setTimeout(() => {
+      try {
+        const freq = notes[Math.floor(Math.random() * notes.length)];
+        const volume = 0.05 + Math.random() * 0.03;
+        playCoinPing(audioCtx.currentTime, freq, volume);
+      } catch (err) {
+        // Ignore audio errors
+      }
+    }, delayMs);
+  }
+}
+
 const BRAND_LETTERS = [
   { ch: 'P', color: '#FF4D8D' },
   { ch: 'I', color: '#FFC93C' },
@@ -159,6 +195,7 @@ export default function SlotMachine({ games, onLand }) {
     if (!chimedRef.current) {
       chimedRef.current = true;
       playLandChime();
+      playCoinCascade();
     }
     const launchTimer = setTimeout(() => onLandRef.current(winner), LAND_PAUSE_MS);
     return () => clearTimeout(launchTimer);
@@ -213,7 +250,9 @@ export default function SlotMachine({ games, onLand }) {
           <div className={`pica-slots-highlight ${allLanded ? 'jackpot' : ''}`} />
         </div>
 
-        <div className="pica-slots-status">{allLanded ? winner.name.toUpperCase() + '!' : 'SPINNING...'}</div>
+        {allLanded && (
+          <div className="pica-slots-status">{winner.name.toUpperCase() + '!'}</div>
+        )}
 
         {allLanded && (
           <>

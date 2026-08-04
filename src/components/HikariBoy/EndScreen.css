@@ -2,33 +2,144 @@
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 30%, #1a1030, #000);
+  padding: 10px;
+}
+
+/* Same cabinet chrome family as the slot machine — this screen is the
+   sequence's finale, not a different app, so it needs to look like one
+   continuous piece rather than a hard cut to a flat black card. */
+.end-screen-cabinet {
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  background: #000;
-  padding: 24px;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, #12021f, #240a3d);
+  border: 3px solid #33f0a0;
+  border-radius: 20px;
+  box-shadow:
+    0 0 14px rgba(51, 240, 160, 0.7),
+    0 0 32px rgba(51, 240, 160, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.6);
   text-align: center;
+  animation: end-screen-idle-pulse 2.4s ease-in-out infinite;
 }
 
-.end-screen-title {
-  color: #FFD700;
+@keyframes end-screen-idle-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 14px rgba(51, 240, 160, 0.7),
+      0 0 32px rgba(51, 240, 160, 0.3),
+      inset 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(51, 240, 160, 0.9),
+      0 0 44px rgba(51, 240, 160, 0.45),
+      inset 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.end-screen-header {
+  flex-shrink: 0;
   font-family: 'Arial Black', Arial, sans-serif;
-  font-size: 20px;
+  font-weight: 900;
+  font-size: 17.5px;
   letter-spacing: 1px;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.end-screen-header span:nth-child(1) { color: #FF4D8D; }
+.end-screen-header span:nth-child(2) { color: #FFC93C; }
+.end-screen-header span:nth-child(3) { color: #4DD5FF; }
+.end-screen-header span:nth-child(4) { color: #7CE87C; }
+.end-screen-header span:nth-child(6) { color: #FF9F4D; }
+.end-screen-header span:nth-child(7) { color: #B98CFF; }
+.end-screen-header span:nth-child(8) { color: #FF4D8D; }
+.end-screen-header span:nth-child(9) { color: #4DD5FF; }
+.end-screen-header span:nth-child(10) { color: #7CE87C; }
+
+.end-screen-prize {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.end-screen-prize-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #05010a;
+  border: 3px solid #ff3fa4;
+  box-shadow: 0 0 16px rgba(255, 63, 164, 0.8), inset 0 0 12px rgba(255, 63, 164, 0.5);
+}
+
+.end-screen-prize-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.end-screen-prize-label {
+  color: #fff;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(255, 63, 164, 0.6);
+}
+
+/* Same visual weight as the JACKPOT banner — this is the other half of
+   that same moment, not a separate, quieter screen. */
+.end-screen-banner {
+  flex-shrink: 0;
+}
+
+.end-screen-banner span {
+  display: inline-block;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #ffd93c;
+  -webkit-text-stroke: 1.5px #7a1a3d;
+  text-shadow:
+    0 0 10px rgba(255, 217, 60, 0.9),
+    0 0 24px rgba(255, 217, 60, 0.6),
+    0 3px 0 #7a1a3d;
 }
 
 .end-screen-sub {
+  flex-shrink: 0;
   color: #fff;
   font-family: Arial, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   opacity: 0.8;
   max-width: 260px;
 }
 
 .end-screen-play-again {
-  margin-top: 8px;
-  padding: 14px 32px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 12px 30px;
   background: linear-gradient(180deg, #FFD700, #E0AC00);
   border: none;
   border-radius: 999px;

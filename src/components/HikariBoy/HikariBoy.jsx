@@ -453,6 +453,7 @@ export function HikariBoy({
           <MunchboyBoot onComplete={handleBootComplete} />
         ) : sandboxMode && !currentGame && sandboxPhase === 'ended' ? (
           <EndScreen
+            wonGame={GAMES.find((g) => g.id === sessionStorage.getItem(ARCADE_WINNER_STORAGE_KEY))}
             onPlayAgain={() => {
               sessionStorage.removeItem(ARCADE_WINNER_STORAGE_KEY);
               setSandboxPhase('spin');
