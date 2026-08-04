@@ -206,10 +206,22 @@ export default function SlotMachine({ games, onLand }) {
   return (
     <div className={`pica-slots ${allLanded ? 'jackpot-shake' : ''}`}>
       <div className={`pica-slots-cabinet ${started && !allLanded ? 'spinning' : ''} ${allLanded ? 'jackpot' : ''}`}>
-        <div className="pica-slots-header">
-          {BRAND_LETTERS.map((l, i) => (
-            <span key={i} style={{ color: l.color }}>{l.ch === ' ' ? ' ' : l.ch}</span>
-          ))}
+        <div className="pica-slots-marquee">
+          <div className="pica-slots-header">
+            {BRAND_LETTERS.map((l, i) => (
+              <span
+                key={i}
+                style={{
+                  color: l.color,
+                  textShadow: l.ch === ' ' ? 'none' : `0 0 6px ${l.color}, 0 0 14px ${l.color}, 0 2px 0 rgba(0,0,0,0.5)`,
+                  animationDelay: `${i * 0.12}s`,
+                  marginRight: l.ch === ' ' ? '6px' : 0,
+                }}
+              >
+                {l.ch === ' ' ? ' ' : l.ch}
+              </span>
+            ))}
+          </div>
         </div>
 
         <div className="pica-slots-reels" ref={reelsRef}>

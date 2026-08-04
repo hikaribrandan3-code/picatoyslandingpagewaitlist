@@ -97,13 +97,63 @@
   100% { transform: translateX(0); }
 }
 
+/* Marquee band: bulb strip + header text, framed as one lit-up unit
+   instead of plain text floating at the top of the cabinet. */
+.pica-slots-marquee {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 0 6px;
+}
+
+.pica-slots-marquee::before,
+.pica-slots-marquee::after {
+  content: '';
+  flex: 1;
+  height: 10px;
+  margin: 0 8px;
+  /* Fixed-radius circle centered in each tile — background-size below is
+     non-square (wide tiles for gaps between bulbs), so the gradient needs
+     an explicit px radius or it gets squashed into an oval by the tiling. */
+  background-image: radial-gradient(circle 4px at 8px 5px, #ffd93c 95%, transparent 100%);
+  background-size: 16px 10px;
+  background-repeat: repeat-x;
+  background-position: 0 center;
+  opacity: 0.9;
+  animation: marquee-chase 0.9s linear infinite;
+}
+
+.pica-slots-marquee::after {
+  animation-direction: reverse;
+}
+
+@keyframes marquee-chase {
+  0% { background-position: 0 center; filter: drop-shadow(0 0 3px rgba(255, 217, 60, 0.8)); }
+  50% { filter: drop-shadow(0 0 6px rgba(255, 217, 60, 1)); }
+  100% { background-position: 14px center; filter: drop-shadow(0 0 3px rgba(255, 217, 60, 0.8)); }
+}
+
 .pica-slots-header {
   flex-shrink: 0;
+  display: flex;
   font-family: 'Arial Black', Arial, sans-serif;
   font-weight: 900;
-  font-size: 17.5px;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+  font-size: 25px;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.pica-slots-header span {
+  display: inline-block;
+  animation: letter-shimmer 2.6s ease-in-out infinite;
+}
+
+@keyframes letter-shimmer {
+  0%, 100% { transform: translateY(0); filter: brightness(1); }
+  50% { transform: translateY(-2px); filter: brightness(1.3); }
 }
 
 /* Landscape cabinet, vertical (top-down) motion: three side-by-side

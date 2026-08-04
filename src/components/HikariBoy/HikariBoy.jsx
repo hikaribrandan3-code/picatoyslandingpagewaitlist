@@ -411,7 +411,14 @@ export function HikariBoy({
       if (button === BUTTONS.START || button === BUTTONS.A) {
         setIsBooting(false);
       }
-    } else {
+    } else if (!sandboxMode) {
+      // GameSelector-only controls. In sandboxMode with no currentGame,
+      // the SlotMachine (or EndScreen) is on screen instead — it owns its
+      // own winner selection, so button presses here must not fall through
+      // and launch GAMES[selectedIndex] directly (that was launching a
+      // stale/arbitrary game out from under the slot machine, no refresh
+      // needed to trigger it — any stray START/A/R press while spinning
+      // did it).
       if (button === BUTTONS.DPAD_LEFT) {
         setSelectedIndex(prev => prev > 0 ? prev - 1 : GAMES.length - 1);
       }
