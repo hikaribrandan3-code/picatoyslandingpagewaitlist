@@ -9,7 +9,9 @@ const STRIP_LEN = 22;
 const WINNER_INDEX = STRIP_LEN - 2;
 const SPIN_DURATION = 4.6; // seconds — lands right around the 5s mark
 const SPIN_DELAY = 0.2;
-const LAND_PAUSE_MS = 500; // hold on the winning image before launching
+// Long enough to let the coin burst (up to 0.4s delay + 1.6s flight = 2.0s)
+// and the JACKPOT banner fully play before the game launches underneath.
+const LAND_PAUSE_MS = 2400;
 
 // One winner per scan/session — a page reload should NOT reroll the game
 // the kid already landed on. "Play Again" explicitly clears this to reroll.
@@ -27,7 +29,20 @@ function pickWinner(games) {
 function buildStrip(games, winner) {
   const strip = [];
   for (let i = 0; i < STRIP_LEN; i++) {
-    strip.push(i === WINNER_INDEX ? winner : games[Math.floor(Math.random() * games.length)]);
+    if (i === WINNER_INDEX) {
+      strip.push(winner);
+      continue;
+    }
+    // Avoid the same game landing on consecutive tiles — with a small
+    // game pool, pure randomness produces visible back-to-back repeats
+    // that read as a glitch rather than a real spinning reel.
+    let pick;
+    let attempts = 0;
+    do {
+      pick = games[Math.floor(Math.random() * games.length)];
+      attempts++;
+    } while (pick.id === strip[i - 1]?.id && attempts < 8);
+    strip.push(pick);
   }
   return strip;
 }
@@ -98,6 +113,12 @@ export default function SlotMachine({ games, onLand }) {
   const allLanded = reelLanded.every(Boolean);
   const tickTimersRef = useRef([]);
   const chimedRef = useRef(false);
+  // onLand (the parent's launchGame) is a fresh function reference on every
+  // parent re-render — it isn't wrapped in useCallback. Reading it through a
+  // ref instead of a dependency keeps the landing timer immune to that: a
+  // re-render can't reset an already-running 2.4s countdown.
+  const onLandRef = useRef(onLand);
+  onLandRef.current = onLand;
 
   // Fills the wide landscape cabinet: tile height is measured from the
   // real rendered reel box (1/3 of it — peek/center/peek) instead of a
@@ -115,14 +136,18 @@ export default function SlotMachine({ games, onLand }) {
   }, [tileHeight]);
 
   // Ticking sound that decelerates toward the landing, like a real wheel.
+  // easeInCubic packs ticks tight at the start (fast whir) and spreads
+  // them out near the end (audible slowdown right as it locks in) —
+  // the mirror image of the reel's own ease-out motion curve, so audio
+  // and visual deceleration land in sync.
   useEffect(() => {
     if (!started) return;
     const totalMs = (SPIN_DELAY + SPIN_DURATION) * 1000;
     const tickCount = 30;
-    const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
+    const easeInCubic = (x) => x * x * x;
     const timers = [];
     for (let i = 1; i <= tickCount; i++) {
-      const t = totalMs * easeOutCubic(i / tickCount);
+      const t = totalMs * easeInCubic(i / tickCount);
       timers.push(setTimeout(() => playTick(0.06), t));
     }
     tickTimersRef.current = timers;
@@ -135,9 +160,9 @@ export default function SlotMachine({ games, onLand }) {
       chimedRef.current = true;
       playLandChime();
     }
-    const launchTimer = setTimeout(() => onLand(winner), LAND_PAUSE_MS);
+    const launchTimer = setTimeout(() => onLandRef.current(winner), LAND_PAUSE_MS);
     return () => clearTimeout(launchTimer);
-  }, [allLanded, winner, onLand]);
+  }, [allLanded, winner]);
 
   const targetY = tileHeight ? -(WINNER_INDEX - 1) * tileHeight : 0;
 
@@ -160,6 +185,7 @@ export default function SlotMachine({ games, onLand }) {
                     transitionDuration: `${SPIN_DURATION}s`,
                     transitionDelay: `${SPIN_DELAY + reelIdx * 0.2}s`,
                     transform: started ? `translateY(${targetY}px)` : 'translateY(0px)',
+                    '--landed-y': `${targetY}px`,
                   }}
                   onTransitionEnd={(e) => {
                     if (e.propertyName !== 'transform') return;

@@ -135,8 +135,26 @@
   flex-direction: column;
   width: 100%;
   transition-property: transform;
-  transition-timing-function: cubic-bezier(0.12, 0.85, 0.2, 1);
+  /* easeOutCubic — smooth, evenly-distributed deceleration. The old
+     curve (0.12, 0.85, 0.2, 1) covered ~85% of the distance in the
+     first 12% of the time then crawled the rest — felt like a snap
+     followed by a drag. This spreads the slowdown across the whole
+     spin so it reads as one continuous, decelerating motion. */
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
+}
+
+.pica-slots-strip.landed {
+  animation: reel-settle 0.32s ease-out;
+}
+
+/* Tiny overshoot-and-settle wobble on stop, like a real mechanical
+   reel's momentum carrying it a hair past the detent. */
+@keyframes reel-settle {
+  0% { transform: translateY(var(--landed-y)); }
+  35% { transform: translateY(calc(var(--landed-y) + 8px)); }
+  65% { transform: translateY(calc(var(--landed-y) - 3px)); }
+  100% { transform: translateY(var(--landed-y)); }
 }
 
 .pica-slots-tile {
